@@ -458,12 +458,18 @@ class MapAreaSelector {
       if (resp.ok) {
         const data = await resp.json();
         const addr = data.address || {};
-        const suburb = addr.suburb || addr.neighbourhood || addr.city_district || addr.road || "Survey Area";
+        const suburb = addr.suburb || addr.neighbourhood || addr.city_district || addr.village || addr.town || "";
         const city = addr.city || addr.town || addr.county || "Urban Zone";
         const rawPin = addr.postcode || "";
         const cleanPin = rawPin.replace(/\D/g, '').slice(0, 6);
+
+        // Extract the best locality name for synthetic naming
+        // Priority: suburb/neighbourhood → city_district → village → town → city
+        const locality = suburb || city || "Selected Area";
+        this.resolvedLocation.locality = locality;
+
         if (suburb || city) {
-          this.resolvedLocation.area_name = `${suburb}, ${city}`;
+          this.resolvedLocation.area_name = `${suburb || city}${suburb && city ? ', ' + city : ''}`;
         }
         if (cleanPin && cleanPin.length === 6) {
           this.resolvedLocation.pincode = cleanPin;
@@ -533,14 +539,10 @@ class MapAreaSelector {
       }
 
       if (layer) {
+        const nameStyle = bld.name_source === 'synthetic' ? 'font-style: italic; font-weight: 500;' : 'font-weight: 700;';
         const tooltipHtml = `
           <div style="font-family: 'Inter', sans-serif; font-size: 12px; line-height: 1.35; padding: 2px;">
-            <div style="font-weight: 700; color: #0a8a4a;"><i class="fa-solid fa-building"></i> ${bld.name || 'Building'}</div>
-            <div style="color: #555570; font-size: 11px; margin-top: 2px;">
-              <span>${bld.floors || 3} Fl</span> &bull; 
-              <span>${(bld.height_m || 12).toFixed(1)}m</span> &bull; 
-              <span>${bld.type || 'Commercial'}</span>
-            </div>
+            <div style="${nameStyle} color: #0a8a4a;"><i class="fa-solid fa-building"></i> ${bld.name || 'Building'}</div>
             <div style="color: #0a8a4a; font-size: 10px; margin-top: 3px; font-weight: 700;">
               Click to select for Cadastral
             </div>
@@ -550,13 +552,8 @@ class MapAreaSelector {
 
         const popupContent = `
           <div style="font-family: 'Inter', sans-serif; font-size: 12px; line-height: 1.4; padding: 4px 2px; min-width: 190px;">
-            <div style="font-weight: 800; color: #1a1a2e; font-size: 13px; margin-bottom: 2px;">
+            <div style="font-weight: 800; color: #1a1a2e; font-size: 13px; margin-bottom: 8px;">
               <i class="fa-solid fa-building" style="color: #0a8a4a;"></i> ${bld.name || 'Building'}
-            </div>
-            <div style="color: #555570; font-size: 11px; margin-bottom: 8px;">
-              <span>${bld.floors || 3} Floors</span> &bull; 
-              <span>${(bld.height_m || 12).toFixed(1)}m</span> &bull; 
-              <span>${bld.type || 'Commercial'}</span>
             </div>
             <button class="leaflet-popup-process-btn" type="button" onclick="window.app && window.app.runPipelineForActiveSelection()">
               Proceed for Cadastral
