@@ -12,7 +12,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
 
   <!-- Core Landing CSS -->
-  <link rel="stylesheet" href="/static/css/landing.css?v=20261003_v10" />
+  <link rel="stylesheet" href="/static/css/landing.css?v=20261003_v8" />
 
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%230B1F33'/%3E%3Cpath d='M16 6L8 11v10l8 5 8-5V11z' fill='none' stroke='%2320D9E6' stroke-width='2'/%3E%3Cpath d='M16 16v10M8 11l8 5 8-5' fill='none' stroke='%2318A7A8' stroke-width='1.5'/%3E%3C/svg%3E" />
 </head>
@@ -54,30 +54,16 @@
       <!-- HTML5 Canvas for Single-Frame Drawing -->
       <canvas class="hero-canvas" id="hero-canvas" role="img" aria-label="Interactive 3D building parcel scan animation progressing as you scroll"></canvas>
 
-      <!-- Hero Right-Side Tagline Block (Horizontal, Reference UI Layout) -->
-      <div class="hero-right-tagline-block" aria-label="VKARMA Tagline Banner">
-        <div class="tagline-badge-pill">
-          <span class="tagline-badge-dot"></span>
-          <span>VKARMA 3D SPATIAL PLATFORM</span>
-        </div>
-        <h2 class="tagline-main-heading">
-          Mapping Every <em>Dimension</em>
-        </h2>
-        <p class="tagline-subtext">
-          Volumetric 3D cadastre, LADM spatial envelopes, and digital land passports mapped in real-time.
-        </p>
-        <a href="/console" class="tagline-cta-btn">
-          <span class="btn-icon">
-            <svg viewBox="0 0 16 16" fill="currentColor" width="14" height="14" aria-hidden="true">
-              <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"/>
-            </svg>
-          </span>
-          <span>CONNECT YOUR SPACE</span>
-        </a>
+      <!-- Grid Line Motif & Contours -->
+      <div class="hero-grid-overlay" aria-hidden="true"></div>
+
+      <!-- Main Horizontal Hero Tagline with Character Fade Gradient -->
+      <div class="hero-main-tagline" aria-label="VKARMA Tagline">
+        <h2 class="hero-gradient-title">Mapping <span class="title-italic">Every Dimension</span></h2>
       </div>
 
-      <!-- Phased Editorial Text Overlay (Bottom Left) -->
-      <div class="hero-editorial-overlay pos-left" id="hero-editorial-overlay">
+      <!-- Phased Editorial Text Overlay (Transitions Right -> Left -> Right -> Left) -->
+      <div class="hero-editorial-overlay pos-right" id="hero-editorial-overlay">
         <div class="hero-editorial-card" id="hero-editorial-card">
           <span class="hero-phase-tag" id="hero-phase-tag">PHASE 01 • SPATIAL SUBSTRATE</span>
           <h1 class="hero-headline" id="hero-headline">LAND<span class="accent-cyan">.</span></h1>
