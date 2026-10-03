@@ -101,14 +101,12 @@ button {
    ========================================================================== */
 .navbar-wrap {
   position: fixed;
-  top: 20px;
+  top: 0;
   left: 0;
   right: 0;
   z-index: 1000;
-  display: flex;
-  justify-content: center;
   pointer-events: none;
-  padding: 0 16px;
+  padding: 0;
 }
 
 .navbar {
@@ -117,21 +115,19 @@ button {
   align-items: center;
   justify-content: space-between;
   width: 100%;
-  max-width: 980px;
   height: 60px;
-  padding: 0 18px 0 24px;
-  background: var(--glass-bg);
+  padding: 0 32px;
+  background: var(--navy-95);
   backdrop-filter: blur(16px);
   -webkit-backdrop-filter: blur(16px);
-  border: 1px solid var(--color-border-gray);
-  border-radius: var(--radius-pill);
-  box-shadow: var(--shadow-md);
-  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+  border-bottom: 1px solid rgba(32, 217, 230, 0.15);
+  border-radius: 0;
+  box-shadow: 0 2px 20px rgba(11, 31, 51, 0.15);
+  transition: box-shadow 0.3s ease;
 }
 
 .navbar:hover {
-  border-color: rgba(32, 217, 230, 0.4);
-  box-shadow: var(--shadow-lg), 0 0 20px rgba(32, 217, 230, 0.12);
+  box-shadow: 0 2px 24px rgba(11, 31, 51, 0.2);
 }
 
 .nav-brand {
@@ -141,7 +137,7 @@ button {
   font-weight: 800;
   font-size: 1.15rem;
   letter-spacing: -0.02em;
-  color: var(--color-navy);
+  color: var(--color-white);
 }
 
 .brand-dot {
@@ -171,14 +167,14 @@ button {
   padding: 8px 18px;
   font-size: 0.92rem;
   font-weight: 600;
-  color: var(--color-navy);
+  color: rgba(255, 255, 255, 0.75);
   border-radius: var(--radius-pill);
   transition: all 0.22s ease;
 }
 
 .nav-item:hover {
   color: var(--color-cyan);
-  background: var(--navy-08);
+  background: rgba(255, 255, 255, 0.08);
 }
 
 .nav-item.active {
@@ -188,16 +184,16 @@ button {
 }
 
 .nav-item-console {
-  background: var(--color-navy);
+  background: rgba(32, 217, 230, 0.12);
   color: var(--color-cyan);
-  border: 1px solid var(--navy-80);
-  box-shadow: 0 2px 8px rgba(11, 31, 51, 0.2);
+  border: 1px solid rgba(32, 217, 230, 0.4);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
 }
 
 .nav-item-console:hover {
-  background: #0d2842;
-  color: #ffffff;
-  box-shadow: 0 4px 16px rgba(32, 217, 230, 0.35);
+  background: var(--color-cyan);
+  color: var(--color-navy);
+  box-shadow: 0 4px 16px rgba(32, 217, 230, 0.4);
   transform: translateY(-1px);
 }
 
@@ -217,8 +213,13 @@ button {
   align-items: center;
   justify-content: center;
   border-radius: 50%;
-  color: var(--color-navy);
-  background: var(--color-light-blue);
+  color: var(--color-white);
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* Mobile Drawer Menu - Hidden on desktop by default */
+.nav-mobile-menu {
+  display: none;
 }
 
 /* ==========================================================================
@@ -329,21 +330,21 @@ button {
 
 .hero-editorial-card {
   padding: 24px 32px;
-  background: var(--glass-bg);
-  border: 1px solid var(--color-border-gray);
+  background: transparent;
+  border: none;
   border-radius: var(--radius-md);
-  box-shadow: var(--shadow-md);
-  backdrop-filter: blur(14px);
+  box-shadow: none;
+  backdrop-filter: none;
   transition: opacity 0.4s ease, transform 0.4s ease;
 }
 
 .hero-phase-tag {
   display: inline-block;
   font-family: var(--font-mono);
-  font-size: 0.75rem;
-  font-weight: 700;
-  letter-spacing: 0.12em;
-  color: var(--color-teal);
+  font-size: 0.82rem;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  color: var(--color-navy); /* Darker Blue: Deep Navy #0B1F33 */
   text-transform: uppercase;
   margin-bottom: 8px;
 }
@@ -353,19 +354,18 @@ button {
   font-weight: 800;
   line-height: 1.05;
   letter-spacing: -0.03em;
-  color: var(--color-navy);
+  color: var(--color-navy); /* Deep Navy #0B1F33 */
   margin-bottom: 12px;
 }
 
 .hero-headline .accent-cyan {
   color: var(--color-cyan);
-  text-shadow: 0 0 20px rgba(32, 217, 230, 0.4);
 }
 
 .hero-subtext {
   font-size: 1.05rem;
   line-height: 1.5;
-  color: var(--color-slate-gray);
+  color: var(--color-slate-gray); /* Slate Gray #52677D */
 }
 
 /* Scroll Prompt Pill */
@@ -1385,17 +1385,17 @@ button {
   .nav-mobile-menu.open {
     display: flex;
     position: fixed;
-    top: 90px;
-    left: 20px;
-    right: 20px;
-    background: var(--color-white);
-    border: 1px solid var(--color-border-gray);
-    border-radius: var(--radius-lg);
+    top: 64px;
+    left: 0;
+    right: 0;
+    background: var(--navy-95);
+    border-bottom: 1px solid rgba(32, 217, 230, 0.15);
     box-shadow: var(--shadow-lg);
     flex-direction: column;
     padding: 16px;
     gap: 8px;
     z-index: 1001;
+    backdrop-filter: blur(16px);
   }
   .hero-editorial-overlay {
     bottom: 80px;
