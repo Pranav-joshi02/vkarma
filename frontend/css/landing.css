@@ -158,32 +158,44 @@ button {
   50% { transform: scale(1.35); opacity: 0.6; }
 }
 
-/* Hero Horizontal Tagline with Top-to-Bottom Character Fade Gradient */
+/* Hero Horizontal Tagline — Left-Aligned, Professional Serif/Sans, Per-Word Gradient Fade */
 .hero-main-tagline {
   position: absolute;
-  top: 100px;
-  left: 60px;
+  top: 92px;
+  left: 40px;
   z-index: 24;
   pointer-events: none;
-  max-width: 750px;
+  max-width: 720px;
+  text-align: left;
 }
 
 .hero-gradient-title {
-  font-family: var(--font-sans);
-  font-size: clamp(2.8rem, 4.6vw, 4.4rem);
-  font-weight: 800;
+  margin: 0;
   line-height: 1.05;
   letter-spacing: -0.035em;
-  background: linear-gradient(180deg, #0B1F33 15%, rgba(11, 31, 51, 0.12) 100%);
+}
+
+.hero-gradient-title .fade-word {
+  display: inline-block;
+  font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
+  font-size: clamp(2.6rem, 4.4vw, 4.2rem);
+  font-weight: 800;
+  margin-right: 0.22em;
+  background: linear-gradient(180deg, #0B1F33 5%, rgba(11, 31, 51, 0.16) 100%);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
-  margin: 0;
 }
 
-.hero-gradient-title .title-italic {
+.hero-gradient-title .word-italic {
+  font-family: 'Playfair Display', Georgia, serif;
   font-style: italic;
   font-weight: 700;
+  letter-spacing: -0.02em;
+  background: linear-gradient(180deg, #0B1F33 5%, rgba(11, 31, 51, 0.22) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
 /* Centered Glassmorphism Navbar with Gray Shade */
@@ -1453,13 +1465,14 @@ button {
     font-size: 0.78rem;
   }
   .hero-main-tagline {
-    top: 72px;
+    top: 68px;
     left: 16px;
     right: 16px;
     max-width: none;
   }
-  .hero-gradient-title {
-    font-size: 2.1rem;
+  .hero-gradient-title .fade-word {
+    font-size: 1.95rem;
+    margin-right: 0.16em;
   }
   .hero-editorial-overlay {
     bottom: 70px;
