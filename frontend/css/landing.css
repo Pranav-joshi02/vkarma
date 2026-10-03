@@ -158,49 +158,6 @@ button {
   50% { transform: scale(1.35); opacity: 0.6; }
 }
 
-/* Hero Horizontal Tagline — Right-Aligned, Syne + Instrument Serif Font, Per-Word Gradient Fade */
-.hero-main-tagline {
-  position: absolute;
-  top: 92px;
-  right: 50px;
-  left: auto;
-  z-index: 24;
-  pointer-events: none;
-  max-width: 720px;
-  text-align: right;
-}
-
-.hero-gradient-title {
-  margin: 0;
-  line-height: 1.05;
-  letter-spacing: -0.03em;
-}
-
-.hero-gradient-title .fade-word {
-  display: inline-block;
-  font-family: 'Syne', 'Plus Jakarta Sans', sans-serif;
-  font-size: clamp(2.6rem, 4.4vw, 4.2rem);
-  font-weight: 800;
-  margin-left: 0.18em;
-  margin-right: 0;
-  background: linear-gradient(180deg, #0B1F33 5%, rgba(11, 31, 51, 0.16) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-.hero-gradient-title .word-italic {
-  font-family: 'Instrument Serif', Georgia, serif;
-  font-style: italic;
-  font-weight: 400;
-  font-size: clamp(2.9rem, 4.8vw, 4.6rem);
-  letter-spacing: -0.01em;
-  background: linear-gradient(180deg, #0B1F33 5%, rgba(11, 31, 51, 0.22) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
 /* Centered Glassmorphism Navbar with Gray Shade */
 .navbar {
   pointer-events: auto;
@@ -1466,21 +1423,6 @@ button {
   .nav-item-console {
     padding: 5px 12px;
     font-size: 0.78rem;
-  }
-  .hero-main-tagline {
-    top: 68px;
-    right: 16px;
-    left: auto;
-    max-width: none;
-    text-align: right;
-  }
-  .hero-gradient-title .fade-word {
-    font-size: 1.95rem;
-    margin-left: 0.12em;
-    margin-right: 0;
-  }
-  .hero-gradient-title .word-italic {
-    font-size: 2.15rem;
   }
   .hero-editorial-overlay {
     bottom: 70px;
