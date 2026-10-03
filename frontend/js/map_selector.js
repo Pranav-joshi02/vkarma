@@ -523,7 +523,7 @@ class MapAreaSelector {
       if (coords && coords.length >= 3) {
         // Render exact polygon boundary on terrain map — neon green accent
         layer = L.polygon(coords, {
-          color: '#0a8a4a',
+          color: '#18A7A8',
           weight: 2,
           fillColor: '#39FF14',
           fillOpacity: 0.25
@@ -531,7 +531,7 @@ class MapAreaSelector {
       } else if (bld.centroid && bld.centroid.length === 2) {
         layer = L.circleMarker(bld.centroid, {
           radius: 9,
-          color: '#0a8a4a',
+          color: '#18A7A8',
           weight: 2,
           fillColor: '#39FF14',
           fillOpacity: 0.7
@@ -542,8 +542,8 @@ class MapAreaSelector {
         const nameStyle = bld.name_source === 'synthetic' ? 'font-style: italic; font-weight: 500;' : 'font-weight: 700;';
         const tooltipHtml = `
           <div style="font-family: 'Inter', sans-serif; font-size: 12px; line-height: 1.35; padding: 2px;">
-            <div style="${nameStyle} color: #0a8a4a;"><i class="fa-solid fa-building"></i> ${bld.name || 'Building'}</div>
-            <div style="color: #0a8a4a; font-size: 10px; margin-top: 3px; font-weight: 700;">
+            <div style="${nameStyle} color: #18A7A8;"><i class="fa-solid fa-building"></i> ${bld.name || 'Building'}</div>
+            <div style="color: #18A7A8; font-size: 10px; margin-top: 3px; font-weight: 700;">
               Click to select for Cadastral
             </div>
           </div>
@@ -553,7 +553,7 @@ class MapAreaSelector {
         const popupContent = `
           <div style="font-family: 'Inter', sans-serif; font-size: 12px; line-height: 1.4; padding: 4px 2px; min-width: 190px;">
             <div style="font-weight: 800; color: #1a1a2e; font-size: 13px; margin-bottom: 8px;">
-              <i class="fa-solid fa-building" style="color: #0a8a4a;"></i> ${bld.name || 'Building'}
+              <i class="fa-solid fa-building" style="color: #18A7A8;"></i> ${bld.name || 'Building'}
             </div>
             <button class="leaflet-popup-process-btn" type="button" onclick="window.app && window.app.runPipelineForActiveSelection()">
               Proceed for Cadastral
@@ -576,7 +576,7 @@ class MapAreaSelector {
 
         layer.on('mouseout', () => {
           if (this.selectedDiscoveredBuildingId !== bld.id) {
-            layer.setStyle({ weight: 2, color: '#0a8a4a', fillOpacity: 0.25 });
+            layer.setStyle({ weight: 2, color: '#18A7A8', fillOpacity: 0.25 });
           }
         });
 
@@ -601,7 +601,7 @@ class MapAreaSelector {
         if (layer.bringToFront) layer.bringToFront();
       } else {
         layer.setStyle({
-          color: '#0a8a4a',
+          color: '#18A7A8',
           weight: 2,
           fillColor: '#39FF14',
           fillOpacity: 0.25
@@ -643,7 +643,7 @@ class MapAreaSelector {
       const marker = L.circleMarker([bld.centroid_lat, bld.centroid_lng], {
         radius: 8,
         fillColor: '#39FF14',
-        color: '#0a8a4a',
+        color: '#18A7A8',
         weight: 2,
         opacity: 1,
         fillOpacity: 0.85

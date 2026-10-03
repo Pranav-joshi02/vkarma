@@ -21,10 +21,10 @@ class DeliveryAPIDemo {
       if (bodyEl) {
         bodyEl.innerHTML = `
           <div style="display: flex; flex-direction: column; gap: 14px;">
-            <div style="background: var(--accent-green-dim); border: 2px solid rgba(57, 255, 20, 0.3); border-radius: var(--radius-md); padding: 14px; box-shadow: var(--neu-flat);">
+            <div style="background: var(--accent-green-dim); border: 2px solid rgba(32, 217, 230, 0.35); border-radius: var(--radius-md); padding: 14px; box-shadow: var(--neu-flat);">
               <span style="font-size: 11px; color: var(--text-muted); text-transform: uppercase; font-weight: 700;">Resolved 3D ULPIN</span>
               <div style="font-family: var(--font-mono); font-size: 16px; font-weight: 800; color: var(--text-primary);">${data.ulpin}</div>
-              <div style="font-size: 13px; color: #0a8a4a; margin-top: 2px; font-weight: 700;">${data.formatted_postal_address}</div>
+              <div style="font-size: 13px; color: #18A7A8; margin-top: 2px; font-weight: 700;">${data.formatted_postal_address}</div>
             </div>
 
             <div class="details-grid">
@@ -53,7 +53,7 @@ class DeliveryAPIDemo {
                 <span>Autonomous Drone / Courier Dropoff Payload</span>
                 <span class="panel-title-badge">JSON Response</span>
               </div>
-              <pre style="font-family: var(--font-mono); font-size: 11px; color: #0a8a4a; background: var(--bg-deep); box-shadow: var(--neu-concave); padding: 12px; border-radius: var(--radius-sm); overflow-x: auto;">
+              <pre style="font-family: var(--font-mono); font-size: 11px; color: #18A7A8; background: var(--bg-deep); box-shadow: var(--neu-concave); padding: 12px; border-radius: var(--radius-sm); overflow-x: auto;">
 ${JSON.stringify(data, null, 2)}
               </pre>
             </div>

@@ -657,7 +657,7 @@ class App {
     if (listEl) {
       listEl.innerHTML = `
         <div style="text-align: center; padding: 22px 10px; color: var(--text-secondary); font-size: 11px;">
-          <svg viewBox="0 0 24 24" fill="none" stroke="#0a8a4a" stroke-width="2" width="24" height="24" style="display: block; margin: 0 auto 8px; animation: spinSlow 2s linear infinite;">
+          <svg viewBox="0 0 24 24" fill="none" stroke="#18A7A8" stroke-width="2" width="24" height="24" style="display: block; margin: 0 auto 8px; animation: spinSlow 2s linear infinite;">
             <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/>
           </svg>
           Querying Overture Maps + OpenStreetMap for buildings...
@@ -749,7 +749,7 @@ class App {
           </div>
           <div class="detected-bld-body">
             <div class="detected-bld-name${isSynthetic ? ' synthetic-name' : ''}" title="${buildingName}">${buildingName}</div>
-            ${hasUnits ? `<div class="detected-bld-badges"><span class="bld-badge" style="background: rgba(57,255,20,0.18); color: #0a8a4a; font-weight: 800; border: 1px solid rgba(57,255,20,0.4);"><i class="fa-solid fa-cube"></i> ${unitCount} 3D Units</span></div>` : ''}
+            ${hasUnits ? `<div class="detected-bld-badges"><span class="bld-badge" style="background: #DFF7FA; color: #18A7A8; font-weight: 800; border: 1px solid rgba(24,167,168,0.35);"><i class="fa-solid fa-cube"></i> ${unitCount} 3D Units</span></div>` : ''}
           </div>
           <div class="detected-bld-check">
             <svg viewBox="0 0 16 16" fill="currentColor" width="16" height="16">

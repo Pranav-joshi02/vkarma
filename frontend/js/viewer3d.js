@@ -235,16 +235,16 @@ class CadastralViewer3D {
     if (this.colorMode === 'status') {
       if (unit.status && unit.status.includes('Dispute')) return Cesium.Color.fromCssColorString('#ef4444');
       if (unit.status && unit.status.includes('Mortgaged')) return Cesium.Color.fromCssColorString('#8b5cf6');
-      if (unit.status && (unit.status.includes('Common') || unit.status.includes('Public'))) return Cesium.Color.fromCssColorString('#10b981');
+      if (unit.status && (unit.status.includes('Common') || unit.status.includes('Public'))) return Cesium.Color.fromCssColorString('#18A7A8');
       return Cesium.Color.fromCssColorString('#3b82f6');
     }
     const colors = {
       'A': '#3b82f6',
-      'P': '#64748b',
-      'S': '#f59e0b',
-      'M': '#10b981',
-      'U': '#0284c7',
-      'R': '#38bdf8'
+      'P': '#52677D',
+      'S': '#D96B32',
+      'M': '#18A7A8',
+      'U': '#0B1F33',
+      'R': '#20D9E6'
     };
     return Cesium.Color.fromCssColorString(colors[unit.space_type] || '#3b82f6');
   }

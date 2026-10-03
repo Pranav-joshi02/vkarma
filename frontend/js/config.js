@@ -13,19 +13,19 @@ const CONFIG = {
   SPACE_TYPE_COLORS: {
     'A': { label: 'Apartment / Flat', color: 0x3b82f6, hex: '#3b82f6' },      // Blue
     'C': { label: 'Corridor (Right of Way)', color: 0x94a3b8, hex: '#94a3b8' }, // Slate
-    'S': { label: 'Staircase / Fire Core', color: 0xf59e0b, hex: '#f59e0b' },   // Amber
-    'M': { label: 'Common Area / Sky Deck', color: 0x10b981, hex: '#10b981' }, // Emerald
-    'P': { label: 'Parking Bay (Basement)', color: 0x64748b, hex: '#64748b' },  // Steel
-    'U': { label: 'Utility / Subsurface', color: 0x0284c7, hex: '#0284c7' },    // Sky Blue
+    'S': { label: 'Staircase / Fire Core', color: 0xD96B32, hex: '#D96B32' },   // Amber
+    'M': { label: 'Common Area / Sky Deck', color: 0x18A7A8, hex: '#18A7A8' }, // Emerald
+    'P': { label: 'Parking Bay (Basement)', color: 0x52677D, hex: '#52677D' },  // Steel
+    'U': { label: 'Utility / Subsurface', color: 0x0B1F33, hex: '#0B1F33' },    // Sky Blue
     'B': { label: 'Physical Shell', color: 0x475569, hex: '#475569' },          // Gray
-    'R': { label: 'Air-Rights (+15m)', color: 0x38bdf8, hex: '#38bdf8' }        // Cyan
+    'R': { label: 'Air-Rights (+15m)', color: 0x20D9E6, hex: '#20D9E6' }        // Cyan
   },
 
   STATUS_COLORS: {
     'Clear Freehold': 0x3b82f6,
     'Bank Mortgaged': 0x8b5cf6,
     'Under Legal Dispute / Encroachment': 0xef4444,
-    'Public / Common Utility': 0x10b981,
+    'Public / Common Utility': 0x18A7A8,
     'Pending RERA Approval': 0xf59e0b
   }
 };

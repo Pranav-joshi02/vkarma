@@ -31,8 +31,8 @@ class DisputeScanner {
 
     if (report.total_conflicts_detected === 0) {
       bodyEl.innerHTML = `
-        <div style="text-align: center; padding: 28px; color: #0a8a4a;">
-          <svg viewBox="0 0 20 20" fill="#0a8a4a" width="40" height="40" style="display: block; margin: 0 auto 12px;">
+        <div style="text-align: center; padding: 28px; color: #18A7A8;">
+          <svg viewBox="0 0 20 20" fill="#18A7A8" width="40" height="40" style="display: block; margin: 0 auto 12px;">
             <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
           </svg>
           <h3 style="color: var(--text-primary); font-weight: 800;">Zero 3D Volumetric Encroachments Detected</h3>
@@ -61,7 +61,7 @@ class DisputeScanner {
               <div class="panel-card" style="border-left: 4px solid #ef4444;">
                 <div style="display: flex; justify-content: space-between; align-items: center;">
                   <span style="font-size: 12px; font-weight: 800; color: #ef4444;">${c.type}</span>
-                  <span style="font-size: 11px; font-family: var(--font-mono); color: #0a8a4a; font-weight: 700;">${c.overlap_volume_m3} m³ Overlap</span>
+                  <span style="font-size: 11px; font-family: var(--font-mono); color: #18A7A8; font-weight: 700;">${c.overlap_volume_m3} m³ Overlap</span>
                 </div>
                 <p style="font-size: 12px; color: var(--text-primary); margin-top: 4px;">${c.message}</p>
                 <div style="display: flex; gap: 8px; margin-top: 6px;">

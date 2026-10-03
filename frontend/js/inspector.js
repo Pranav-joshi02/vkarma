@@ -60,13 +60,13 @@ class CadastralInspector {
 
     let html = `
       <!-- Building Physical Shell -->
-      <div class="panel-card" style="animation-delay: 0.05s; margin-bottom: 6px;">
+      <div class="panel-card" style="animation-delay: 0.05s;">
         <div class="panel-title">
           <span>Physical Space Shell</span>
           <span class="panel-title-badge">ISO 19152</span>
         </div>
         <h2 style="font-size: 17px; font-weight: 800; color: var(--text-primary); display: flex; align-items: center; gap: 10px;">
-          <svg viewBox="0 0 20 20" fill="#0a8a4a" width="20" height="20">
+          <svg viewBox="0 0 20 20" fill="#D96B32" width="20" height="20">
             <path d="M3 4a1 1 0 011-1h12a1 1 0 011 1v2a1 1 0 01-1 1H4a1 1 0 01-1-1V4zm0 6a1 1 0 011-1h12a1 1 0 011 1v6a1 1 0 01-1 1H4a1 1 0 01-1-1v-6z"/>
           </svg>
           ${bldName}
@@ -111,9 +111,9 @@ class CadastralInspector {
 
       html += `
         <!-- Active Selected Unit Inspector Card -->
-        <div class="panel-card" id="active-unit-card" style="border: 2px solid var(--accent-neon); box-shadow: var(--neu-convex), 0 0 20px rgba(57,255,20,0.2); animation: cardReveal 0.35s ease-out both;">
+        <div class="panel-card" id="active-unit-card" style="border: 2px solid var(--accent-neon); box-shadow: var(--neu-convex), 0 0 20px rgba(32,217,230,0.25); animation: cardReveal 0.35s ease-out both;">
           <div class="panel-title">
-            <span style="color: #0a8a4a; font-weight: 800;">Selected 3D Spatial Unit</span>
+            <span style="color: #18A7A8; font-weight: 800;">Selected 3D Spatial Unit</span>
             <button class="btn-copy" id="btn-deselect-unit" style="font-size: 10px; padding: 2px 8px;" title="Back to building overview">
               <i class="fa-solid fa-xmark"></i> Clear Focus
             </button>
@@ -181,14 +181,14 @@ class CadastralInspector {
           <div style="background: var(--bg-deep); box-shadow: var(--neu-concave); border-radius: var(--radius-md); padding: 10px 12px; display: flex; flex-direction: column; gap: 4px;">
             <div style="display: flex; justify-content: space-between; font-size: 10px; color: var(--text-muted); font-weight: 700; text-transform: uppercase;">
               <span>Registered Owner (LA_Party)</span>
-              <span style="color: #0a8a4a;">${party.role || 'Owner'}</span>
+              <span style="color: #18A7A8;">${party.role || 'Owner'}</span>
             </div>
             <div style="font-size: 13px; font-weight: 800; color: var(--text-primary); display: flex; align-items: center; gap: 6px;">
-              <i class="fa-solid fa-user-check" style="color: #0a8a4a;"></i>
+              <i class="fa-solid fa-user-check" style="color: #18A7A8;"></i>
               ${party.name}
             </div>
             <div style="font-size: 10px; font-family: var(--font-mono); color: var(--text-muted);">
-              KYC Hash: <span style="color: #0a8a4a;">${party.id_hash}</span>
+              KYC Hash: <span style="color: #18A7A8;">${party.id_hash}</span>
             </div>
           </div>
 
@@ -241,7 +241,7 @@ class CadastralInspector {
           <div class="legal-units-inner-scroll">
             ${Object.entries(grouped).map(([floorName, floorUnits]) => `
               <div style="background: var(--bg-deep); box-shadow: var(--neu-concave); border-radius: var(--radius-md); overflow: hidden;">
-                <div style="padding: 8px 14px; background: var(--accent-green-dim); font-size: 11px; font-weight: 800; color: #0a8a4a; display: flex; justify-content: space-between; align-items: center;">
+                <div style="padding: 8px 14px; background: var(--accent-green-dim); font-size: 11px; font-weight: 800; color: #18A7A8; display: flex; justify-content: space-between; align-items: center;">
                   <span><i class="fa-solid fa-layer-group"></i> ${floorName}</span>
                   <span style="font-family: var(--font-mono); font-size: 10px;">${floorUnits.length} Units</span>
                 </div>
@@ -258,7 +258,7 @@ class CadastralInspector {
                       <div class="legal-unit-rich-card ${isSelected ? 'active' : ''} unit-list-item" data-unit-id="${u.unit_id}">
                         <div class="legal-unit-rich-header">
                           <span class="legal-unit-title">
-                            <i class="fa-solid ${sInfo.icon}" style="color: #0a8a4a;"></i>
+                            <i class="fa-solid ${sInfo.icon}" style="color: #18A7A8;"></i>
                             ${u.unit_name}
                           </span>
                           <span class="space-type-badge ${sInfo.class}">
@@ -332,23 +332,23 @@ class CadastralInspector {
             <span>Apartment (A)</span>
           </div>
           <div style="display: flex; align-items: center; gap: 8px;">
-            <div style="width: 12px; height: 12px; border-radius: 3px; background: #64748b; box-shadow: var(--neu-flat);"></div>
+            <div style="width: 12px; height: 12px; border-radius: 3px; background: #52677D; box-shadow: var(--neu-flat);"></div>
             <span>Parking Bay (P)</span>
           </div>
           <div style="display: flex; align-items: center; gap: 8px;">
-            <div style="width: 12px; height: 12px; border-radius: 3px; background: #f59e0b; box-shadow: var(--neu-flat);"></div>
+            <div style="width: 12px; height: 12px; border-radius: 3px; background: #D96B32; box-shadow: var(--neu-flat);"></div>
             <span>Staircase Core (S)</span>
           </div>
           <div style="display: flex; align-items: center; gap: 8px;">
-            <div style="width: 12px; height: 12px; border-radius: 3px; background: #10b981; box-shadow: var(--neu-flat);"></div>
+            <div style="width: 12px; height: 12px; border-radius: 3px; background: #18A7A8; box-shadow: var(--neu-flat);"></div>
             <span>Sky Terrace (M)</span>
           </div>
           <div style="display: flex; align-items: center; gap: 8px;">
-            <div style="width: 12px; height: 12px; border-radius: 3px; background: #0284c7; box-shadow: var(--neu-flat);"></div>
+            <div style="width: 12px; height: 12px; border-radius: 3px; background: #0B1F33; box-shadow: var(--neu-flat);"></div>
             <span>Utility Shaft (U)</span>
           </div>
           <div style="display: flex; align-items: center; gap: 8px;">
-            <div style="width: 12px; height: 12px; border-radius: 3px; background: #38bdf8; box-shadow: var(--neu-flat);"></div>
+            <div style="width: 12px; height: 12px; border-radius: 3px; background: #20D9E6; box-shadow: var(--neu-flat);"></div>
             <span>Air-Rights (+15m)</span>
           </div>
         </div>
@@ -391,13 +391,18 @@ class CadastralInspector {
     this.currentBuilding = building;
     this.showBuildingDetails(building, unit);
 
-    // Smoothly scroll the active unit card into view inside the left panel
+    // Smoothly scroll the active unit card into view if needed
     setTimeout(() => {
       const activeCard = document.getElementById('active-unit-card');
-      if (activeCard) {
-        activeCard.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      const container = this.panel;
+      if (activeCard && container) {
+        const cardRect = activeCard.getBoundingClientRect();
+        const contRect = container.getBoundingClientRect();
+        if (cardRect.top < contRect.top || cardRect.bottom > contRect.bottom) {
+          activeCard.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        }
       }
-    }, 50);
+    }, 60);
   }
 
   openDigitalTitleCertificate(unitToOpen = null) {
@@ -424,15 +429,15 @@ class CadastralInspector {
             <div style="font-size: 24px; margin-bottom: 4px;">🇮🇳</div>
             <h2>Government of India &bull; Ministry of Rural Development & Land Resources</h2>
             <p>Department of Land Resources &bull; DILRMP 3D Cadastral Digital Registry</p>
-            <h3 style="margin-top: 8px; font-size: 15px; color: #0a8a4a; text-decoration: underline;">
+            <h3 style="margin-top: 8px; font-size: 15px; color: #18A7A8; text-decoration: underline;">
               3D BHU-AADHAAR / 3D ULPIN DIGITAL LAND TITLE CERTIFICATE
             </h3>
           </div>
 
           <div class="deed-grid">
-            <div class="deed-box deed-grid-full" style="background: rgba(57, 255, 20, 0.08); border-color: rgba(57, 255, 20, 0.35);">
+            <div class="deed-box deed-grid-full" style="background: rgba(223, 247, 250, 0.8); border-color: rgba(24, 167, 168, 0.35);">
               <span class="deed-box-label">Unique 3D Land Parcel Identification Number (3D ULPIN)</span>
-              <div class="deed-box-val" style="font-size: 16px; color: #0a8a4a; font-family: monospace; font-weight: 800;">${unit.ulpin}</div>
+              <div class="deed-box-val" style="font-size: 16px; color: #18A7A8; font-family: monospace; font-weight: 800;">${unit.ulpin}</div>
             </div>
 
             <div class="deed-box">
@@ -486,7 +491,7 @@ class CadastralInspector {
             <div>
               <div style="font-size: 11px; font-weight: bold; color: #1a1a2e;">ISO 19152 (LADM) Compliant Verification</div>
               <div style="font-size: 10px; color: var(--text-muted); font-family: monospace;">Signature: SHA256:7f8a9e2b1049c812d4a51e60f09b</div>
-              <div style="font-size: 10px; color: #0a8a4a; font-weight: bold; margin-top: 4px;">
+              <div style="font-size: 10px; color: #18A7A8; font-weight: bold; margin-top: 4px;">
                 &check; Tamper Check Digit Verified (Verhoeff Dihedral D5 Standard)
               </div>
             </div>
