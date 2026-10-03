@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VKARMA — National 3D Cadastral Digital Twin & Land Passport</title>
+  <meta name="description" content="VKARMA is India's sovereign 3D cadastral intelligence platform. Transforming multi-sensor LiDAR into verifiable ISO 19152 volumetric legal property units and 3D ULPIN digital land passports." />
+
+  <!-- Preconnect & Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Core Landing CSS -->
+  <link rel="stylesheet" href="/static/css/landing.css?v=20261003_hero1" />
+
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%230B1F33'/%3E%3Cpath d='M16 6L8 11v10l8 5 8-5V11z' fill='none' stroke='%2320D9E6' stroke-width='2'/%3E%3Cpath d='M16 16v10M8 11l8 5 8-5' fill='none' stroke='%2318A7A8' stroke-width='1.5'/%3E%3C/svg%3E" />
+</head>
+<body>
+
+  <!-- =====================================================================
+       1. FLOATING GLASSMORPHISM NAVBAR
+       Centered horizontally, rounded corners, backdrop blur, translucent white
+       ===================================================================== -->
+  <div class="navbar-wrap">
+    <nav class="navbar" aria-label="Main Navigation">
+      <a href="/" class="nav-brand" title="VKARMA Spatial Intelligence">
+        <span class="brand-dot"></span>
+        <span>VKARMA</span>
+      </a>
+
+      <div class="nav-links">
+        <a href="/console" class="nav-item nav-item-console" title="Open VKarma 3D Cadastre Console">
+          Console
+          <svg viewBox="0 0 16 16" fill="currentColor" width="14" height="14" aria-hidden="true">
+            <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"/>
+          </svg>
+        </a>
+        <a href="/ulpin" class="nav-item" title="ULPIN Land Passport Explorer">ULPIN</a>
+        <a href="/about" class="nav-item" title="About VKarma & API Ecosystem">About</a>
+      </div>
+
+      <!-- Mobile Hamburger Button -->
+      <button class="nav-mobile-btn" id="mobile-menu-btn" aria-label="Toggle navigation menu">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="20" height="20">
+          <line x1="3" y1="12" x2="21" y2="12"></line>
+          <line x1="3" y1="6" x2="21" y2="6"></line>
+          <line x1="3" y1="18" x2="21" y2="18"></line>
+        </svg>
+      </button>
+    </nav>
+
+    <!-- Mobile Drawer Menu -->
+    <div class="nav-mobile-menu" id="nav-mobile-menu">
+      <a href="/console" class="nav-item nav-item-console">Console →</a>
+      <a href="/ulpin" class="nav-item">ULPIN</a>
+      <a href="/about" class="nav-item">About</a>
+    </div>
+  </div>
+
+  <!-- =====================================================================
+       2. HERO SECTION — 150-FRAME CINEMATIC SCROLL ANIMATION
+       Canvas hardware-accelerated rendering, progressive preloading,
+       DPR scaling, clamped frame 1-150, sticky 100vh viewport
+       ===================================================================== -->
+  <section class="hero-scroll-track" id="hero-scroll-track" aria-label="VKarma 3D Spatial Hero Sequence">
+    <div class="hero-sticky-stage" id="hero-sticky-stage">
+      
+      <!-- HTML5 Canvas for Single-Frame Drawing -->
+      <canvas class="hero-canvas" id="hero-canvas" role="img" aria-label="Interactive 3D building parcel scan animation progressing as you scroll"></canvas>
+
+      <!-- Grid Line Motif & Contours -->
+      <div class="hero-grid-overlay" aria-hidden="true"></div>
+
+      <!-- Telemetry HUD Badges (Top Left & Top Right) -->
+      <div class="hero-hud-top-left" aria-hidden="true">
+        <div class="hero-hud-badge">
+          <span class="hud-pulse"></span>
+          <span>3D LIDAR • ACTIVE VOLUMETRIC SCAN</span>
+        </div>
+        <div>COORD: 12.935200° N, 77.694600° E</div>
+        <div>SURV: ORR-560103-BLR • ELEV: 920.4m AGL</div>
+      </div>
+
+      <div class="hero-hud-top-right" aria-hidden="true">
+        <div class="hero-hud-badge">
+          <span>ISO 19152 (LADM) COMPLIANT</span>
+        </div>
+        <div id="telemetry-frame">FRAME: 001 / 150</div>
+        <div>DENSITY: 2.5 PTS/M² • CSF FILTER ON</div>
+      </div>
+
+      <!-- Phased Editorial Text Overlay (Bottom Left) -->
+      <div class="hero-editorial-overlay">
+        <div class="hero-editorial-card" id="hero-editorial-card">
+          <span class="hero-phase-tag" id="hero-phase-tag">PHASE 01 • SPATIAL SUBSTRATE</span>
+          <h1 class="hero-headline" id="hero-headline">LAND<span class="accent-cyan">.</span></h1>
+          <p class="hero-subtext" id="hero-subtext">
+            A digital infrastructure for understanding property, land, and 3D spatial boundaries from the ground up.
+          </p>
+        </div>
+      </div>
+
+      <!-- Floating Scroll Prompt Pill -->
+      <div class="hero-scroll-prompt" aria-hidden="true">
+        <span>SCROLL TO SCAN</span>
+        <span class="prompt-arrow">↓</span>
+      </div>
+
+      <!-- Initial Loading Screen (Only visible during progressive preparation) -->
+      <div class="hero-loader" id="hero-loader">
+        <div class="loader-brand">VKARMA</div>
+        <div class="loader-status" id="loader-status-text">Initializing spatial intelligence...</div>
+        <div class="loader-bar-wrap">
+          <div class="loader-bar" id="loader-bar"></div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Visual Bridge Transition with Cyan/Teal accent -->
+  <div class="section-bridge" aria-hidden="true">
+    <div class="bridge-line"></div>
+  </div>
+
+  <!-- =====================================================================
+       3. ULPIN / LAND PASSPORT SECTION
+       One identity. One property. Structured land intelligence.
+       3 Required Boxes: Structure | Explore | Description
+       ===================================================================== -->
+  <section class="ulpin-section" id="ulpin-section">
+    <div class="container">
+      
+      <!-- Section Header -->
+      <div class="section-head">
+        <span class="section-tag">DIGITAL LAND IDENTITY</span>
+        <h2 class="section-title">ULPIN</h2>
+        <div style="font-size: 1.5rem; font-weight: 800; color: var(--color-teal); letter-spacing: -0.01em; margin-bottom: 8px;">
+          THE LAND PASSPORT
+        </div>
+        <p class="section-subtitle">
+          One identity. One property. Structured land intelligence.<br />
+          Transforming ambiguous 2D revenue records into cryptographic volumetric title deeds.
+        </p>
+      </div>
+
+      <!-- 3-Column Card Layout -->
+      <div class="ulpin-grid">
+        
+        <!-- ── BOX 1: ULPIN STRUCTURE ── -->
+        <div class="ulpin-card" id="card-structure">
+          <div class="card-header-icon">
+            <!-- Layers / Grid SVG -->
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
+              <polyline points="2 17 12 22 22 17"></polyline>
+              <polyline points="2 12 12 17 22 12"></polyline>
+            </svg>
+          </div>
+          <h3 class="card-title">ULPIN Structure</h3>
+          <p class="card-description">
+            VKarma's 3D ULPIN format binds postal geography, legal volumetric space types, and cryptographic tokenization with mathematical tamper protection.
+          </p>
+
+          <!-- Interactive Structure Breakdown Widget -->
+          <div class="ulpin-structure-diagram">
+            <div class="structure-segments">
+              <div class="segment-box active" data-segment="pincode" title="Click to inspect Pincode partition">560103</div>
+              <span class="segment-sep">-</span>
+              <div class="segment-box" data-segment="spacetype" title="Click to inspect 3D Space Type">A</div>
+              <span class="segment-sep">-</span>
+              <div class="segment-box" data-segment="token" title="Click to inspect Feistel Token">60YLMDPD</div>
+              <span class="segment-sep">-</span>
+              <div class="segment-box" data-segment="check" title="Click to inspect Verhoeff Check Digit">2</div>
+            </div>
+
+            <div class="structure-labels">
+              <span>Postal Pincode</span>
+              <span>Space Type</span>
+              <span>Feistel Token</span>
+              <span>Verhoeff</span>
+            </div>
+
+            <!-- Dynamic explanation pill -->
+            <div class="structure-detail-pill" id="structure-detail-pill">
+              <strong>PPPPPP (6 Digits):</strong> Geographic Partitioning Key (Postal Pincode e.g. 560103 - Bengaluru Outer Ring Road).
+            </div>
+          </div>
+        </div>
+
+        <!-- ── BOX 2: EXPLORE ── -->
+        <div class="ulpin-card" id="card-explore">
+          <div class="card-header-icon">
+            <!-- Compass / Search SVG -->
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="11" cy="11" r="8"></circle>
+              <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+            </svg>
+          </div>
+          <h3 class="card-title">Explore</h3>
+          <p class="card-description">
+            Query the authoritative cadastral digital twin. Enter any 3D ULPIN to fetch owner deeds, volumetric geometry, and generate a verified Land Passport.
+          </p>
+
+          <!-- Interactive Search & Sample Chips -->
+          <form class="explore-form" id="explore-form">
+            <div class="explore-input-wrap">
+              <input 
+                type="text" 
+                id="explore-ulpin-input" 
+                class="explore-input" 
+                placeholder="560103-A-60YLMDPD-2" 
+                value="560103-A-60YLMDPD-2"
+                autocomplete="off"
+                spellcheck="false"
+                required
+              />
+            </div>
+
+            <button type="submit" class="explore-btn" id="btn-explore-submit">
+              Explore →
+            </button>
+
+            <!-- Real-time syntax validation pill -->
+            <div id="explore-live-val" style="font-size: 0.76rem; font-family: var(--font-mono); color: var(--color-teal); display: block;">
+              ✓ Syntax Matched: Type [A] • Pincode [560103]
+            </div>
+
+            <div class="explore-samples">
+              <span class="sample-title">Click Sample Pilot ULPINs:</span>
+              <div class="sample-chips">
+                <button type="button" class="sample-chip" data-ulpin="560103-A-60YLMDPD-2">Flat 702 (Apt)</button>
+                <button type="button" class="sample-chip" data-ulpin="560103-A-G011E73B-8">Penthouse 1201</button>
+                <button type="button" class="sample-chip" data-ulpin="560103-P-K9VF9HU8-9">Parking Bay B2</button>
+                <button type="button" class="sample-chip" data-ulpin="400051-B-RG0LN1X6-7">BKC Finance Tower</button>
+              </div>
+            </div>
+          </form>
+        </div>
+
+        <!-- ── BOX 3: DESCRIPTION ── -->
+        <div class="ulpin-card" id="card-description">
+          <div class="card-header-icon">
+            <!-- Shield / Certificate SVG -->
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path>
+            </svg>
+          </div>
+          <h3 class="card-title">Description</h3>
+          <p class="card-description">
+            ULPIN (Unique Land Parcel Identification Number) serves as the sovereign Aadhaar for real estate, eliminating boundary disputes through 3D spatial truth.
+          </p>
+
+          <ul class="desc-features">
+            <li class="desc-item">
+              <span class="desc-check">
+                <svg viewBox="0 0 16 16" fill="currentColor"><path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/></svg>
+              </span>
+              <span><strong>Volumetric Identity:</strong> Replaces ambiguous 2D plots with exact 3D bounding boxes ($m^3$) for multi-floor apartments.</span>
+            </li>
+            <li class="desc-item">
+              <span class="desc-check">
+                <svg viewBox="0 0 16 16" fill="currentColor"><path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/></svg>
+              </span>
+              <span><strong>Cryptographic Integrity:</strong> Dihedral $D_5$ Verhoeff checksums ensure zero transmission errors and instant mobile QR verification.</span>
+            </li>
+            <li class="desc-item">
+              <span class="desc-check">
+                <svg viewBox="0 0 16 16" fill="currentColor"><path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/></svg>
+              </span>
+              <span><strong>Unified Digital Passport:</strong> Interlinks RERA sanctions, registered deeds, bank liens, and drone delivery dispatch routing.</span>
+            </li>
+          </ul>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- =====================================================================
+       4. FINAL CALL TO ACTION (CTA)
+       READY TO EXPLORE?
+       From spatial data to property intelligence.
+       Primary Button: [ Console → ]
+       Navigates to existing VKarma service/application.
+       ===================================================================== -->
+  <section class="final-cta-section" id="final-cta">
+    <div class="cta-grid-bg" aria-hidden="true"></div>
+
+    <div class="container">
+      <div class="cta-card">
+        <span class="cta-tag">ENTER THE 3D SPATIAL DIGITAL TWIN</span>
+        <h2 class="cta-title">READY TO EXPLORE?</h2>
+        <p class="cta-subtitle">
+          From raw point clouds to cryptographic property intelligence.<br />
+          Launch the active WebGIS 3D Cadastral Digital Twin now.
+        </p>
+
+        <!-- Prominent Primary Button connecting to existing service route -->
+        <a href="/console" class="cta-btn-console" id="cta-console-btn">
+          <span>Console</span>
+          <svg viewBox="0 0 20 20" fill="currentColor" width="18" height="18" aria-hidden="true">
+            <path fill-rule="evenodd" d="M10.293 3.293a1 1 0 011.414 0l6 6a1 1 0 010 1.414l-6 6a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-4.293-4.293a1 1 0 010-1.414z" clip-rule="evenodd"/>
+          </svg>
+        </a>
+
+        <!-- Live Platform Telemetry Strip -->
+        <div class="cta-telemetry-strip" aria-label="Platform Telemetry Metrics">
+          <div class="telemetry-item">
+            <div class="telemetry-val">10-STAGE</div>
+            <div class="telemetry-label">AI Point Cloud Pipeline</div>
+          </div>
+          <div class="telemetry-item">
+            <div class="telemetry-val">ISO 19152</div>
+            <div class="telemetry-label">LADM 3D Compliant</div>
+          </div>
+          <div class="telemetry-item">
+            <div class="telemetry-val">DIHEDRAL D5</div>
+            <div class="telemetry-label">Cryptographic Verhoeff</div>
+          </div>
+          <div class="telemetry-item">
+            <div class="telemetry-val">3D UPI</div>
+            <div class="telemetry-label">Drone & Delivery Routing</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- =====================================================================
+       5. FOOTER
+       ===================================================================== -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-inner">
+        <div>
+          <strong>VKARMA</strong> &bull; National 3D Cadastral Digital Twin &amp; 3D ULPIN Platform (ISO 19152 LADM)
+        </div>
+        <nav class="footer-nav">
+          <a href="/console">Console</a>
+          <a href="/ulpin">ULPIN Explorer</a>
+          <a href="/about">API Ecosystem</a>
+          <a href="#hero-scroll-track">Back to Top ↑</a>
+        </nav>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="/static/js/config.js"></script>
+  <script src="/static/js/services/ulpinService.js"></script>
+  <script src="/static/js/hero_animation.js"></script>
+  <script src="/static/js/landing.js"></script>
+</body>
+</html>

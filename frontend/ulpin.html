@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Digital Land Passport &bull; VKARMA ISO 19152 (LADM)</title>
+  <meta name="description" content="Authoritative Digital Land Passport powered by VKARMA 3D Cadastral Registry. Inspect verified volumetric boundaries, ownership deeds, bank mortgages, and drone delivery routing." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="/static/css/landing.css?v=20261003_ulpin1" />
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%230B1F33'/%3E%3Cpath d='M16 6L8 11v10l8 5 8-5V11z' fill='none' stroke='%2320D9E6' stroke-width='2'/%3E%3C/svg%3E" />
+</head>
+<body style="background-color: var(--color-off-white);">
+
+  <!-- Floating Navbar -->
+  <div class="navbar-wrap">
+    <nav class="navbar" aria-label="Main Navigation">
+      <a href="/" class="nav-brand" title="Back to VKARMA Landing">
+        <span class="brand-dot"></span>
+        <span>VKARMA</span>
+      </a>
+
+      <div class="nav-links">
+        <a href="/console" class="nav-item nav-item-console" title="Open 3D Cadastre Console">
+          Console
+          <svg viewBox="0 0 16 16" fill="currentColor" width="14" height="14">
+            <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"/>
+          </svg>
+        </a>
+        <a href="/ulpin" class="nav-item active">ULPIN</a>
+        <a href="/about" class="nav-item">About</a>
+      </div>
+    </nav>
+  </div>
+
+  <main class="passport-page-container">
+    <div class="container">
+
+      <!-- Universal ULPIN Search Bar -->
+      <form class="passport-search-bar-wrap" id="passport-search-form">
+        <input 
+          type="text" 
+          id="passport-search-input" 
+          class="explore-input" 
+          placeholder="Search 3D ULPIN (e.g. 560103-A-60YLMDPD-2)" 
+          style="background: var(--color-white);"
+          required
+        />
+        <button type="submit" class="explore-btn" style="padding: 0 24px;">
+          Search →
+        </button>
+      </form>
+
+      <!-- Sample Quick Select Chips -->
+      <div style="max-width: 640px; margin: -20px auto 30px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+        <span style="font-size: 0.74rem; font-weight: 600; color: var(--color-slate-gray); text-transform: uppercase;">Featured Passports:</span>
+        <a href="/ulpin/560103-A-60YLMDPD-2" class="sample-chip">Unit 702 (Apt)</a>
+        <a href="/ulpin/560103-A-G011E73B-8" class="sample-chip">Penthouse 1201 (Mortgaged)</a>
+        <a href="/ulpin/560103-P-K9VF9HU8-9" class="sample-chip">Parking Bay B2-14</a>
+        <a href="/ulpin/560103-R-0Y8L1W9X-0" class="sample-chip">Air-Rights Deck (+15m)</a>
+        <a href="/ulpin/400051-B-RG0LN1X6-7" class="sample-chip">BKC Commercial Plaza</a>
+      </div>
+
+      <!-- STATE: LOADING -->
+      <div id="passport-state-loading" style="text-align: center; padding: 60px 0;">
+        <div style="font-size: 1.3rem; font-weight: 700; color: var(--color-navy); margin-bottom: 8px;">
+          Fetching Land Passport...
+        </div>
+        <div style="font-size: 0.9rem; color: var(--color-slate-gray);">
+          Resolving ISO 19152 volumetric spatial units and Verhoeff cryptographic signature.
+        </div>
+      </div>
+
+      <!-- STATE: ERROR -->
+      <div id="passport-state-error" style="display: none; max-width: 700px; margin: 40px auto; background: var(--color-white); border: 1px solid var(--color-border-gray); border-radius: var(--radius-md); padding: 36px; text-align: center;">
+        <div style="font-size: 1.3rem; font-weight: 800; color: var(--color-terracotta); margin-bottom: 8px;">
+          Land Passport Error
+        </div>
+        <p class="state-message" style="color: var(--color-slate-gray); margin-bottom: 20px;">
+          Land passport could not be retrieved.
+        </p>
+        <a href="/ulpin" class="btn-secondary">Reset Explorer</a>
+      </div>
+
+      <!-- STATE: NOT FOUND -->
+      <div id="passport-state-notfound" style="display: none; max-width: 700px; margin: 40px auto; background: var(--color-white); border: 1px solid var(--color-border-gray); border-radius: var(--radius-md); padding: 36px; text-align: center;">
+        <div style="font-size: 1.3rem; font-weight: 800; color: var(--color-navy); margin-bottom: 8px;">
+          No Passport Found
+        </div>
+        <p class="state-message" style="color: var(--color-slate-gray); margin-bottom: 20px;">
+          No registered land passport matches this ULPIN in the cadastral registry.
+        </p>
+        <a href="/ulpin" class="btn-secondary">Try Featured Pilot ULPINs</a>
+      </div>
+
+      <!-- STATE: CONTENT (GOVERNMENT-GRADE DIGITAL LAND PASSPORT) -->
+      <article class="passport-doc-card" id="passport-state-content" style="display: none;">
+        
+        <!-- Passport Official Header -->
+        <header class="passport-doc-header">
+          <div class="doc-gov-emblem">
+            <!-- 3D Cadastre Cube Emblem SVG -->
+            <svg class="emblem-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 2L2 7l10 5 10-5-10-5z"></path>
+              <path d="M2 17l10 5 10-5"></path>
+              <path d="M2 12l10 5 10-5"></path>
+            </svg>
+            <div class="doc-title-block">
+              <h1>DIGITAL LAND PASSPORT</h1>
+              <p>REPUBLIC OF INDIA &bull; NATIONAL 3D CADASTRAL REGISTRY &bull; ISO 19152 (LADM)</p>
+            </div>
+          </div>
+
+          <div class="doc-badge-verified" id="passport-status-badge">
+            <svg viewBox="0 0 16 16" fill="currentColor" width="14" height="14">
+              <path d="M13.854 3.646a.5.5 0 0 1 0 .708l-7 7a.5.5 0 0 1-.708 0l-3.5-3.5a.5.5 0 1 1 .708-.708L6.5 10.293l6.646-6.647a.5.5 0 0 1 .708 0z"/>
+            </svg>
+            <span>Verified Clear Freehold</span>
+          </div>
+        </header>
+
+        <!-- Document Body -->
+        <div class="passport-body">
+          
+          <!-- ULPIN Banner -->
+          <div class="passport-ulpin-banner">
+            <div>
+              <div class="ulpin-key-label">UNIQUE LAND PARCEL IDENTIFICATION NUMBER (3D ULPIN)</div>
+              <div class="ulpin-display-code" id="passport-ulpin-val">560103-A-60YLMDPD-2</div>
+            </div>
+            <button type="button" class="btn-copy-ulpin" onclick="copyUlpinToClipboard()">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="16" height="16">
+                <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+              </svg>
+              Copy ULPIN
+            </button>
+          </div>
+
+          <!-- Property Hero Visual (3D Volumetric Scan from sequence) -->
+          <div class="passport-image-card">
+            <img src="/assets/hero-sequence/frame_149.jpg" alt="3D Architectural Cadastral Envelope Scan" id="passport-hero-img" />
+            <div class="passport-image-badge">
+              <span>VOLUMETRIC DIGITAL TWIN &bull; 3D SURVEY SCAN</span>
+            </div>
+          </div>
+
+          <!-- Section 1: Property Identification & Measurements -->
+          <h2 class="passport-section-title">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18" style="color: var(--color-cyan);">
+              <polygon points="12 2 2 7 12 12 22 7 12 2"></polygon>
+              <polyline points="2 17 12 22 22 17"></polyline>
+              <polyline points="2 12 12 17 22 12"></polyline>
+            </svg>
+            Property Identification &amp; Measurements
+          </h2>
+          <div class="passport-meta-grid">
+            <div class="meta-box">
+              <div class="meta-label">Designated Unit</div>
+              <div class="meta-val highlight-terracotta" id="passport-property-title">Unit 702 (Tower A - 3BHK)</div>
+            </div>
+            <div class="meta-box">
+              <div class="meta-label">Space Type Classification</div>
+              <div class="meta-val highlight-teal" id="passport-space-type">Apartment / Residential Unit</div>
+            </div>
+            <div class="meta-box">
+              <div class="meta-label">Floor Level</div>
+              <div class="meta-val" id="passport-floor-level">Floor 7 (+22.4m AGL)</div>
+            </div>
+            <div class="meta-box">
+              <div class="meta-label">Carpet Area</div>
+              <div class="meta-val" id="passport-carpet-area">142.5 m² (1,534 sq.ft)</div>
+            </div>
+            <div class="meta-box">
+              <div class="meta-label">Volumetric Space</div>
+              <div class="meta-val" id="passport-volume">441.7 m³</div>
+            </div>
+            <div class="meta-box">
+              <div class="meta-label">Ground Reference Elevation</div>
+              <div class="meta-val" id="passport-elevation">+942.4 m MSL</div>
+            </div>
+          </div>
+
+          <!-- Section 2: Administrative Location & Coordinates -->
+          <h2 class="passport-section-title">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18" style="color: var(--color-teal);">
+              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+              <circle cx="12" cy="10" r="3"></circle>
+            </svg>
+            Administrative Location &amp; Coordinates
+          </h2>
+          <div class="passport-meta-grid">
+            <div class="meta-box">
+              <div class="meta-label">Postal Pincode Partition</div>
+              <div class="meta-val" id="passport-pincode">560103</div>
+            </div>
+            <div class="meta-box">
+              <div class="meta-label">Administrative Sector / District</div>
+              <div class="meta-val" id="passport-admin-region">Bengaluru Urban &bull; Outer Ring Road Corridor</div>
+            </div>
+            <div class="meta-box">
+              <div class="meta-label">Centroid Coordinates (WGS-84)</div>
+              <div class="meta-val highlight-teal" id="passport-coords">12.935200° N, 77.694600° E</div>
+            </div>
+          </div>
+
+          <!-- Section 3: Registered Ownership & Title Deeds -->
+          <h2 class="passport-section-title">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18" style="color: var(--color-navy);">
+              <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+              <circle cx="12" cy="7" r="4"></circle>
+            </svg>
+            Registered Ownership &amp; Title Deeds (ISO 19152 LADM)
+          </h2>
+          <div class="passport-meta-grid">
+            <div class="meta-box">
+              <div class="meta-label">Registered Title Holder</div>
+              <div class="meta-val" id="passport-owner-name">Vikramaditya S. Rathore</div>
+            </div>
+            <div class="meta-box">
+              <div class="meta-label">Party Role &amp; Entity Type</div>
+              <div class="meta-val" id="passport-owner-role">Sole Freehold Owner &bull; Natural Person</div>
+            </div>
+            <div class="meta-box">
+              <div class="meta-label">Aadhaar/PAN SHA-256 ID Hash</div>
+              <div class="meta-val" id="passport-owner-hash" style="font-family: var(--font-mono); font-size: 0.82rem;">
+                e3b0c44298fc1c14... (Privacy Preserved)
+              </div>
+            </div>
+            <div class="meta-box">
+              <div class="meta-label">Source Deed Number</div>
+              <div class="meta-val" id="passport-deed-num">KRN-BLR-SR-2024/88921</div>
+            </div>
+            <div class="meta-box">
+              <div class="meta-label">Document Nature</div>
+              <div class="meta-val" id="passport-deed-type">Registered Absolute Sale Deed</div>
+            </div>
+            <div class="meta-box">
+              <div class="meta-label">Issuing Authority</div>
+              <div class="meta-val" id="passport-deed-authority">Sub-Registrar Office, Bellandur (2024-03-15)</div>
+            </div>
+          </div>
+
+          <!-- Section 4: Rights, Restrictions & Responsibilities (RRR) -->
+          <h2 class="passport-section-title">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="18" height="18" style="color: var(--color-terracotta);">
+              <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+              <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
+            </svg>
+            Rights, Restrictions &amp; Responsibilities (RRR)
+          </h2>
+          <div class="passport-meta-grid">
+            <div class="meta-box" style="grid-column: span 3;">
+              <div class="meta-label" id="passport-rrr-title">Exclusive 3D Freehold Ownership</div>
+              <div class="meta-val" id="passport-rrr-desc" style="font-weight: 500; font-size: 0.95rem; margin-top: 4px;">
+                Exclusive 3D Freehold Title Deed over Volumetric Interior Living Space. Undivided Common Share (UDS: 1/32) of common tower infrastructure.
+              </div>
+            </div>
+          </div>
+
+          <!-- QR Verification & Canonical Link Section -->
+          <div class="passport-qr-section">
+            <div class="qr-info-block">
+              <h3>Scan to Verify Digital Passport</h3>
+              <p>
+                Point any mobile camera or government verification terminal to confirm authentic ISO 19152 deed records and Verhoeff checksums directly on the sovereign registry.
+              </p>
+              <div style="margin-top: 10px; font-family: var(--font-mono); font-size: 0.78rem; color: var(--color-teal); word-break: break-all;">
+                Canonical URL: <a href="#" id="qr-canonical-url" style="text-decoration: underline;" target="_blank"></a>
+              </div>
+            </div>
+
+            <div class="qr-display-box" id="passport-qr-code" aria-label="Dynamic QR Code">
+              <!-- Dynamically generated canvas inserted here -->
+            </div>
+          </div>
+
+          <!-- Passport Action Buttons -->
+          <div class="passport-actions-bar">
+            <button type="button" class="btn-secondary" onclick="printPassport()">
+              Download / Print PDF
+            </button>
+            <a href="/console" class="btn-primary" id="btn-inspect-console">
+              Inspect in 3D Digital Twin (Console →)
+            </a>
+          </div>
+
+        </div>
+      </article>
+
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-inner">
+        <div><strong>VKARMA</strong> &bull; National 3D Cadastral Digital Twin &amp; Land Passport</div>
+        <nav class="footer-nav">
+          <a href="/">Home</a>
+          <a href="/console">Console</a>
+          <a href="/about">About</a>
+        </nav>
+      </div>
+    </div>
+  </footer>
+
+  <script src="/static/js/config.js"></script>
+  <script src="/static/js/services/ulpinService.js"></script>
+  <script src="/static/js/passport.js"></script>
+</body>
+</html>

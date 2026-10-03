@@ -551,11 +551,76 @@ def get_pointcloud_sample(max_points: int = Query(6000, le=15000)):
     }
 
 
-# Serve static frontend files
+# API route for featured / sample 3D ULPINs
+@app.get("/api/ulpin/featured")
+def get_featured_ulpins():
+    """Returns curated featured 3D ULPINs for instant demonstration."""
+    return {
+        "featured": [
+            {
+                "ulpin": "560103-A-60YLMDPD-2",
+                "label": "Unit 702 (Tower A - Residential)",
+                "location": "Bengaluru Tech Corridor (Outer Ring Road)",
+                "status": "Clear Freehold"
+            },
+            {
+                "ulpin": "560103-A-G011E73B-8",
+                "label": "Sky Villa Penthouse 1201",
+                "location": "Bengaluru Tech Corridor",
+                "status": "Bank Mortgaged"
+            },
+            {
+                "ulpin": "560103-P-K9VF9HU8-9",
+                "label": "Parking Bay B2-14 (Basement 2)",
+                "location": "Basement Level Subsurface",
+                "status": "Clear Freehold"
+            },
+            {
+                "ulpin": "560103-R-0Y8L1W9X-0",
+                "label": "Air-Rights Sky Deck (+15m)",
+                "location": "Bengaluru Outer Ring Road",
+                "status": "Drone & Solar Right"
+            },
+            {
+                "ulpin": "400051-B-RG0LN1X6-7",
+                "label": "Commercial Suite 1401",
+                "location": "Bandra-Kurla Complex (Mumbai BKC)",
+                "status": "Grade-A Commercial"
+            }
+        ]
+    }
+
+
+# Serve static frontend files and routes
 frontend_dir = os.path.join(os.path.dirname(os.path.dirname(__file__)), "frontend")
 if os.path.exists(frontend_dir):
     app.mount("/static", StaticFiles(directory=frontend_dir), name="static")
 
+    assets_dir = os.path.join(frontend_dir, "assets")
+    if os.path.exists(assets_dir):
+        app.mount("/assets", StaticFiles(directory=assets_dir), name="assets")
+
     @app.get("/")
-    def serve_index():
+    def serve_landing_page():
+        landing_file = os.path.join(frontend_dir, "landing.html")
+        if os.path.exists(landing_file):
+            return FileResponse(landing_file)
+        return FileResponse(os.path.join(frontend_dir, "console.html"))
+
+    @app.get("/console")
+    @app.get("/app")
+    def serve_console_service():
+        console_file = os.path.join(frontend_dir, "console.html")
+        if os.path.exists(console_file):
+            return FileResponse(console_file)
         return FileResponse(os.path.join(frontend_dir, "index.html"))
+
+    @app.get("/ulpin")
+    @app.get("/ulpin/{ulpin_code}")
+    def serve_ulpin_passport_page(ulpin_code: Optional[str] = None):
+        return FileResponse(os.path.join(frontend_dir, "ulpin.html"))
+
+    @app.get("/about")
+    def serve_about_page():
+        return FileResponse(os.path.join(frontend_dir, "about.html"))
+

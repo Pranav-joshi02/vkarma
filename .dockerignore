@@ -13,4 +13,5 @@ env/
 *.las
 *.laz
 *.zip
+frames/
 data/
