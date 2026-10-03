@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>About VKARMA &bull; Spatial Intelligence &amp; Data Ecosystem</title>
+  <meta name="description" content="VKARMA is the national 3D cadastral infrastructure uniting GIS point clouds, ISO 19152 volumetric legal property units, and cryptographic 3D ULPINs across government, enterprise, and citizens." />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="/static/css/landing.css?v=20261003_about1" />
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%230B1F33'/%3E%3Cpath d='M16 6L8 11v10l8 5 8-5V11z' fill='none' stroke='%2320D9E6' stroke-width='2'/%3E%3Cpath d='M16 16v10M8 11l8 5 8-5' fill='none' stroke='%2318A7A8' stroke-width='1.5'/%3E%3C/svg%3E" />
+</head>
+<body style="background-color: var(--color-off-white);">
+
+  <!-- Floating Glassmorphism Navbar -->
+  <div class="navbar-wrap">
+    <nav class="navbar" aria-label="Main Navigation">
+      <a href="/" class="nav-brand" title="Back to VKARMA Landing">
+        <span class="brand-dot"></span>
+        <span>VKARMA</span>
+      </a>
+
+      <div class="nav-links">
+        <a href="/console" class="nav-item nav-item-console" title="Open 3D Cadastre Console">
+          Console
+          <svg viewBox="0 0 16 16" fill="currentColor" width="14" height="14">
+            <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"/>
+          </svg>
+        </a>
+        <a href="/ulpin" class="nav-item">ULPIN</a>
+        <a href="/about" class="nav-item active">About</a>
+      </div>
+    </nav>
+  </div>
+
+  <main class="about-page-container">
+    <div class="container">
+
+      <!-- Hero Header -->
+      <header class="about-hero">
+        <span class="section-tag">PLATFORM &amp; API ECOSYSTEM</span>
+        <h1 class="about-title">SOVEREIGN 3D SPATIAL INTELLIGENCE</h1>
+        <p class="about-lead">
+          VKARMA bridges high-precision drone/aerial LiDAR point clouds with ISO 19152 (LADM) volumetric property boundaries and cryptographic 3D ULPIN digital land passports.
+        </p>
+      </header>
+
+      <!-- Section 1: What VKarma is & Why It Exists -->
+      <section style="margin-bottom: 70px;">
+        <div style="background: var(--color-white); border: 1px solid var(--color-border-gray); border-radius: var(--radius-lg); padding: 40px; box-shadow: var(--shadow-sm);">
+          <span style="font-family: var(--font-mono); font-size: 0.76rem; font-weight: 700; color: var(--color-teal); text-transform: uppercase; letter-spacing: 0.1em;">
+            01 &bull; PROBLEM STATEMENT &amp; MANDATE
+          </span>
+          <h2 style="font-size: 2rem; font-weight: 800; color: var(--color-navy); margin: 8px 0 16px;">
+            The Leap from 2D Revenue Plots to 3D Volumetric Legal Space
+          </h2>
+          <p style="color: var(--color-slate-gray); font-size: 1.05rem; line-height: 1.65; margin-bottom: 16px;">
+            Over 65% of civil court litigation in urban India arises from property boundary disputes, multi-storey flat ownership ambiguities, and underground infrastructure collisions. Traditional land registries operate on colonial 2D polygon surveys that cannot represent vertical property rights, multi-floor condominiums, basement parking easements, or transit air-rights.
+          </p>
+          <p style="color: var(--color-slate-gray); font-size: 1.05rem; line-height: 1.65;">
+            VKARMA establishes a unified 3D digital twin cadastre compliant with the international <strong>ISO 19152 Land Administration Domain Model (LADM)</strong> standard. Every volumetric space—from a 14th-floor residential flat to an underground utility vault—receives an unforgeable 3D ULPIN tokenized by format-preserving Feistel ciphers and verified with Dihedral D5 Verhoeff checksums.
+          </p>
+        </div>
+      </section>
+
+      <!-- Section 2: Interactive API Architecture Diagram -->
+      <section style="margin-bottom: 80px;">
+        <div class="section-head" style="margin-bottom: 30px;">
+          <span class="section-tag">SYSTEM TOPOLOGY</span>
+          <h2 class="section-title">Interactive API &amp; Data Flow</h2>
+          <p class="section-subtitle">
+            Click any node below to inspect live API routes, JSON schemas, cryptographic security parameters, and data access tiers.
+          </p>
+        </div>
+
+        <div class="api-diagram-card">
+          <div class="diagram-stage">
+            
+            <!-- Root Core Node -->
+            <div class="diagram-node" data-node-id="vkarma_core" style="cursor: pointer;" title="Click to inspect VKarma Core Engine">
+              VKARMA SPATIAL CORE (ISO 19152 LADM)
+            </div>
+
+            <div style="width: 2px; height: 28px; background: var(--color-border-gray);"></div>
+
+            <!-- User Persona Tier (Tripartite) -->
+            <div class="diagram-branch">
+              <div class="diagram-subnode active" data-node-id="government">
+                <div class="subnode-title" style="color: var(--color-navy);">GOVERNMENT AUTHORITIES</div>
+                <div class="subnode-desc">Cadastral Boundaries &bull; Dispute Scans &bull; Property Tax Base</div>
+              </div>
+              <div class="diagram-subnode" data-node-id="commerce">
+                <div class="subnode-title" style="color: var(--color-navy);">COMMERCE &amp; LOGISTICS</div>
+                <div class="subnode-desc">Address-as-a-Service &bull; 3D Courier Routing &bull; Drone Helipads</div>
+              </div>
+              <div class="diagram-subnode" data-node-id="individual">
+                <div class="subnode-title" style="color: var(--color-navy);">INDIVIDUAL CITIZENS</div>
+                <div class="subnode-desc">Digital Land Passport &bull; Mortgage Verification &bull; QR Deeds</div>
+              </div>
+            </div>
+
+            <div style="width: 2px; height: 28px; background: var(--color-border-gray);"></div>
+
+            <!-- Shared VKARMA DATA/API Bus -->
+            <div class="diagram-node" style="background: var(--color-light-blue); color: var(--color-navy); border-color: var(--color-border-gray); font-size: 0.95rem;">
+              VKARMA UNIFIED REST DATA &amp; WEBHOOK BUS
+            </div>
+
+            <div style="width: 2px; height: 28px; background: var(--color-border-gray);"></div>
+
+            <!-- Lower Data Tier (GIS Data, Property Data, ULPIN Passport) -->
+            <div class="diagram-branch">
+              <div class="diagram-subnode" data-node-id="gis_data">
+                <div class="subnode-title" style="color: var(--color-navy);">GIS DATA LAYER</div>
+                <div class="subnode-desc">LiDAR Point Clouds &bull; 3D Tiles &bull; CesiumJS Buffers</div>
+              </div>
+              <div class="diagram-subnode" data-node-id="property_data">
+                <div class="subnode-title" style="color: var(--color-navy);">PROPERTY DATA (RRR)</div>
+                <div class="subnode-desc">Parties &bull; Deeds &bull; Bank Mortgages &bull; PostGIS</div>
+              </div>
+              <div class="diagram-subnode" data-node-id="ulpin_passport">
+                <div class="subnode-title" style="color: var(--color-navy);">3D ULPIN PASSPORT</div>
+                <div class="subnode-desc">Feistel Token &bull; Verhoeff D5 &bull; Instant Mobile QR</div>
+              </div>
+            </div>
+
+          </div>
+
+          <!-- Dynamic Node Inspector Panel -->
+          <div id="node-detail-panel" style="margin-top: 36px; padding: 24px; background: var(--color-light-blue); border: 1px solid var(--color-border-gray); border-radius: var(--radius-md);">
+            <div style="display: flex; align-items: center; justify-content: space-between; margin-bottom: 8px;">
+              <h3 id="node-detail-title" style="font-size: 1.25rem; font-weight: 800; color: var(--color-navy);">VKARMA SPATIAL CORE</h3>
+              <span id="node-detail-status" class="persona-badge badge-available">Available</span>
+            </div>
+            <div id="node-detail-type" style="font-family: var(--font-mono); font-size: 0.8rem; color: var(--color-teal); margin-bottom: 12px;">
+              Orchestration &amp; LADM 3D Cadastral Engine
+            </div>
+            <div style="font-family: var(--font-mono); font-size: 0.78rem; background: var(--color-white); padding: 8px 12px; border-radius: 6px; border: 1px solid var(--color-border-gray); margin-bottom: 14px;">
+              <span style="color: var(--color-slate-gray);">Active Endpoints: </span>
+              <strong id="node-detail-endpoint" style="color: var(--color-navy);">/api/pipeline/run &bull; /api/cadastre/status</strong>
+            </div>
+            <p id="node-detail-desc" style="color: var(--color-slate-gray); font-size: 0.92rem; line-height: 1.55; margin-bottom: 18px;">
+              The core engine converts point clouds into 3D volumetric legal units compliant with ISO 19152.
+            </p>
+            <ul id="node-detail-specs" class="service-list">
+              <!-- Dynamically populated -->
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 3: Data Services by User Persona (Distinguishing Available / Planned / Conceptual) -->
+      <section style="margin-bottom: 80px;">
+        <div class="section-head" style="margin-bottom: 40px;">
+          <span class="section-tag">SERVICE CATALOGUE</span>
+          <h2 class="section-title">Services by Stakeholder Tier</h2>
+          <p class="section-subtitle">
+            Authoritative services engineered for sovereign administration, enterprise logistics, and individual citizens.
+          </p>
+        </div>
+
+        <div class="persona-grid">
+          
+          <!-- Persona 1: Government Authorities -->
+          <div class="persona-card" data-persona="govt">
+            <span class="persona-badge badge-available">AUTHORITATIVE &bull; GOVT</span>
+            <h3 style="font-size: 1.35rem; font-weight: 800; color: var(--color-navy); margin-bottom: 8px;">
+              Government Authorities
+            </h3>
+            <p style="font-size: 0.88rem; color: var(--color-slate-gray); line-height: 1.5;">
+              Equipping urban local bodies (ULBs), state revenue departments, and survey commissions with spatial truth.
+            </p>
+
+            <ul class="service-list">
+              <li class="service-item">
+                <span>3D Cadastral Unit Minting</span>
+                <span class="persona-badge badge-available">Available</span>
+              </li>
+              <li class="service-item">
+                <span>Topological Dispute Scanner (Jaljolie)</span>
+                <span class="persona-badge badge-available">Available</span>
+              </li>
+              <li class="service-item">
+                <span>LiDAR Ground/Building CSF Classifier</span>
+                <span class="persona-badge badge-available">Available</span>
+              </li>
+              <li class="service-item">
+                <span>3D Volumetric Property Tax Engine</span>
+                <span class="persona-badge badge-planned">Planned</span>
+              </li>
+              <li class="service-item">
+                <span>National Survey Satellite Auto-Ingest</span>
+                <span class="persona-badge badge-conceptual">Conceptual</span>
+              </li>
+            </ul>
+          </div>
+
+          <!-- Persona 2: E-Commerce & Enterprise -->
+          <div class="persona-card" data-persona="commerce">
+            <span class="persona-badge badge-available">ENTERPRISE &bull; LOGISTICS</span>
+            <h3 style="font-size: 1.35rem; font-weight: 800; color: var(--color-navy); margin-bottom: 8px;">
+              Commerce &amp; Logistics
+            </h3>
+            <p style="font-size: 0.88rem; color: var(--color-slate-gray); line-height: 1.5;">
+              Address-as-a-Service infrastructure eliminating last-50-meter delivery failures in dense high-rise developments.
+            </p>
+
+            <ul class="service-list">
+              <li class="service-item">
+                <span>Address-as-a-Service (3D Address UPI)</span>
+                <span class="persona-badge badge-available">Available</span>
+              </li>
+              <li class="service-item">
+                <span>Elevator Core &amp; Floor Dispatch Point</span>
+                <span class="persona-badge badge-available">Available</span>
+              </li>
+              <li class="service-item">
+                <span>Rooftop Drone Landing Corridor Routing</span>
+                <span class="persona-badge badge-available">Available</span>
+              </li>
+              <li class="service-item">
+                <span>Multi-Warehouse Subsurface Delivery Vault</span>
+                <span class="persona-badge badge-planned">Planned</span>
+              </li>
+              <li class="service-item">
+                <span>City-Scale Autonomous Air-Traffic Grid</span>
+                <span class="persona-badge badge-conceptual">Conceptual</span>
+              </li>
+            </ul>
+          </div>
+
+          <!-- Persona 3: Individual Citizens -->
+          <div class="persona-card" data-persona="individual">
+            <span class="persona-badge badge-available">CITIZENS &bull; BUYERS</span>
+            <h3 style="font-size: 1.35rem; font-weight: 800; color: var(--color-navy); margin-bottom: 8px;">
+              Individual Citizens
+            </h3>
+            <p style="font-size: 0.88rem; color: var(--color-slate-gray); line-height: 1.5;">
+              Transparent property diligence, verifiable land ownership passports, and dispute protection before buying.
+            </p>
+
+            <ul class="service-list">
+              <li class="service-item">
+                <span>Digital Land Passport Generator</span>
+                <span class="persona-badge badge-available">Available</span>
+              </li>
+              <li class="service-item">
+                <span>Cryptographic QR Mobile Verification</span>
+                <span class="persona-badge badge-available">Available</span>
+              </li>
+              <li class="service-item">
+                <span>Bank Mortgage &amp; Lien Status Query</span>
+                <span class="persona-badge badge-available">Available</span>
+              </li>
+              <li class="service-item">
+                <span>RERA Sanctioned Boundary Comparison</span>
+                <span class="persona-badge badge-planned">Planned</span>
+              </li>
+              <li class="service-item">
+                <span>1-Click Property Title Conveyance Deed</span>
+                <span class="persona-badge badge-conceptual">Conceptual</span>
+              </li>
+            </ul>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- Section 4: Technology & Cryptography Architecture -->
+      <section style="margin-bottom: 80px;">
+        <div style="background: var(--color-white); border: 1px solid var(--color-border-gray); border-radius: var(--radius-lg); padding: 40px; box-shadow: var(--shadow-sm);">
+          <span style="font-family: var(--font-mono); font-size: 0.76rem; font-weight: 700; color: var(--color-teal); text-transform: uppercase; letter-spacing: 0.1em;">
+            04 &bull; MATHEMATICS &amp; STANDARDS
+          </span>
+          <h2 style="font-size: 2rem; font-weight: 800; color: var(--color-navy); margin: 8px 0 20px;">
+            The Cryptographic &amp; Geospatial Stack
+          </h2>
+
+          <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 24px;">
+            <div style="background: var(--color-light-blue); padding: 24px; border-radius: var(--radius-md); border: 1px solid var(--color-border-gray);">
+              <h3 style="font-size: 1.15rem; font-weight: 700; color: var(--color-navy); margin-bottom: 8px;">
+                Feistel Format-Preserving Encryption
+              </h3>
+              <p style="font-size: 0.9rem; color: var(--color-slate-gray); line-height: 1.5;">
+                Internal serial numbers are transformed into 8-character alphanumeric pseudorandom tokens via a balanced 4-round Feistel cipher. Sequential parcel generation yields completely non-sequential public identifiers, preventing enumeration attacks while preserving exact length.
+              </p>
+            </div>
+
+            <div style="background: var(--color-light-blue); padding: 24px; border-radius: var(--radius-md); border: 1px solid var(--color-border-gray);">
+              <h3 style="font-size: 1.15rem; font-weight: 700; color: var(--color-navy); margin-bottom: 8px;">
+                Dihedral D5 Verhoeff Check Digit
+              </h3>
+              <p style="font-size: 0.9rem; color: var(--color-slate-gray); line-height: 1.5;">
+                Every 3D ULPIN is protected with a non-commutative dihedral permutation checksum based on the symmetry group $D_5$. This guarantees detection of 100% of single-character transcription errors and 100% of adjacent transposition errors.
+              </p>
+            </div>
+
+            <div style="background: var(--color-light-blue); padding: 24px; border-radius: var(--radius-md); border: 1px solid var(--color-border-gray);">
+              <h3 style="font-size: 1.15rem; font-weight: 700; color: var(--color-navy); margin-bottom: 8px;">
+                ISO 19152 (LADM 3D) Cadastre
+              </h3>
+              <p style="font-size: 0.9rem; color: var(--color-slate-gray); line-height: 1.5;">
+                Implements the United Nations and ISO standard for land administration. Spatial units (`LA_SpatialUnit`), volumetric legal spaces (`LA_LegalSpaceBuildingUnit`), rights, restrictions, and responsibilities (`LA_RRR`), and parties (`LA_Party`) are modeled in exact spatial topology.
+              </p>
+            </div>
+
+            <div style="background: var(--color-light-blue); padding: 24px; border-radius: var(--radius-md); border: 1px solid var(--color-border-gray);">
+              <h3 style="font-size: 1.15rem; font-weight: 700; color: var(--color-navy); margin-bottom: 8px;">
+                Topological Collision Detection
+              </h3>
+              <p style="font-size: 0.9rem; color: var(--color-slate-gray); line-height: 1.5;">
+                Utilizes the 3D cadastre topological validation algorithms (Jaljolie et al.) to identify volumetric encroachments, interior space overlaps, and coordinate boundary breaches between neighboring legal units in real time.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Section 5: CTA to Console -->
+      <section style="background: var(--color-navy); border-radius: var(--radius-lg); padding: 50px 40px; text-align: center; color: var(--color-white); position: relative; overflow: hidden;">
+        <h2 style="font-size: 2.4rem; font-weight: 800; margin-bottom: 12px;">Ready to Explore the Live Cadastre?</h2>
+        <p style="color: #a4b7c8; font-size: 1.1rem; max-width: 600px; margin: 0 auto 30px;">
+          Experience the 3D WebGL digital twin, execute point cloud pipelines, and run dispute scans in real time.
+        </p>
+        <a href="/console" class="cta-btn-console" style="display: inline-flex;">
+          <span>Console →</span>
+        </a>
+      </section>
+
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-inner">
+        <div><strong>VKARMA</strong> &bull; National 3D Cadastral Digital Twin &amp; 3D ULPIN Platform</div>
+        <nav class="footer-nav">
+          <a href="/">Home</a>
+          <a href="/console">Console</a>
+          <a href="/ulpin">ULPIN Explorer</a>
+        </nav>
+      </div>
+    </div>
+  </footer>
+
+  <script src="/static/js/config.js"></script>
+  <script src="/static/js/about.js"></script>
+</body>
+</html>

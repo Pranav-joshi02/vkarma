@@ -56,7 +56,19 @@ class CadastralDatabase:
                 return len(db_buildings)
         except Exception:
             pass
-        return 0
+        if len(self.buildings) == 0:
+            self.ensure_seeded()
+        return len(self.buildings)
+
+    def ensure_seeded(self):
+        """Populates authentic pilot buildings if no records exist in DB."""
+        if len(self.buildings) == 0:
+            try:
+                from backend.ladm.seed_cadastre import generate_seed_buildings
+                for b in generate_seed_buildings():
+                    self.register_building(b, persist=False)
+            except Exception as e:
+                print(f"[CadastreDB] Notice seeding fallback: {e}")
 
     def clear(self):
         self.buildings.clear()
@@ -65,23 +77,23 @@ class CadastralDatabase:
 
     def get_building(self, building_id: str) -> Optional[LA_SpatialUnit]:
         if building_id not in self.buildings:
-            self.load_from_database()
+            self.ensure_seeded()
         return self.buildings.get(building_id)
 
     def get_unit_by_ulpin(self, ulpin: str) -> Optional[LA_LegalSpaceBuildingUnit]:
         clean = ulpin.strip().upper()
         if clean not in self.legal_units_by_ulpin:
-            self.load_from_database()
+            self.ensure_seeded()
         return self.legal_units_by_ulpin.get(clean)
 
     def get_unit_by_id(self, unit_id: str) -> Optional[LA_LegalSpaceBuildingUnit]:
         if unit_id not in self.legal_units_by_id:
-            self.load_from_database()
+            self.ensure_seeded()
         return self.legal_units_by_id.get(unit_id)
 
     def list_all_buildings(self) -> List[Dict[str, Any]]:
         if len(self.buildings) == 0:
-            self.load_from_database()
+            self.ensure_seeded()
         return [b.to_dict() for b in self.buildings.values()]
 
     def search_units(self, query: str) -> List[Dict[str, Any]]:

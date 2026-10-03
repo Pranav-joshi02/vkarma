@@ -1,15 +1,30 @@
-# Environment and Secrets
+# ==============================================================================
+# VKARMA — Git Ignore Configuration
+# ==============================================================================
+
+# ------------------------------------------------------------------------------
+# 1. Environment Variables & Secrets
+# ------------------------------------------------------------------------------
 .env
 .env.*
-!.env.example
+.env.local
+.env.*.local
 *.pem
 *.key
+*.cert
+*.crt
+certs/
+secrets/
+!.env.example
 
-# Python
+# ------------------------------------------------------------------------------
+# 2. Python Build & Runtime Artifacts
+# ------------------------------------------------------------------------------
 __pycache__/
 *.py[cod]
 *$py.class
 *.so
+*.dylib
 .Python
 build/
 develop-eggs/
@@ -26,16 +41,65 @@ wheels/
 *.egg-info/
 .installed.cfg
 *.egg
+MANIFEST
 
-# Virtual Environments
+# ------------------------------------------------------------------------------
+# 3. Virtual Environments
+# ------------------------------------------------------------------------------
 venv/
 .venv/
 env/
 ENV/
 env.bak/
 venv.bak/
+conda-env/
 
-# Testing & Coverage
+# ------------------------------------------------------------------------------
+# 4. Large Raw Video Frames & Compressed Archives
+# (Processed 1080p frames in frontend/assets/hero-sequence/ are tracked)
+# ------------------------------------------------------------------------------
+frames/
+*.zip
+*.tar
+*.tar.gz
+*.tgz
+*.rar
+*.7z
+frontend/assets/samples/
+frontend/assets/**/_temp.*
+!frontend/assets/hero-sequence/*.jpg
+!frontend/assets/hero-sequence/*.webp
+!frontend/assets/hero-sequence/*.png
+
+# ------------------------------------------------------------------------------
+# 5. Large Survey Data & Point Clouds (LiDAR / Aerial Photogrammetry)
+# ------------------------------------------------------------------------------
+*.las
+*.laz
+*.xyz
+*.ply
+*.pcd
+backend/data/*.las
+backend/data/*.laz
+backend/data/*.xyz
+backend/data/*.ply
+backend/data/region_*
+backend/data/upload_*
+backend/data/cache/
+!backend/data/.gitkeep
+
+# ------------------------------------------------------------------------------
+# 6. Celery, Redis & Task Runner Cache
+# ------------------------------------------------------------------------------
+celerybeat-schedule
+celerybeat-schedule.*
+celerybeat.pid
+dump.rdb
+*.rdb
+
+# ------------------------------------------------------------------------------
+# 7. Testing, Profiling & Coverage
+# ------------------------------------------------------------------------------
 .pytest_cache/
 .coverage
 .coverage.*
@@ -46,37 +110,47 @@ coverage.xml
 *.py,cover
 .hypothesis/
 htmlcov/
+.mypy_cache/
+.ruff_cache/
 
-# Celery
-celerybeat-schedule
-celerybeat.pid
+# ------------------------------------------------------------------------------
+# 8. Logs & Databases
+# ------------------------------------------------------------------------------
+*.log
+logs/
+*.sqlite3
+*.db
+*.db-journal
 
-# Large Survey & Point Cloud Datasets
-backend/data/*.las
-backend/data/*.laz
-backend/data/*.xyz
-backend/data/*.ply
-backend/data/region_*
-backend/data/upload_*
-!backend/data/.gitkeep
-
-# IDEs and Editors
+# ------------------------------------------------------------------------------
+# 9. IDEs & Code Editors
+# ------------------------------------------------------------------------------
 .idea/
 .vscode/
 *.swp
 *.swo
+*.swn
 *~
 .project
 .pydevproject
 .settings/
 
-# Operating System Files
+# ------------------------------------------------------------------------------
+# 10. Operating System Files
+# ------------------------------------------------------------------------------
 .DS_Store
-Thumbs.db
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
 ehthumbs.db
+Thumbs.db
 [Dd]esktop.ini
 
-# Logs and Databases
-*.log
-*.sqlite3
-*.db
+# ------------------------------------------------------------------------------
+# 11. Docker Overrides & Temporary Files
+# ------------------------------------------------------------------------------
+docker-compose.override.yml
+.docker/
+tmp/
+scratch/
