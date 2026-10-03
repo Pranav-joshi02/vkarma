@@ -156,9 +156,112 @@ button {
 @keyframes pulse-dot {
   0%, 100% { transform: scale(1); opacity: 1; }
   50% { transform: scale(1.35); opacity: 0.6; }
+/* Hero Right-Side Tagline Block (Horizontal, Reference UI Layout) */
+.hero-right-tagline-block {
+  position: absolute;
+  top: 110px;
+  right: 64px;
+  max-width: 480px;
+  z-index: 24;
+  pointer-events: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 14px;
 }
 
+.tagline-badge-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 14px;
+  background: rgba(255, 255, 255, 0.88);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(217, 227, 232, 0.9);
+  border-radius: var(--radius-pill);
+  box-shadow: 0 4px 16px rgba(11, 31, 51, 0.05);
+  font-family: var(--font-sans);
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--color-navy);
+}
 
+.tagline-badge-dot {
+  width: 7px;
+  height: 7px;
+  background-color: var(--color-cyan);
+  border-radius: 50%;
+  box-shadow: 0 0 8px var(--color-cyan);
+  animation: pulse-dot 2.4s infinite ease-in-out;
+}
+
+.tagline-main-heading {
+  font-family: var(--font-sans);
+  font-size: 2.8rem;
+  font-weight: 700;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+  color: var(--color-navy);
+  margin: 0;
+}
+
+.tagline-main-heading em {
+  font-style: italic;
+  font-weight: 400;
+  color: var(--color-navy);
+}
+
+.tagline-subtext {
+  font-family: var(--font-sans);
+  font-size: 0.98rem;
+  line-height: 1.5;
+  color: var(--color-slate-gray);
+  margin: 0;
+  max-width: 420px;
+}
+
+.tagline-cta-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 22px 8px 8px;
+  background: #FFFFFF;
+  border: 1px solid var(--color-border-gray);
+  border-radius: var(--radius-pill);
+  box-shadow: 0 6px 20px rgba(11, 31, 51, 0.08);
+  font-family: var(--font-sans);
+  font-size: 0.84rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  color: var(--color-navy);
+  text-decoration: none;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  margin-top: 4px;
+}
+
+.tagline-cta-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 28px rgba(11, 31, 51, 0.14);
+  border-color: rgba(32, 217, 230, 0.6);
+}
+
+.tagline-cta-btn .btn-icon {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-navy);
+  color: var(--color-cyan);
+  border-radius: 50%;
+  transition: transform 0.2s ease;
+}
+
+.tagline-cta-btn:hover .btn-icon {
+  transform: translateX(2px);
+}
 
 /* Centered Glassmorphism Navbar with Gray Shade */
 .navbar {
@@ -1425,6 +1528,17 @@ button {
   .nav-item-console {
     padding: 5px 12px;
     font-size: 0.78rem;
+  }
+  .hero-right-tagline-block {
+    top: 68px;
+    right: 16px;
+    left: 16px;
+    max-width: none;
+    align-items: center;
+    text-align: center;
+  }
+  .tagline-main-heading {
+    font-size: 2.1rem;
   }
   .hero-editorial-overlay {
     bottom: 70px;
