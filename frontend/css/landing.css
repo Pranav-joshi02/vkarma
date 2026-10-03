@@ -132,13 +132,17 @@ button {
   transform: translateY(-50%) scale(1.03);
 }
 
-.brand-logo-outside .brand-dot {
-  width: 9px;
-  height: 9px;
-  background-color: var(--color-cyan);
-  border-radius: 50%;
-  box-shadow: 0 0 12px var(--color-cyan);
-  animation: pulse-dot 2.4s infinite ease-in-out;
+.brand-logo-outside .brand-logo-img {
+  width: 36px;
+  height: 36px;
+  object-fit: contain;
+  filter: drop-shadow(0 0 4px rgba(32, 217, 230, 0.25));
+  transition: filter 0.22s ease, transform 0.22s ease;
+}
+
+.brand-logo-outside:hover .brand-logo-img {
+  filter: drop-shadow(0 0 8px rgba(32, 217, 230, 0.5));
+  transform: rotate(-4deg) scale(1.06);
 }
 
 .brand-logo-outside .brand-logo-text {
