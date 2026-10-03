@@ -1,0 +1,34 @@
+services:
+  # FastAPI Web Service
+  - type: web
+    name: cadastre-web
+    env: docker
+    dockerfilePath: ./Dockerfile
+    dockerCommand: uvicorn backend.app:app --host 0.0.0.0 --port $PORT
+    plan: starter
+    envVars:
+      - key: REDIS_URL
+        fromService:
+          type: redis
+          name: cadastre-redis
+          property: connectionString
+
+  # Celery Worker Service
+  - type: worker
+    name: cadastre-worker
+    env: docker
+    dockerfilePath: ./Dockerfile
+    dockerCommand: celery -A backend.celery_worker worker --loglevel=info
+    plan: starter
+    envVars:
+      - key: REDIS_URL
+        fromService:
+          type: redis
+          name: cadastre-redis
+          property: connectionString
+
+# Managed Redis instance
+databases:
+  - type: redis
+    name: cadastre-redis
+    plan: free

@@ -1,0 +1,53 @@
+services:
+  redis:
+    image: redis:7-alpine
+    container_name: cadastral_redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    restart: unless-stopped
+
+  web:
+    build: .
+    container_name: cadastral_web
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./:/app
+    env_file:
+      - .env
+    environment:
+      - REDIS_URL=redis://redis:6379/0
+      - CESIUM_ION_TOKEN=${CESIUM_ION_TOKEN}
+      - OPENTOPOGRAPHY_API_KEY=${OPENTOPOGRAPHY_API_KEY}
+      - SUPABASE_URL=${SUPABASE_URL}
+      - SUPABASE_KEY=${SUPABASE_KEY}
+      - DATABASE_URL=${DATABASE_URL}
+    depends_on:
+      - redis
+    command: uvicorn backend.app:app --host 0.0.0.0 --port 8000 --reload
+    restart: unless-stopped
+
+  worker:
+    build: .
+    container_name: cadastral_worker
+    volumes:
+      - ./:/app
+    env_file:
+      - .env
+    environment:
+      - REDIS_URL=redis://redis:6379/0
+      - OPENTOPOGRAPHY_API_KEY=${OPENTOPOGRAPHY_API_KEY}
+      - SUPABASE_URL=${SUPABASE_URL}
+      - SUPABASE_KEY=${SUPABASE_KEY}
+      - DATABASE_URL=${DATABASE_URL}
+    depends_on:
+      - redis
+    # Using --pool=solo is mainly required for Windows, but works universally.
+    # In a Linux docker environment, you could use --pool=prefork (the default).
+    command: celery -A backend.celery_worker worker --loglevel=info --pool=solo
+    restart: unless-stopped
+
+volumes:
+  redis_data:
