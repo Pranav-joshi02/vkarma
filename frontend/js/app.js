@@ -660,20 +660,24 @@ class App {
           <svg viewBox="0 0 24 24" fill="none" stroke="#0a8a4a" stroke-width="2" width="24" height="24" style="display: block; margin: 0 auto 8px; animation: spinSlow 2s linear infinite;">
             <path d="M12 2v4M12 18v4M4.93 4.93l2.83 2.83M16.24 16.24l2.83 2.83M2 12h4M18 12h4M4.93 19.07l2.83-2.83M16.24 7.76l2.83-2.83"/>
           </svg>
-          Querying OpenStreetMap for buildings in area...
+          Querying Overture Maps + OpenStreetMap for buildings...
         </div>
       `;
     }
     if (countBadge) countBadge.innerText = 'Scanning...';
 
     try {
+      // Use the locality name from reverse geocoding for area-based synthetic naming
+      const loc = areaData.location || {};
+      const areaNameForApi = loc.locality || loc.area_name || "Selected Area";
+
       const resp = await fetch('/api/area/buildings', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           bbox: areaData.bbox,
-          area_name: areaData.location ? areaData.location.area_name : "Selected Area",
-          pincode: areaData.location ? areaData.location.pincode : "560103"
+          area_name: areaNameForApi,
+          pincode: loc.pincode || "560103"
         })
       });
 
@@ -681,10 +685,11 @@ class App {
       const data = await resp.json();
 
       this.discoveredBuildings = data.buildings || [];
-      const isOsm = data.source === 'osm';
+      const realCount = data.real_named_count || 0;
+      const synthCount = data.synthetic_named_count || 0;
 
       if (countBadge) {
-        countBadge.innerText = `${this.discoveredBuildings.length} found (${isOsm ? 'Real OSM' : 'Estimated'})`;
+        countBadge.innerText = `${this.discoveredBuildings.length} found (${realCount} named, ${synthCount} auto-named)`;
       }
 
       this.renderDetectedBuildingsList(this.discoveredBuildings);
@@ -726,11 +731,6 @@ class App {
     }
 
     listEl.innerHTML = buildings.map(b => {
-      const icon = (b.type === 'Office' || b.type === 'Commercial') ? 'fa-building' :
-                   (b.type === 'Hotel') ? 'fa-hotel' :
-                   (b.type === 'Residential' || b.type === 'Apartment') ? 'fa-house-chimney' :
-                   (b.type === 'Civic') ? 'fa-landmark' : 'fa-building';
-
       const bId = String(b.id || b.building_id || '');
       const selId = this.selectedBuildingToProcess 
         ? String(this.selectedBuildingToProcess.id || this.selectedBuildingToProcess.building_id || '') 
@@ -739,20 +739,17 @@ class App {
 
       const hasUnits = b.is_processed || (b.legal_units && b.legal_units.length > 0);
       const unitCount = b.legal_unit_count || (b.legal_units ? b.legal_units.length : 0);
+      const isSynthetic = b.name_source === 'synthetic';
+      const buildingName = b.name || b.building_name || 'Building';
 
       return `
         <div class="detected-building-card ${isSelected ? 'active' : ''} ${hasUnits ? 'surveyed' : ''}" data-bld-id="${b.id || b.building_id}">
           <div class="detected-bld-icon">
-            <i class="fa-solid ${icon}"></i>
+            <i class="fa-solid fa-building"></i>
           </div>
           <div class="detected-bld-body">
-            <div class="detected-bld-name" title="${b.name || b.building_name}">${b.name || b.building_name}</div>
-            <div class="detected-bld-badges">
-              <span class="bld-badge type">${b.type || 'Commercial'}</span>
-              <span class="bld-badge floors">${b.floors || b.total_floors || 3} Floors</span>
-              <span class="bld-badge">${(b.height_m || 12).toFixed(1)}m</span>
-              ${hasUnits ? `<span class="bld-badge" style="background: rgba(57,255,20,0.18); color: #0a8a4a; font-weight: 800; border: 1px solid rgba(57,255,20,0.4);"><i class="fa-solid fa-cube"></i> ${unitCount} 3D Units</span>` : ''}
-            </div>
+            <div class="detected-bld-name${isSynthetic ? ' synthetic-name' : ''}" title="${buildingName}">${buildingName}</div>
+            ${hasUnits ? `<div class="detected-bld-badges"><span class="bld-badge" style="background: rgba(57,255,20,0.18); color: #0a8a4a; font-weight: 800; border: 1px solid rgba(57,255,20,0.4);"><i class="fa-solid fa-cube"></i> ${unitCount} 3D Units</span></div>` : ''}
           </div>
           <div class="detected-bld-check">
             <svg viewBox="0 0 16 16" fill="currentColor" width="16" height="16">

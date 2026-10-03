@@ -145,21 +145,29 @@ def get_regions():
 @app.post("/api/area/buildings")
 def get_area_buildings(req: AreaBuildingsRequest):
     """
-    Computes all real buildings present in the specified bounding box
-    along with their real names, footprint polygons, and usage types.
+    Discovers all real buildings present in the specified bounding box using
+    Overture Maps + OpenStreetMap, with real names where available and
+    area-based synthetic names for unnamed buildings.
     """
     raw_bbox = req.custom_bbox or req.bbox
     if not raw_bbox or len(raw_bbox) != 4:
         raise HTTPException(status_code=400, detail="Bounding box must be [min_lat, min_lng, max_lat, max_lng]")
     from backend.pipeline.building_discovery import discover_buildings_in_bbox
     min_lat, min_lng, max_lat, max_lng = raw_bbox
-    buildings = discover_buildings_in_bbox(min_lat, min_lng, max_lat, max_lng)
-    has_osm = any(b.get("source") == "osm" for b in buildings)
+    buildings = discover_buildings_in_bbox(
+        min_lat, min_lng, max_lat, max_lng,
+        area_name=req.area_name,
+    )
+    has_real = any(b.get("source") in ("osm", "overture+osm") for b in buildings)
+    real_count = sum(1 for b in buildings if b.get("name_source") != "synthetic")
+    synthetic_count = sum(1 for b in buildings if b.get("name_source") == "synthetic")
     return {
         "area_name": req.area_name or "Survey Area",
         "total_found": len(buildings),
         "total_buildings": len(buildings),
-        "source": "osm" if has_osm else "estimated",
+        "real_named_count": real_count,
+        "synthetic_named_count": synthetic_count,
+        "source": "overture+osm" if has_real else "estimated",
         "buildings": buildings
     }
 

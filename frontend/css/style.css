@@ -928,6 +928,12 @@ body.sidebar-resizing {
   text-overflow: ellipsis;
 }
 
+.detected-bld-name.synthetic-name {
+  font-style: italic;
+  font-weight: 500;
+  color: var(--text-secondary);
+}
+
 .detected-bld-badges {
   display: flex;
   align-items: center;

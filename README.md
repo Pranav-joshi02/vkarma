@@ -347,6 +347,7 @@ The application will be live at `http://localhost:8000`.
 | `GET` | `/api/regions` | Returns preset Indian urban survey pilot areas. |
 | `POST` | `/api/pipeline/run` | Triggers the 10-stage geospatial processing pipeline on a bounding box. |
 | `GET` | `/api/pipeline/task/{task_id}` | Polls async pipeline progress and completion state. |
+| `POST` | `/api/area/buildings` | Discovers real buildings in selected bounding box via Overture Maps + OSM with hierarchical naming. |
 | `GET` | `/api/buildings` | Lists all registered 3D spatial building models. |
 | `GET` | `/api/buildings/{id}` | Returns watertight 3D meshes and legal units for a specific building. |
 | `GET` | `/api/ulpin/lookup/{ulpin}` | Returns complete ISO 19152 legal profile, RRR records, and deed links. |
