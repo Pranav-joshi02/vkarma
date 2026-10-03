@@ -98,12 +98,11 @@ button {
 
 /* ==========================================================================
    2. FLOATING GLASSMORPHISM NAVBAR
-   Centered horizontally, rounded pill, backdrop blur, translucent surface
-   Contains: VKARMA brand (left), Console, ULPIN, About (right)
+   Logo outside navbar on left, centered navbar with gray-shaded glassmorphism
    ========================================================================== */
 .navbar-wrap {
   position: fixed;
-  top: 20px;
+  top: 22px;
   left: 0;
   right: 0;
   z-index: 1000;
@@ -111,50 +110,43 @@ button {
   justify-content: center;
   align-items: center;
   pointer-events: none;
-  padding: 0 16px;
+  padding: 0 40px;
 }
 
-.navbar {
+/* VKARMA Brand Logo — Outside Navbar on Left */
+.brand-logo-outside {
+  position: absolute;
+  left: 40px;
+  top: 50%;
+  transform: translateY(-50%);
   pointer-events: auto;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  width: 100%;
-  max-width: 920px;
-  height: 56px;
-  padding: 0 16px 0 24px;
-  background: rgba(255, 255, 255, 0.85);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(217, 227, 232, 0.85);
-  border-radius: var(--radius-pill);
-  box-shadow: 0 10px 30px rgba(11, 31, 51, 0.08), 0 2px 8px rgba(11, 31, 51, 0.04);
-  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.navbar:hover {
-  background: rgba(255, 255, 255, 0.94);
-  border-color: rgba(32, 217, 230, 0.55);
-  box-shadow: 0 14px 38px rgba(11, 31, 51, 0.12), 0 0 22px rgba(32, 217, 230, 0.18);
-}
-
-.nav-brand {
-  display: flex;
-  align-items: center;
   gap: 10px;
-  font-weight: 800;
-  font-size: 1.15rem;
-  letter-spacing: -0.02em;
-  color: var(--color-navy);
+  text-decoration: none;
+  z-index: 1002;
+  transition: transform 0.22s ease, opacity 0.22s ease;
 }
 
-.brand-dot {
-  width: 8px;
-  height: 8px;
+.brand-logo-outside:hover {
+  transform: translateY(-50%) scale(1.03);
+}
+
+.brand-logo-outside .brand-dot {
+  width: 9px;
+  height: 9px;
   background-color: var(--color-cyan);
   border-radius: 50%;
-  box-shadow: 0 0 10px var(--color-cyan);
+  box-shadow: 0 0 12px var(--color-cyan);
   animation: pulse-dot 2.4s infinite ease-in-out;
+}
+
+.brand-logo-outside .brand-logo-text {
+  font-family: var(--font-sans);
+  font-weight: 800;
+  font-size: 1.25rem;
+  letter-spacing: -0.025em;
+  color: var(--color-navy);
 }
 
 @keyframes pulse-dot {
@@ -162,10 +154,29 @@ button {
   50% { transform: scale(1.35); opacity: 0.6; }
 }
 
-.nav-links {
-  display: flex;
+/* Centered Glassmorphism Navbar with Gray Shade */
+.navbar {
+  pointer-events: auto;
+  display: inline-flex;
   align-items: center;
-  gap: 8px;
+  justify-content: center;
+  gap: 6px;
+  width: auto;
+  height: 52px;
+  padding: 6px 10px;
+  background: rgba(217, 227, 232, 0.55); /* Gray shade (Border Gray: #D9E3E8) */
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  border: 1px solid rgba(217, 227, 232, 0.85);
+  border-radius: var(--radius-pill);
+  box-shadow: 0 10px 32px rgba(11, 31, 51, 0.08), 0 2px 8px rgba(82, 103, 125, 0.12);
+  transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.navbar:hover {
+  background: rgba(217, 227, 232, 0.72);
+  border-color: rgba(32, 217, 230, 0.6);
+  box-shadow: 0 14px 40px rgba(11, 31, 51, 0.12), 0 0 24px rgba(32, 217, 230, 0.2);
 }
 
 .nav-item {
@@ -1387,26 +1398,27 @@ button {
 @media (max-width: 768px) {
   .navbar-wrap {
     top: 14px;
-    padding: 0 10px;
+    padding: 0 16px;
+    justify-content: flex-end;
+  }
+  .brand-logo-outside {
+    left: 16px;
+  }
+  .brand-logo-outside .brand-logo-text {
+    font-size: 1.05rem;
   }
   .navbar {
-    height: 48px;
-    padding: 0 10px 0 14px;
-  }
-  .nav-brand {
-    font-size: 0.95rem;
-    gap: 6px;
-  }
-  .nav-links {
+    height: 44px;
+    padding: 4px 6px;
     gap: 4px;
   }
   .nav-item {
     padding: 5px 10px;
-    font-size: 0.8rem;
+    font-size: 0.78rem;
   }
   .nav-item-console {
     padding: 5px 12px;
-    font-size: 0.8rem;
+    font-size: 0.78rem;
   }
   .hero-editorial-overlay {
     bottom: 70px;

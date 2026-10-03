@@ -12,7 +12,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
 
   <!-- Core Landing CSS -->
-  <link rel="stylesheet" href="/static/css/landing.css?v=20261003_v5" />
+  <link rel="stylesheet" href="/static/css/landing.css?v=20261003_v6" />
 
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%230B1F33'/%3E%3Cpath d='M16 6L8 11v10l8 5 8-5V11z' fill='none' stroke='%2320D9E6' stroke-width='2'/%3E%3Cpath d='M16 16v10M8 11l8 5 8-5' fill='none' stroke='%2318A7A8' stroke-width='1.5'/%3E%3C/svg%3E" />
 </head>
@@ -24,22 +24,22 @@
        Contains only: Console, ULPIN, About
        ===================================================================== -->
   <div class="navbar-wrap">
-    <nav class="navbar" aria-label="Main Navigation">
-      <a href="/" class="nav-brand" title="VKARMA Spatial Intelligence">
-        <span class="brand-dot"></span>
-        <span>VKARMA</span>
-      </a>
+    <!-- VKARMA Brand Logo Outside Navbar -->
+    <a href="/" class="brand-logo-outside" title="VKARMA Spatial Intelligence">
+      <span class="brand-dot"></span>
+      <span class="brand-logo-text">VKARMA</span>
+    </a>
 
-      <div class="nav-links">
-        <a href="/console" class="nav-item nav-item-console" title="Open VKarma 3D Cadastre Console">
-          Console
-          <svg viewBox="0 0 16 16" fill="currentColor" width="14" height="14" aria-hidden="true">
-            <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"/>
-          </svg>
-        </a>
-        <a href="/ulpin" class="nav-item" title="ULPIN Land Passport Explorer">ULPIN</a>
-        <a href="/about" class="nav-item" title="About VKarma & API Ecosystem">About</a>
-      </div>
+    <!-- Glassmorphism Navbar with Gray Shade -->
+    <nav class="navbar" aria-label="Main Navigation">
+      <a href="/console" class="nav-item nav-item-console" title="Open VKarma 3D Cadastre Console">
+        Console
+        <svg viewBox="0 0 16 16" fill="currentColor" width="14" height="14" aria-hidden="true">
+          <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h11.793l-3.147-3.146a.5.5 0 0 1 .708-.708l4 4a.5.5 0 0 1 0 .708l-4 4a.5.5 0 0 1-.708-.708L13.293 8.5H1.5A.5.5 0 0 1 1 8z"/>
+        </svg>
+      </a>
+      <a href="/ulpin" class="nav-item" title="ULPIN Land Passport Explorer">ULPIN</a>
+      <a href="/about" class="nav-item" title="About VKarma & API Ecosystem">About</a>
     </nav>
   </div>
 
