@@ -12,7 +12,7 @@ const ULPIN_SERVICE = (function () {
   /**
    * Fetches full Land Passport and 3D Cadastral Unit metadata for a ULPIN.
    * @param {string} ulpin - Unique Land Parcel Identification Number
-   * @returns {Promise<Object>} Formatted passport record with ISO 19152 unit details
+   * @returns {Promise<Object>} Formatted passport record with 3D cadastral unit details
    */
   async function getLandPassport(ulpin) {
     if (!ulpin || typeof ulpin !== "string") {

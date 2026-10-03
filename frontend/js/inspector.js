@@ -62,8 +62,7 @@ class CadastralInspector {
       <!-- Building Physical Shell -->
       <div class="panel-card" style="animation-delay: 0.05s;">
         <div class="panel-title">
-          <span>Physical Space Shell</span>
-          <span class="panel-title-badge">ISO 19152</span>
+          <span>Physical Structure</span>
         </div>
         <h2 style="font-size: 17px; font-weight: 800; color: var(--text-primary); display: flex; align-items: center; gap: 10px;">
           <svg viewBox="0 0 20 20" fill="#D96B32" width="20" height="20">
@@ -113,15 +112,15 @@ class CadastralInspector {
         <!-- Active Selected Unit Inspector Card -->
         <div class="panel-card" id="active-unit-card" style="border: 2px solid var(--accent-neon); box-shadow: var(--neu-convex), 0 0 20px rgba(32,217,230,0.25); animation: cardReveal 0.35s ease-out both;">
           <div class="panel-title">
-            <span style="color: #18A7A8; font-weight: 800;">Selected 3D Spatial Unit</span>
+            <span style="color: #18A7A8; font-weight: 800;">Selected Property Unit</span>
             <button class="btn-copy" id="btn-deselect-unit" style="font-size: 10px; padding: 2px 8px;" title="Back to building overview">
-              <i class="fa-solid fa-xmark"></i> Clear Focus
+              <i class="fa-solid fa-xmark"></i> Deselect
             </button>
           </div>
 
           <!-- ULPIN Banner -->
           <div class="ulpin-card-banner" style="margin: 0; padding: 12px 14px;">
-            <div class="ulpin-tag">Official 3D ULPIN (ISO 19152)</div>
+            <div class="ulpin-tag">3D ULPIN Identifier</div>
             <div class="ulpin-number-row">
               <span class="ulpin-display-text" id="active-unit-ulpin" style="font-size: 13px;">${u.ulpin}</span>
               <button class="btn-copy" onclick="navigator.clipboard.writeText('${u.ulpin}').then(()=>alert('3D ULPIN Copied!'))">
@@ -234,8 +233,8 @@ class CadastralInspector {
         <!-- Subdivided Legal Units Directory -->
         <div class="panel-card" style="animation-delay: 0.15s;">
           <div class="panel-title">
-            <span>3D Legal Units (${units.length})</span>
-            <span class="panel-title-badge">Click Unit to Inspect</span>
+            <span>Registered Units (${units.length})</span>
+            <span class="panel-title-badge">Unit Directory</span>
           </div>
 
           <div class="legal-units-inner-scroll">
@@ -302,17 +301,17 @@ class CadastralInspector {
         <!-- Survey Awaiting Notice Card -->
         <div class="panel-card" style="animation-delay: 0.15s; border-left: 4px solid var(--accent-neon);">
           <div class="panel-title">
-            <span>3D Legal Units (Unminted)</span>
-            <span class="panel-title-badge">Awaiting Survey</span>
+            <span>Property Units</span>
+            <span class="panel-title-badge">Unregistered</span>
           </div>
           <div style="font-size: 12px; color: var(--text-secondary); line-height: 1.5;">
-            <p>This building footprint was extracted from geospatial data. Volumetric subdivisions, carpet areas, and 3D ULPINs have not yet been registered.</p>
+            <p>Building footprint recognized from spatial records. Volumetric spatial units, verified carpet areas, and official 3D ULPIN identifiers are pending generation.</p>
           </div>
           <button class="primary-process-btn" style="margin-top: 8px;" onclick="window.app && window.app.runPipelineForActiveSelection()">
             <svg class="svg-btn-icon" viewBox="0 0 20 20" fill="currentColor" width="16" height="16">
               <path d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 01.12-.381z"/>
             </svg>
-            Proceed for Cadastral Survey
+            Generate 3D Cadastre
           </button>
         </div>
       `;
@@ -323,8 +322,7 @@ class CadastralInspector {
       <!-- LADM 3D Space Legend -->
       <div class="panel-card" style="animation-delay: 0.25s;">
         <div class="panel-title">
-          <span>LADM 3D Space Legend</span>
-          <span class="panel-title-badge">ISO 19152</span>
+          <span>Spatial Unit Classification</span>
         </div>
         <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; font-size: 11px;">
           <div style="display: flex; align-items: center; gap: 8px;">
@@ -446,7 +444,7 @@ class CadastralInspector {
             </div>
 
             <div class="deed-box">
-              <span class="deed-box-label">ISO 19152 Space Type & Level</span>
+              <span class="deed-box-label">Spatial Type & Level</span>
               <div class="deed-box-val">${this.getSpaceTypeInfo(unit.space_type).label} &bull; Floor ${unit.floor_level}</div>
             </div>
 
@@ -489,7 +487,7 @@ class CadastralInspector {
 
           <div class="deed-footer">
             <div>
-              <div style="font-size: 11px; font-weight: bold; color: #1a1a2e;">ISO 19152 (LADM) Compliant Verification</div>
+              <div style="font-size: 11px; font-weight: bold; color: #1a1a2e;">Certified Cadastral Verification</div>
               <div style="font-size: 10px; color: var(--text-muted); font-family: monospace;">Signature: SHA256:7f8a9e2b1049c812d4a51e60f09b</div>
               <div style="font-size: 10px; color: #18A7A8; font-weight: bold; margin-top: 4px;">
                 &check; Tamper Check Digit Verified (Verhoeff Dihedral D5 Standard)

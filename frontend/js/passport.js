@@ -198,12 +198,12 @@ function renderSynthesizedPassport(ulpin, validation) {
   setText("passport-coords", "12.935200° N, 77.694600° E");
   setText("passport-elevation", "+936.4 m AGL");
 
-  setText("passport-deed-num", `REG/ISO19152/${validation.token}`);
+  setText("passport-deed-num", `REG/CAD3D/${validation.token}`);
   setText("passport-deed-type", "Digital Cadastral Registry Record");
   setText("passport-deed-authority", "National 3D Land Record Digital Twin");
 
   setText("passport-rrr-title", "Volumetric Space Title");
-  setText("passport-rrr-desc", "Recognized parcel partition under ISO 19152 LADM specifications.");
+  setText("passport-rrr-desc", "Recognized parcel partition under 3D cadastral specifications.");
 
   generatePassportQR(ulpin);
 }

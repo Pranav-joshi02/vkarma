@@ -25,14 +25,14 @@
   --bg-card-hover: #EAF5F8;    /* Light Blue hover */
   --bg-surface: #FFFFFF;       /* White surfaces */
 
-  /* Shadows (Clean modern soft shadows) */
+  /* Neumorphic / Skeuomorphic Dual-Light Shadow Pairs */
   --neu-shadow-light: #FFFFFF;
-  --neu-shadow-dark: rgba(11, 31, 51, 0.08);
-  --neu-convex: 0 4px 14px rgba(11, 31, 51, 0.05), 0 1px 3px rgba(11, 31, 51, 0.03);
-  --neu-concave: inset 2px 2px 5px rgba(11, 31, 51, 0.05), inset -2px -2px 5px #ffffff;
-  --neu-flat: 0 2px 6px rgba(11, 31, 51, 0.04);
-  --neu-pressed: inset 1px 1px 4px rgba(11, 31, 51, 0.08), inset -1px -1px 4px #ffffff;
-  --neu-strong: 0 12px 30px rgba(11, 31, 51, 0.08), 0 2px 6px rgba(11, 31, 51, 0.03);
+  --neu-shadow-dark: #D2DCE3;
+  --neu-convex: 5px 5px 12px #D2DCE3, -5px -5px 12px #FFFFFF;
+  --neu-concave: inset 3px 3px 6px #D2DCE3, inset -3px -3px 6px #FFFFFF;
+  --neu-flat: 3px 3px 7px #D2DCE3, -3px -3px 7px #FFFFFF;
+  --neu-pressed: inset 3px 3px 6px #D2DCE3, inset -3px -3px 6px #FFFFFF;
+  --neu-strong: 9px 9px 20px #C5D2DB, -9px -9px 20px #FFFFFF;
 
   /* Typography Colors */
   --text-primary: #0B1F33;      /* Deep Navy: Headings, primary text */
@@ -242,7 +242,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: center;
-  box-shadow: 0 4px 14px rgba(11, 31, 51, 0.12);
+  box-shadow: 3px 3px 8px rgba(11, 31, 51, 0.18), -3px -3px 8px #FFFFFF;
   font-size: 18px;
   color: #20D9E6;
   transition: all var(--transition-smooth);
@@ -279,11 +279,11 @@ body {
   gap: 12px;
 }
 
-/* Nav Pill Group */
+/* Nav Pill Group (Sunken Neumorphic Track) */
 .nav-pill-group {
   display: flex;
   background: var(--color-light-blue);
-  border: 1px solid var(--border-subtle);
+  box-shadow: var(--neu-concave);
   border-radius: var(--radius-full);
   padding: 4px;
 }
@@ -334,7 +334,8 @@ body {
 
 .ulpin-search-input {
   background: var(--color-light-blue);
-  border: 1px solid var(--border-subtle);
+  box-shadow: var(--neu-concave);
+  border: 1px solid rgba(255, 255, 255, 0.6);
   border-radius: var(--radius-full);
   padding: 8px 18px 8px 40px;
   font-size: 13px;
@@ -347,7 +348,7 @@ body {
 .ulpin-search-input:focus {
   outline: none;
   border-color: var(--color-cyan);
-  box-shadow: 0 0 0 3px rgba(32, 217, 230, 0.25);
+  box-shadow: var(--neu-concave), 0 0 0 2px rgba(32, 217, 230, 0.4);
   width: 320px;
 }
 
@@ -519,10 +520,10 @@ body.sidebar-resizing {
   background: var(--color-teal);
 }
 
-/* ── Panel Card ── */
+/* ── Panel Card (Skeuomorphic / Neumorphic Relief) ── */
 .panel-card {
-  background: #FFFFFF;
-  border: 1px solid #D9E3E8;
+  background: var(--bg-card);
+  border: 1px solid rgba(255, 255, 255, 0.85);
   box-shadow: var(--neu-convex);
   border-radius: var(--radius-lg);
   padding: 16px;
@@ -575,11 +576,11 @@ body.sidebar-resizing {
   font-weight: 600;
 }
 
-/* ── Area Selection Mode Tabs ── */
+/* ── Area Selection Mode Tabs (Sunken Neumorphic Cavity) ── */
 .area-mode-tabs {
   display: flex;
   background: var(--color-light-blue);
-  border: 1px solid var(--border-subtle);
+  box-shadow: var(--neu-concave);
   border-radius: var(--radius-md);
   padding: 4px;
   gap: 4px;
@@ -640,7 +641,7 @@ body.sidebar-resizing {
 
 .region-card {
   background: #FFFFFF;
-  border: 1px solid var(--border-subtle);
+  border: 1px solid rgba(255, 255, 255, 0.85);
   box-shadow: var(--neu-flat);
   border-radius: var(--radius-md);
   padding: 12px 14px;
@@ -1728,7 +1729,7 @@ body.sidebar-resizing {
 .legal-unit-rich-card {
   flex-shrink: 0;
   background: #FFFFFF;
-  border: 1px solid var(--border-subtle);
+  border: 1px solid rgba(255, 255, 255, 0.85);
   box-shadow: var(--neu-flat);
   border-radius: var(--radius-md);
   padding: 12px 14px;

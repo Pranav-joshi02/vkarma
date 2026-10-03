@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Digital Land Passport &bull; VKARMA ISO 19152 (LADM)</title>
+  <title>Digital Land Passport &bull; VKARMA 3D Cadastre</title>
   <meta name="description" content="Authoritative Digital Land Passport powered by VKARMA 3D Cadastral Registry. Inspect verified volumetric boundaries, ownership deeds, bank mortgages, and drone delivery routing." />
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -45,7 +45,7 @@
           type="text" 
           id="passport-search-input" 
           class="explore-input" 
-          placeholder="Search 3D ULPIN (e.g. 560103-A-60YLMDPD-2)" 
+          placeholder="Search 3D ULPIN or property address (e.g. 560103-A-60YLMDPD-2)" 
           style="background: var(--color-white);"
           required
         />
@@ -56,7 +56,7 @@
 
       <!-- Sample Quick Select Chips -->
       <div style="max-width: 640px; margin: -20px auto 30px; display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
-        <span style="font-size: 0.74rem; font-weight: 600; color: var(--color-slate-gray); text-transform: uppercase;">Featured Passports:</span>
+        <span style="font-size: 0.74rem; font-weight: 600; color: var(--color-slate-gray); text-transform: uppercase;">Sample Properties:</span>
         <a href="/ulpin/560103-A-60YLMDPD-2" class="sample-chip">Unit 702 (Apt)</a>
         <a href="/ulpin/560103-A-G011E73B-8" class="sample-chip">Penthouse 1201 (Mortgaged)</a>
         <a href="/ulpin/560103-P-K9VF9HU8-9" class="sample-chip">Parking Bay B2-14</a>
@@ -70,7 +70,7 @@
           Fetching Land Passport...
         </div>
         <div style="font-size: 0.9rem; color: var(--color-slate-gray);">
-          Resolving ISO 19152 volumetric spatial units and Verhoeff cryptographic signature.
+          Resolving volumetric spatial units and Verhoeff cryptographic signature.
         </div>
       </div>
 
@@ -93,7 +93,7 @@
         <p class="state-message" style="color: var(--color-slate-gray); margin-bottom: 20px;">
           No registered land passport matches this ULPIN in the cadastral registry.
         </p>
-        <a href="/ulpin" class="btn-secondary">Try Featured Pilot ULPINs</a>
+        <a href="/ulpin" class="btn-secondary">View Registered Properties</a>
       </div>
 
       <!-- STATE: CONTENT (GOVERNMENT-GRADE DIGITAL LAND PASSPORT) -->
@@ -110,7 +110,7 @@
             </svg>
             <div class="doc-title-block">
               <h1>DIGITAL LAND PASSPORT</h1>
-              <p>REPUBLIC OF INDIA &bull; NATIONAL 3D CADASTRAL REGISTRY &bull; ISO 19152 (LADM)</p>
+              <p>REPUBLIC OF INDIA &bull; NATIONAL 3D CADASTRAL REGISTRY</p>
             </div>
           </div>
 
@@ -213,7 +213,7 @@
               <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
               <circle cx="12" cy="7" r="4"></circle>
             </svg>
-            Registered Ownership &amp; Title Deeds (ISO 19152 LADM)
+            Registered Ownership &amp; Title Deeds
           </h2>
           <div class="passport-meta-grid">
             <div class="meta-box">
@@ -266,7 +266,7 @@
             <div class="qr-info-block">
               <h3>Scan to Verify Digital Passport</h3>
               <p>
-                Point any mobile camera or government verification terminal to confirm authentic ISO 19152 deed records and Verhoeff checksums directly on the sovereign registry.
+                Point any mobile camera or government verification terminal to confirm authentic deed records and Verhoeff checksums directly on the sovereign registry.
               </p>
               <div style="margin-top: 10px; font-family: var(--font-mono); font-size: 0.78rem; color: var(--color-teal); word-break: break-all;">
                 Canonical URL: <a href="#" id="qr-canonical-url" style="text-decoration: underline;" target="_blank"></a>

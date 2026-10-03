@@ -37,7 +37,7 @@ class DisputeScanner {
           </svg>
           <h3 style="color: var(--text-primary); font-weight: 800;">Zero 3D Volumetric Encroachments Detected</h3>
           <p style="font-size: 13px; color: var(--text-secondary); margin-top: 8px;">
-            All ${report.total_units_evaluated} 3D Legal Space Units conform strictly to ISO 19152 manifold topological rules.
+            All ${report.total_units_evaluated} 3D Legal Space Units conform strictly to manifold topological rules.
           </p>
         </div>
       `;

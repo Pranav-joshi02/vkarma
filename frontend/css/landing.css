@@ -549,10 +549,10 @@ button {
 
 .ulpin-card {
   background: var(--color-white);
-  border: 1px solid var(--color-border-gray);
+  border: 1px solid rgba(255, 255, 255, 0.85);
   border-radius: var(--radius-lg);
   padding: 32px 28px;
-  box-shadow: var(--shadow-sm);
+  box-shadow: 6px 6px 18px rgba(11, 31, 51, 0.07), -6px -6px 18px #FFFFFF;
   display: flex;
   flex-direction: column;
   transition: transform 0.28s ease, box-shadow 0.28s ease, border-color 0.28s ease;
@@ -682,12 +682,13 @@ button {
   width: 100%;
   height: 48px;
   padding: 0 16px;
-  border: 1px solid var(--color-border-gray);
+  border: 1px solid rgba(255, 255, 255, 0.6);
   border-radius: var(--radius-sm);
   font-family: var(--font-mono);
   font-size: 0.88rem;
   color: var(--color-navy);
   background: var(--color-light-blue);
+  box-shadow: inset 3px 3px 6px rgba(11, 31, 51, 0.08), inset -3px -3px 6px #FFFFFF;
   outline: none;
   transition: border-color 0.2s ease, box-shadow 0.2s ease;
 }
@@ -695,7 +696,7 @@ button {
 .explore-input:focus {
   border-color: var(--color-cyan);
   background: var(--color-white);
-  box-shadow: 0 0 0 3px rgba(32, 217, 230, 0.2);
+  box-shadow: inset 2px 2px 4px rgba(11, 31, 51, 0.06), inset -2px -2px 4px #FFFFFF, 0 0 0 2px rgba(32, 217, 230, 0.35);
 }
 
 .explore-btn {
@@ -704,18 +705,24 @@ button {
   align-items: center;
   justify-content: center;
   gap: 8px;
-  background: var(--color-cyan);
-  color: var(--color-navy);
+  background: linear-gradient(135deg, #20D9E6 0%, #18A7A8 100%);
+  color: #0B1F33;
   font-weight: 700;
   font-size: 0.95rem;
   border-radius: var(--radius-sm);
+  box-shadow: 0 4px 14px rgba(32, 217, 230, 0.35), 2px 2px 5px rgba(11, 31, 51, 0.08);
   transition: all 0.22s ease;
 }
 
 .explore-btn:hover {
-  background: #39e5f1;
-  box-shadow: 0 4px 16px rgba(32, 217, 230, 0.4);
+  background: linear-gradient(135deg, #32e0ed 0%, #1cb5b6 100%);
+  box-shadow: 0 6px 20px rgba(32, 217, 230, 0.5), 3px 3px 8px rgba(11, 31, 51, 0.1);
   transform: translateY(-1px);
+}
+
+.explore-btn:active {
+  transform: translateY(1px);
+  box-shadow: inset 0 2px 6px rgba(11, 31, 51, 0.25);
 }
 
 .explore-samples {
@@ -740,13 +747,14 @@ button {
 }
 
 .sample-chip {
-  padding: 4px 10px;
+  padding: 5px 12px;
   background: var(--color-light-blue);
-  border: 1px solid var(--color-border-gray);
+  border: 1px solid rgba(255, 255, 255, 0.8);
   border-radius: var(--radius-pill);
   font-family: var(--font-mono);
   font-size: 0.75rem;
   color: var(--color-navy);
+  box-shadow: 2px 2px 5px rgba(11, 31, 51, 0.06), -2px -2px 5px #FFFFFF;
   transition: all 0.18s ease;
 }
 
@@ -754,6 +762,13 @@ button {
   background: var(--color-sky-blue);
   border-color: var(--color-cyan);
   color: var(--color-navy);
+  transform: translateY(-1px);
+  box-shadow: 3px 3px 8px rgba(11, 31, 51, 0.08), -3px -3px 8px #FFFFFF;
+}
+
+.sample-chip:active {
+  transform: translateY(1px);
+  box-shadow: inset 2px 2px 4px rgba(11, 31, 51, 0.1), inset -2px -2px 4px #FFFFFF;
 }
 
 /* Card 3: Description Feature List */
@@ -954,9 +969,9 @@ button {
   max-width: 920px;
   margin: 0 auto;
   background: var(--color-white);
-  border: 1px solid var(--color-border-gray);
+  border: 1px solid rgba(255, 255, 255, 0.85);
   border-radius: var(--radius-lg);
-  box-shadow: var(--shadow-md);
+  box-shadow: 10px 10px 28px rgba(11, 31, 51, 0.09), -10px -10px 28px #FFFFFF;
   overflow: hidden;
 }
 
@@ -1011,10 +1026,11 @@ button {
   padding: 40px;
 }
 
-/* ULPIN Big Banner */
+/* ULPIN Big Banner (Sunken Inset Cavity) */
 .passport-ulpin-banner {
   background: var(--color-light-blue);
-  border: 1px solid var(--color-border-gray);
+  box-shadow: inset 3px 3px 6px rgba(11, 31, 51, 0.08), inset -3px -3px 6px #FFFFFF;
+  border: 1px solid rgba(255, 255, 255, 0.6);
   border-radius: var(--radius-md);
   padding: 20px 24px;
   display: flex;
@@ -1045,17 +1061,25 @@ button {
   gap: 6px;
   padding: 8px 14px;
   background: var(--color-white);
-  border: 1px solid var(--color-border-gray);
+  border: 1px solid rgba(255, 255, 255, 0.8);
   border-radius: var(--radius-sm);
   font-size: 0.82rem;
   font-weight: 600;
   color: var(--color-navy);
+  box-shadow: 2px 2px 5px rgba(11, 31, 51, 0.06), -2px -2px 5px #FFFFFF;
   transition: all 0.2s ease;
 }
 
 .btn-copy-ulpin:hover {
   background: var(--color-sky-blue);
   border-color: var(--color-cyan);
+  box-shadow: 3px 3px 8px rgba(11, 31, 51, 0.08), -3px -3px 8px #FFFFFF;
+  transform: translateY(-1px);
+}
+
+.btn-copy-ulpin:active {
+  transform: translateY(1px);
+  box-shadow: inset 2px 2px 4px rgba(11, 31, 51, 0.1), inset -2px -2px 4px #FFFFFF;
 }
 
 /* Property Hero Visualization */

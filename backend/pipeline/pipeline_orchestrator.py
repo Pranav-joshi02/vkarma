@@ -255,7 +255,7 @@ def run_full_3d_cadastral_pipeline(
 
     pipeline_stages.append({
         "stage_num": 8,
-        "name": "ISO 19152 Legal Space Unit Subdivision",
+        "name": "Volumetric Legal Space Subdivision",
         "description": f"Subdivided physical volumes into {total_legal_units} legal units (flats, parking, shafts, air-rights)",
         "status": "COMPLETED",
         "duration_ms": 18.5,

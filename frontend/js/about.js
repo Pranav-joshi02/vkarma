@@ -15,9 +15,9 @@ const NODE_DETAILS = {
     type: "Orchestration & LADM 3D Cadastral Engine",
     status: "Available",
     endpoint: "/api/pipeline/run • /api/cadastre/status",
-    description: "The core engine processes multi-sensor LiDAR/drone point clouds, runs CSF ground separation, DBSCAN clustering, and extrudes volumetric 3D legal spaces compliant with ISO 19152.",
+    description: "The core engine processes multi-sensor LiDAR/drone point clouds, runs CSF ground separation, DBSCAN clustering, and extrudes volumetric 3D legal spaces compliant with cadastral standards.",
     specs: [
-      { name: "Standard", val: "ISO 19152 (LADM 3D)" },
+      { name: "Framework", val: "LADM 3D Cadastre" },
       { name: "Security", val: "Feistel Cipher Tokenization + Verhoeff D5 Checksum" },
       { name: "Performance", val: "Sub-second 3D topological intersection check" }
     ]
@@ -71,7 +71,7 @@ const NODE_DETAILS = {
   },
   property_data: {
     title: "PROPERTY ATTRIBUTES & RRR LAYER",
-    type: "LADM ISO 19152 Relational Registry",
+    type: "LADM 3D Relational Registry",
     status: "Available",
     endpoint: "/api/buildings • /api/buildings/{id}",
     description: "Relational registry linking parties (owners, banks, state), rights (freeholds, undivided common shares), restrictions (liens, zoning), and legal documents.",

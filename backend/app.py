@@ -35,7 +35,7 @@ from celery.result import AsyncResult
 from backend.celery_worker import celery_app
 
 app = FastAPI(
-    title="3D Cadastral Registry & 3D ULPIN System (ISO 19152 LADM)",
+    title="3D Cadastral Registry & 3D ULPIN System",
     description="Automated pipeline converting geospatial point cloud survey data into verifiable 3D land records.",
     version="1.0.0"
 )

@@ -36,31 +36,31 @@
   const PHASES = [
     {
       range: [0.0, 0.28],
-      side: "right", // Phase 01: first on right side
-      tag: "PHASE 01 • SPATIAL SUBSTRATE",
+      side: "right",
+      tag: "SPATIAL FOUNDATION",
       headline: 'LAND<span class="accent-cyan">.</span>',
-      subtext: "A digital infrastructure for understanding property, land, and 3D spatial boundaries from the ground up."
+      subtext: "Authoritative digital infrastructure mapping land parcels, terrain, and property boundaries with survey precision."
     },
     {
       range: [0.28, 0.58],
-      side: "left", // Phase 02: then left
-      tag: "PHASE 02 • VOLUMETRIC CADASTRAL ENVELOPE",
+      side: "left",
+      tag: "VOLUMETRIC RECONSTRUCTION",
       headline: 'IDENTITY<span class="accent-cyan">.</span>',
-      subtext: "Every parcel, floor, and air-rights corridor mapped into an unambiguous volumetric coordinate space."
+      subtext: "Every parcel, floor level, and easement resolved into unambiguous 3D spatial coordinate envelopes."
     },
     {
       range: [0.58, 0.84],
-      side: "right", // Phase 03: then again right
-      tag: "PHASE 03 • CRYPTOGRAPHIC INTEGRITY",
+      side: "right",
+      tag: "GOVERNANCE & INTEGRITY",
       headline: 'INTELLIGENCE<span class="accent-cyan">.</span>',
-      subtext: "Automated legal subdivision, RERA deed verification, and topological collision scanning in real-time."
+      subtext: "Automated legal subdivision, statutory deed verification, and 3D boundary conflict detection."
     },
     {
       range: [0.84, 1.0],
-      side: "left", // Phase 04: like that (left)
-      tag: "PHASE 04 • DIGITAL LAND PASSPORT",
+      side: "left",
+      tag: "AUTHORITATIVE REGISTRY",
       headline: 'VKARMA<span class="accent-cyan">.</span>',
-      subtext: "The National 3D Cadastral Digital Twin & Land Passport System. One identity. One property."
+      subtext: "National 3D Cadastral Digital Twin & Land Passport System. One identity. One property."
     }
   ];
 

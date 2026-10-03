@@ -1,7 +1,7 @@
 /**
  * Main Application Coordinator — Neumorphism Redesign
  * Connects Leaflet 2D GIS, CesiumJS 3D WebGL Digital Twin,
- * LADM ISO 19152 Cadastral Registry, and 10-Stage Pipeline Runner.
+ * LADM Cadastral Registry, and 10-Stage Pipeline Runner.
  * 
  * Layout: LEFT = Info Panel (building details, certificates)
  *         RIGHT = Action Hub (selection, pipeline, controls)
@@ -154,7 +154,7 @@ class App {
             <svg viewBox="0 0 16 16" fill="currentColor" width="10" height="10" style="vertical-align: middle; margin-right: 3px;">
               <path d="M3 2a1 1 0 011 1v10H3V3a1 1 0 011-1zm3 2a1 1 0 011 1v8H6V5a1 1 0 011-1zm3-1a1 1 0 011 1v9H9V4a1 1 0 011-1z"/>
             </svg>
-            ${r.buildings_count || 4} Pilot Buildings
+            ${r.buildings_count || 4} Registered Structures
           </span>
           <span>
             <svg viewBox="0 0 16 16" fill="currentColor" width="10" height="10" style="vertical-align: middle; margin-right: 3px;">
@@ -294,7 +294,7 @@ class App {
       this.clearAllSelections();
     });
 
-    // Process Selected Building (Proceed for Cadastral)
+    // Process Selected Building (Generate 3D Cadastre)
     document.getElementById('btn-process-selected-building')?.addEventListener('click', () => {
       this.runPipelineForActiveSelection();
     });
@@ -524,7 +524,7 @@ class App {
       req.base_lng = this.selectedRegion.lng;
       req.num_buildings = this.selectedRegion.buildings_count || 4;
     } else {
-      alert("Please select a pilot region, draw a custom bounding box, or upload a LiDAR file.");
+      alert("Please select a survey zone, draw a boundary box, or import LiDAR data.");
       return;
     }
 
@@ -857,7 +857,7 @@ class App {
 
       if (bannerName) bannerName.innerText = bName;
       if (bannerSub) bannerSub.innerText = metaText;
-      if (directBtnLabel) directBtnLabel.innerText = `Proceed for Cadastral: ${bName}`;
+      if (directBtnLabel) directBtnLabel.innerText = `Generate 3D Cadastre: ${bName}`;
 
       if (mapBottomBar && this.currentViewMode === '2d') {
         mapBottomBar.style.display = 'flex';
@@ -866,11 +866,11 @@ class App {
       }
     } else {
       if (indicator) indicator.style.display = 'none';
-      if (btnLabel) btnLabel.innerText = `Run 3D Cadastral Pipeline`;
+      if (btnLabel) btnLabel.innerText = `Generate 3D Cadastre`;
 
       if (bannerName) bannerName.innerText = 'Select a building above';
       if (bannerSub) bannerSub.innerText = 'Click a building in the list or on the map';
-      if (directBtnLabel) directBtnLabel.innerText = `Proceed for Cadastral`;
+      if (directBtnLabel) directBtnLabel.innerText = `Generate 3D Cadastre`;
 
       if (mapBottomBar) mapBottomBar.style.display = 'none';
     }

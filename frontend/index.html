@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>3D Cadastral Registry & 3D ULPIN System | ISO 19152 (LADM)</title>
-  <meta name="description" content="National 3D Land Record Digital Twin — ISO 19152 LADM Compliant Cadastral Registry with 3D ULPIN" />
+  <title>3D Cadastral Registry & 3D ULPIN System</title>
+  <meta name="description" content="National 3D Land Record Digital Twin — Volumetric Cadastral Registry with 3D ULPIN" />
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%2320D9E6'/%3E%3Cstop offset='1' stop-color='%2318A7A8'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='32' height='32' rx='6' fill='url(%23g)'/%3E%3Cpath d='M16 6L8 11v10l8 5 8-5V11z' fill='none' stroke='%230B1F33' stroke-width='2'/%3E%3Cpath d='M16 16v10M8 11l8 5 8-5' fill='none' stroke='%230B1F33' stroke-width='1.5' opacity='.7'/%3E%3C/svg%3E" />
   
   <!-- Modern Typography -->
@@ -43,8 +43,8 @@
             </svg>
           </div>
           <div class="app-title-block">
-            <h1>3D Cadastral Registry &bull; 3D ULPIN</h1>
-            <p>ISO 19152 (LADM) &bull; National 3D Land Record Digital Twin</p>
+            <h1>VKARMA 3D Cadastral Registry</h1>
+            <p>National 3D Spatial Land Administration</p>
           </div>
         </div>
       </div>
@@ -82,13 +82,13 @@
             type="text" 
             id="ulpin-search-input" 
             class="ulpin-search-input" 
-            placeholder="Search 3D ULPIN (e.g., 560103-A-...)" 
+            placeholder="Search property or 3D ULPIN..." 
           />
         </div>
 
         <div class="status-badge">
           <div class="status-dot"></div>
-          <span>Cadastre Active</span>
+          <span>Registry Online</span>
         </div>
       </div>
     </header>
@@ -124,15 +124,14 @@
                 <path d="M9 18h6"/>
               </svg>
             </div>
-            <h3>Building Information</h3>
-            <p>Process a cadastral survey or click on a building in the 3D view to see full LADM records, ownership details, and certificates here.</p>
+            <h3>Property Overview</h3>
+            <p>Select any building or spatial parcel on the map to review registered legal units, property boundaries, and title certifications.</p>
           </div>
 
           <!-- LADM 3D Space Legend (Always visible) -->
           <div class="panel-card" id="legend-card">
             <div class="panel-title">
-              <span>LADM 3D Space Legend</span>
-              <span class="panel-title-badge">Space Types</span>
+              <span>Spatial Unit Classification</span>
             </div>
             <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; font-size: 11px;">
               <div style="display: flex; align-items: center; gap: 8px;">
@@ -301,31 +300,31 @@
           <!-- Step 1: Area Selection -->
           <div class="panel-card">
             <div class="panel-title">
-              <span>1. Survey Area Selection</span>
-              <span class="panel-title-badge">Pilot or Custom</span>
+              <span>1. Survey Zone Selection</span>
+              <span class="panel-title-badge">Active Zones</span>
             </div>
             
             <!-- Mode Switcher Tabs -->
             <div class="area-mode-tabs">
-              <button class="area-tab-btn active" id="tab-btn-predefined" data-tab="predefined" title="Predefined pilot zones">
+              <button class="area-tab-btn active" id="tab-btn-predefined" data-tab="predefined" title="Active survey zones">
                 <!-- SVG: City Buildings -->
                 <svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12">
                   <path d="M3 1a1 1 0 011 1v12H3V2a1 1 0 011-1zm3 3a1 1 0 011 1v9H6V5a1 1 0 011-1zm3-2a1 1 0 011 1v11H9V3a1 1 0 011-1zm3 4a1 1 0 011 1v7h-1V7a1 1 0 011-1z"/>
                 </svg>
-                Pilot Sites
+                Survey Zones
               </button>
-              <button class="area-tab-btn" id="tab-btn-custom" data-tab="custom" title="Select any location in India">
+              <button class="area-tab-btn" id="tab-btn-custom" data-tab="custom" title="Define custom boundary">
                 <svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12">
                   <path d="M8 1a5 5 0 00-5 5c0 3.75 5 9 5 9s5-5.25 5-9a5 5 0 00-5-5zm0 7a2 2 0 110-4 2 2 0 010 4z"/>
                 </svg>
-                Any Area
+                Custom Boundary
               </button>
-              <button class="area-tab-btn" id="tab-btn-upload" data-tab="upload" title="Upload custom LiDAR file">
+              <button class="area-tab-btn" id="tab-btn-upload" data-tab="upload" title="Import LiDAR survey data">
                 <!-- SVG: Cloud Upload -->
                 <svg viewBox="0 0 16 16" fill="currentColor" width="12" height="12">
                   <path d="M4.5 13a3.5 3.5 0 01-.246-6.99A5 5 0 0113.35 7.5 3 3 0 0113 13H4.5zm4.5-5v3H7V8H5l3-4 3 4H9z"/>
                 </svg>
-                Upload
+                Import LiDAR
               </button>
             </div>
 
@@ -345,7 +344,7 @@
                   <input 
                     type="text" 
                     id="map-search-input" 
-                    placeholder="Search any city or address in India..." 
+                    placeholder="Search city, district, or PIN code..." 
                   />
                   <button id="btn-map-search" type="button" title="Jump to Location"><i class="fa-solid fa-arrow-right"></i></button>
                 </div>
@@ -356,10 +355,10 @@
                     <svg viewBox="0 0 16 16" fill="currentColor" width="14" height="14">
                       <path d="M8 1a1 1 0 011 1v1.6A4.5 4.5 0 0112.4 7H14a1 1 0 110 2h-1.6A4.5 4.5 0 019 12.4V14a1 1 0 11-2 0v-1.6A4.5 4.5 0 013.6 9H2a1 1 0 110-2h1.6A4.5 4.5 0 017 3.6V2a1 1 0 011-1z"/>
                     </svg>
-                    Draw Bounding Box
+                    Define Boundary Box
                   </button>
                   <button class="bbox-btn secondary" id="btn-select-current-view" type="button">
-                    <i class="fa-solid fa-expand"></i> Use Current View
+                    <i class="fa-solid fa-expand"></i> Capture Viewport
                   </button>
                 </div>
 
@@ -443,8 +442,8 @@
                   <path d="M24 44V26" stroke-dasharray="2 2" opacity="0.4"/>
                   <path d="M24 26l-5 5M24 26l5 5" stroke-width="2.5"/>
                 </svg>
-                <div class="upload-text-main">Click or drop .LAS / .LAZ file here</div>
-                <div class="upload-text-sub">Supports raw airborne / terrestrial LiDAR</div>
+                <div class="upload-text-main">Select or drop .LAS / .LAZ survey files</div>
+                <div class="upload-text-sub">Aerial and terrestrial LiDAR point clouds supported</div>
                 <input type="file" id="file-upload-input" accept=".las,.laz" style="display: none;" />
               </div>
               <div id="upload-file-status" class="upload-file-badge" style="display: none;">
@@ -460,11 +459,11 @@
           <!-- Step 2: AI Pipeline Trigger -->
           <div class="panel-card">
             <div class="panel-title">
-              <span>2. AI Extraction Engine</span>
-              <span class="panel-title-badge">10 Stages</span>
+              <span>2. Cadastral Generation Engine</span>
+              <span class="panel-title-badge">Automated</span>
             </div>
             <p style="font-size: 11px; color: var(--text-secondary); line-height: 1.5;">
-              Runs CSF ground filtering, multi-scale geometric feature classification, DBSCAN instance clustering, 3D volume extrusion, and Feistel-Verhoeff ULPIN minting.
+              Automated spatial pipeline: filters terrain point clouds, reconstructs watertight building envelopes, and assigns certified 3D ULPIN records.
             </p>
             <!-- Target Building Selected Indicator -->
             <div id="selected-building-indicator" class="selected-target-indicator" style="display: none;">
@@ -472,7 +471,7 @@
                 <svg viewBox="0 0 16 16" fill="currentColor" width="10" height="10">
                   <circle cx="8" cy="8" r="3"/><circle cx="8" cy="8" r="6" fill="none" stroke="currentColor" stroke-width="1.5"/>
                 </svg>
-                TARGET BUILDING FOR 3D CADASTRE
+                SELECTED PROPERTY FOR REGISTRATION
               </div>
               <div class="selected-target-name" id="selected-target-bld-name">--</div>
               <div class="selected-target-meta" id="selected-target-bld-meta">--</div>
@@ -482,7 +481,7 @@
               <svg class="svg-btn-icon" viewBox="0 0 20 20" fill="currentColor" width="18" height="18">
                 <path d="M11.3 1.046A1 1 0 0112 2v5h4a1 1 0 01.82 1.573l-7 10A1 1 0 018 18v-5H4a1 1 0 01-.82-1.573l7-10a1 1 0 01.12-.381z"/>
               </svg>
-              <span id="btn-run-pipeline-label">Run 3D Cadastral Pipeline</span>
+              <span id="btn-run-pipeline-label">Generate 3D Cadastre</span>
             </button>
           </div>
         </div>
@@ -502,10 +501,10 @@
           <svg viewBox="0 0 20 20" fill="#18A7A8" width="18" height="18">
             <path d="M13 7H7v6h6V7z"/><path fill-rule="evenodd" d="M7 2a1 1 0 012 0v1h2V2a1 1 0 112 0v1h2a2 2 0 012 2v2h1a1 1 0 110 2h-1v2h1a1 1 0 110 2h-1v2a2 2 0 01-2 2h-2v1a1 1 0 11-2 0v-1H9v1a1 1 0 11-2 0v-1H5a2 2 0 01-2-2v-2H2a1 1 0 110-2h1V9H2a1 1 0 010-2h1V5a2 2 0 012-2h2V2z" clip-rule="evenodd"/>
           </svg>
-          Celery Async Pipeline
+          Cadastral Processing Engine
         </h3>
         <span id="pipeline-status-text" style="font-size: 12px; color: #18A7A8; font-family: var(--font-mono); font-weight: 700;">
-          Processing...
+          Processing Survey Data...
         </span>
       </div>
       <div class="modal-body" style="text-align: center; padding: 30px;">

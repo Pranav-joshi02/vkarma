@@ -1,6 +1,6 @@
 /**
  * 3D Cadastral Digital Twin WebGL Viewer (CesiumJS)
- * Compliant with ISO 19152 LADM 3D Spatial Units & 3D ULPIN registry.
+ * Compliant with LADM 3D Spatial Units & 3D ULPIN registry.
  * Uses terrain-only tile providers (no satellite imagery).
  */
 

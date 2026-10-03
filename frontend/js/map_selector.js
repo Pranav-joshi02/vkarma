@@ -539,12 +539,12 @@ class MapAreaSelector {
       }
 
       if (layer) {
-        const nameStyle = bld.name_source === 'synthetic' ? 'font-style: italic; font-weight: 500;' : 'font-weight: 700;';
+        const nameStyle = 'font-weight: 700;';
         const tooltipHtml = `
           <div style="font-family: 'Inter', sans-serif; font-size: 12px; line-height: 1.35; padding: 2px;">
             <div style="${nameStyle} color: #18A7A8;"><i class="fa-solid fa-building"></i> ${bld.name || 'Building'}</div>
             <div style="color: #18A7A8; font-size: 10px; margin-top: 3px; font-weight: 700;">
-              Click to select for Cadastral
+              Click to inspect property
             </div>
           </div>
         `;
@@ -556,7 +556,7 @@ class MapAreaSelector {
               <i class="fa-solid fa-building" style="color: #18A7A8;"></i> ${bld.name || 'Building'}
             </div>
             <button class="leaflet-popup-process-btn" type="button" onclick="window.app && window.app.runPipelineForActiveSelection()">
-              Proceed for Cadastral
+              Generate 3D Cadastre
             </button>
           </div>
         `;
