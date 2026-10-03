@@ -158,72 +158,7 @@ button {
   50% { transform: scale(1.35); opacity: 0.6; }
 }
 
-/* Hero Tagline — Horizontal Floating Glass Badge (Top Right) */
-.hero-tagline {
-  position: absolute;
-  top: 96px;
-  right: 48px;
-  z-index: 24;
-  pointer-events: auto;
-  display: flex;
-  align-items: center;
-}
 
-.hero-tagline-pill {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 7px 16px;
-  background: rgba(255, 255, 255, 0.85);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(217, 227, 232, 0.9);
-  border-radius: var(--radius-pill);
-  box-shadow: 0 8px 24px rgba(11, 31, 51, 0.06);
-  transition: all 0.25s ease;
-}
-
-.hero-tagline-pill:hover {
-  background: rgba(255, 255, 255, 0.96);
-  border-color: rgba(32, 217, 230, 0.6);
-  box-shadow: 0 10px 30px rgba(11, 31, 51, 0.1);
-}
-
-.hero-tagline-text {
-  font-family: var(--font-sans);
-  font-size: 0.82rem;
-  font-weight: 700;
-  letter-spacing: 0.03em;
-  color: var(--color-navy);
-}
-
-.tagline-dot {
-  width: 7px;
-  height: 7px;
-  background-color: var(--color-cyan);
-  border-radius: 50%;
-  box-shadow: 0 0 8px var(--color-cyan);
-  animation: pulse-dot 2.4s infinite ease-in-out;
-}
-
-.hero-tagline-badge {
-  display: inline-flex;
-  align-items: center;
-  gap: 8px;
-  padding: 6px 14px;
-  background: rgba(255, 255, 255, 0.88);
-  backdrop-filter: blur(14px);
-  -webkit-backdrop-filter: blur(14px);
-  border: 1px solid rgba(217, 227, 232, 0.9);
-  border-radius: var(--radius-pill);
-  box-shadow: 0 4px 16px rgba(11, 31, 51, 0.06);
-  font-family: var(--font-sans);
-  font-size: 0.8rem;
-  font-weight: 700;
-  color: var(--color-navy);
-  letter-spacing: 0.02em;
-  margin-bottom: 12px;
-}
 
 /* Centered Glassmorphism Navbar with Gray Shade */
 .navbar {
