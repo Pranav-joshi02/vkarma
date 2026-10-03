@@ -30,30 +30,34 @@
 
   // DOM Elements
   let trackEl, stickyStageEl, canvas, ctx, loaderEl, loaderBar, loaderText;
-  let phaseTagEl, headlineEl, subtextEl, cardEl, telemetryFrameEl;
+  let phaseTagEl, headlineEl, subtextEl, cardEl, overlayEl, telemetryFrameEl;
 
-  // Editorial Copy Phases
+  // Editorial Copy Phases (Right -> Left -> Right -> Left alternating transitions)
   const PHASES = [
     {
       range: [0.0, 0.28],
+      side: "right", // Phase 01: first on right side
       tag: "PHASE 01 • SPATIAL SUBSTRATE",
       headline: 'LAND<span class="accent-cyan">.</span>',
       subtext: "A digital infrastructure for understanding property, land, and 3D spatial boundaries from the ground up."
     },
     {
       range: [0.28, 0.58],
+      side: "left", // Phase 02: then left
       tag: "PHASE 02 • VOLUMETRIC CADASTRAL ENVELOPE",
       headline: 'IDENTITY<span class="accent-cyan">.</span>',
       subtext: "Every parcel, floor, and air-rights corridor mapped into an unambiguous volumetric coordinate space."
     },
     {
       range: [0.58, 0.84],
+      side: "right", // Phase 03: then again right
       tag: "PHASE 03 • CRYPTOGRAPHIC INTEGRITY",
       headline: 'INTELLIGENCE<span class="accent-cyan">.</span>',
       subtext: "Automated legal subdivision, RERA deed verification, and topological collision scanning in real-time."
     },
     {
       range: [0.84, 1.0],
+      side: "left", // Phase 04: like that (left)
       tag: "PHASE 04 • DIGITAL LAND PASSPORT",
       headline: 'VKARMA<span class="accent-cyan">.</span>',
       subtext: "The National 3D Cadastral Digital Twin & Land Passport System. One identity. One property."
@@ -78,6 +82,7 @@
     headlineEl = document.getElementById("hero-headline");
     subtextEl = document.getElementById("hero-subtext");
     cardEl = document.getElementById("hero-editorial-card");
+    overlayEl = document.getElementById("hero-editorial-overlay");
     telemetryFrameEl = document.getElementById("telemetry-frame");
 
     handleResize();
@@ -275,24 +280,44 @@
     }
 
     if (matchedPhaseIndex !== currentPhaseIndex) {
+      const isInitial = currentPhaseIndex === -1;
       currentPhaseIndex = matchedPhaseIndex;
       const phase = PHASES[matchedPhaseIndex];
 
-      if (cardEl) {
-        cardEl.style.opacity = "0.4";
-        cardEl.style.transform = "translateY(6px)";
-      }
-
-      setTimeout(() => {
+      if (isInitial) {
+        if (overlayEl) {
+          overlayEl.classList.remove("pos-left", "pos-right");
+          overlayEl.classList.add(phase.side === "right" ? "pos-right" : "pos-left");
+        }
         if (phaseTagEl) phaseTagEl.textContent = phase.tag;
         if (headlineEl) headlineEl.innerHTML = phase.headline;
         if (subtextEl) subtextEl.textContent = phase.subtext;
-
         if (cardEl) {
           cardEl.style.opacity = "1";
-          cardEl.style.transform = "translateY(0)";
+          cardEl.style.transform = "translateX(0)";
         }
-      }, 120);
+      } else {
+        if (cardEl) {
+          cardEl.style.opacity = "0";
+          cardEl.style.transform = phase.side === "right" ? "translateX(-24px)" : "translateX(24px)";
+        }
+
+        setTimeout(() => {
+          if (overlayEl) {
+            overlayEl.classList.remove("pos-left", "pos-right");
+            overlayEl.classList.add(phase.side === "right" ? "pos-right" : "pos-left");
+          }
+
+          if (phaseTagEl) phaseTagEl.textContent = phase.tag;
+          if (headlineEl) headlineEl.innerHTML = phase.headline;
+          if (subtextEl) subtextEl.textContent = phase.subtext;
+
+          if (cardEl) {
+            cardEl.style.opacity = "1";
+            cardEl.style.transform = "translateX(0)";
+          }
+        }, 130);
+      }
     }
 
     if (telemetryFrameEl) {
