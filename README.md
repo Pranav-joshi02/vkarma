@@ -109,7 +109,7 @@ The platform processes raw geographic survey data through a sequential, determin
 
 ## 🔒 3D ULPIN Cryptographic Architecture
 
-Each legal 3D spatial unit is minted with a 17-character identifier formatted as:
+Each legal 3D spatial unit is minted with a 16-character identifier formatted as:
 
 $$\mathbf{PPPPPP}-\mathbf{T}-\mathbf{RRRRRRRR}-\mathbf{C}$$
 
