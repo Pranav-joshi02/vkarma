@@ -147,24 +147,88 @@ class CadastralViewer3D {
       pinEntity.userData = { building: bld };
       bldEntities.push(pinEntity);
 
+      const lngMetersPerDeg = 111111.0 * Math.cos((bld.centroid_lat * Math.PI) / 180.0);
+
+      // Helper to convert polygon coordinates (degrees or local metric offsets) to Cesium degrees array
+      const convertPolyToCesiumPositions = (coords) => {
+        if (!coords || !Array.isArray(coords) || coords.length < 3) return null;
+        const flat = [];
+        for (let i = 0; i < coords.length; i++) {
+          const pt = coords[i];
+          if (!Array.isArray(pt) || pt.length < 2) continue;
+          let lat, lng;
+          if (Math.abs(pt[0]) > 5.0 || Math.abs(pt[1]) > 5.0) {
+            // WGS84 degree coordinates
+            if (Math.abs(pt[0]) <= 90.0 && Math.abs(pt[1]) <= 180.0) {
+              lat = Number(pt[0]);
+              lng = Number(pt[1]);
+            } else {
+              lng = Number(pt[0]);
+              lat = Number(pt[1]);
+            }
+          } else {
+            // Local metric offsets [dx, dy] in meters
+            lng = bld.centroid_lng + (Number(pt[0]) / lngMetersPerDeg);
+            lat = bld.centroid_lat + (Number(pt[1]) / 111111.0);
+          }
+          if (!isNaN(lat) && !isNaN(lng)) {
+            flat.push(lng, lat);
+          }
+        }
+        return flat.length >= 6 ? Cesium.Cartesian3.fromDegreesArray(flat) : null;
+      };
+
+      // Architectural Exterior Contour Shell (renders the exact real-world polygonal outline of the building)
+      if (bld.footprint_polygon && Array.isArray(bld.footprint_polygon) && bld.footprint_polygon.length >= 3) {
+        const shellPositions = convertPolyToCesiumPositions(bld.footprint_polygon);
+        if (shellPositions) {
+          const shellHeight = Math.max(10.0, (bld.height_m || 28.0));
+          const shellEntity = this.viewer.entities.add({
+            polygon: {
+              hierarchy: shellPositions,
+              height: 0.0,
+              extrudedHeight: shellHeight,
+              material: Cesium.Color.fromCssColorString('#002b54').withAlpha(0.06),
+              outline: true,
+              outlineColor: Cesium.Color.fromCssColorString('#20D9E6').withAlpha(0.55),
+              outlineWidth: 1.5,
+              closeTop: true,
+              closeBottom: true
+            }
+          });
+          shellEntity.userData = { building: bld, isArchitecturalShell: true };
+          bldEntities.push(shellEntity);
+        }
+      }
+
       units.forEach(unit => {
         const bbox = unit.bbox || { min_x: -2, max_x: 2, min_y: -2, max_y: 2, min_z: 920, max_z: 923 };
         const minHeight = Math.max(0.0, bbox.min_z - groundRef);
         const extrudedHeight = Math.max(minHeight + 1.2, bbox.max_z - groundRef);
         
-        // Accurate local meter coordinates to WGS84 degree offsets
-        const latOffsetMin = (bbox.min_y / 111111.0);
-        const latOffsetMax = (bbox.max_y / 111111.0);
-        const lngMetersPerDeg = 111111.0 * Math.cos((bld.centroid_lat * Math.PI) / 180.0);
-        const lngOffsetMin = (bbox.min_x / lngMetersPerDeg);
-        const lngOffsetMax = (bbox.max_x / lngMetersPerDeg);
-        
-        const positions = Cesium.Cartesian3.fromDegreesArray([
-          bld.centroid_lng + lngOffsetMin, bld.centroid_lat + latOffsetMin,
-          bld.centroid_lng + lngOffsetMax, bld.centroid_lat + latOffsetMin,
-          bld.centroid_lng + lngOffsetMax, bld.centroid_lat + latOffsetMax,
-          bld.centroid_lng + lngOffsetMin, bld.centroid_lat + latOffsetMax
-        ]);
+        let positions = null;
+        // Priority 1: Exact real polygon contour clipped for this specific unit
+        if (unit.polygon_coordinates && Array.isArray(unit.polygon_coordinates) && unit.polygon_coordinates.length >= 3) {
+          positions = convertPolyToCesiumPositions(unit.polygon_coordinates);
+        }
+        // Priority 2: For Rooftop Terrace ('M') and Air-Rights ('R'), conform to full building footprint contour
+        if (!positions && (unit.space_type === 'M' || unit.space_type === 'R') && bld.footprint_polygon && bld.footprint_polygon.length >= 3) {
+          positions = convertPolyToCesiumPositions(bld.footprint_polygon);
+        }
+        // Priority 3: Fallback to bounding box rectangle
+        if (!positions) {
+          const latOffsetMin = (bbox.min_y / 111111.0);
+          const latOffsetMax = (bbox.max_y / 111111.0);
+          const lngOffsetMin = (bbox.min_x / lngMetersPerDeg);
+          const lngOffsetMax = (bbox.max_x / lngMetersPerDeg);
+          
+          positions = Cesium.Cartesian3.fromDegreesArray([
+            bld.centroid_lng + lngOffsetMin, bld.centroid_lat + latOffsetMin,
+            bld.centroid_lng + lngOffsetMax, bld.centroid_lat + latOffsetMin,
+            bld.centroid_lng + lngOffsetMax, bld.centroid_lat + latOffsetMax,
+            bld.centroid_lng + lngOffsetMin, bld.centroid_lat + latOffsetMax
+          ]);
+        }
 
         const color = this.getUnitColorCesium(unit);
         const isDisputed = unit.status && unit.status.includes("Dispute");

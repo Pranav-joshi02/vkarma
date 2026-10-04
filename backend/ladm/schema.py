@@ -124,6 +124,7 @@ class LA_LegalSpaceBuildingUnit:
     mesh_geometry: Optional[Dict[str, Any]] = None  # 3D vertices/faces for WebGL visualization
     dispute_details: Optional[Dict[str, Any]] = None
     image_url: Optional[str] = None  # Realistic architectural/drone photographic scan
+    polygon_coordinates: Optional[List[List[float]]] = None  # Exact real 2D contour polygon [[lat, lng], ...]
 
     def to_dict(self) -> Dict[str, Any]:
         return {
@@ -142,7 +143,8 @@ class LA_LegalSpaceBuildingUnit:
             "sources": [asdict(s) for s in self.sources],
             "mesh_geometry": self.mesh_geometry,
             "dispute_details": self.dispute_details,
-            "image_url": self.image_url
+            "image_url": self.image_url,
+            "polygon_coordinates": self.polygon_coordinates
         }
 
     @classmethod
@@ -219,7 +221,8 @@ class LA_LegalSpaceBuildingUnit:
             sources=sources,
             mesh_geometry=d.get("mesh_geometry"),
             dispute_details=d.get("dispute_details"),
-            image_url=d.get("image_url")
+            image_url=d.get("image_url"),
+            polygon_coordinates=d.get("polygon_coordinates")
         )
 
 

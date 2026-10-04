@@ -8,6 +8,7 @@ import uuid
 import random
 import math
 from typing import List, Dict, Any, Tuple, Optional
+from shapely.geometry import Polygon as SPolygon, box as SBox
 from backend.ladm.schema import (
     LA_SpatialUnit, LA_LegalSpaceBuildingUnit, BoundingBox3D,
     LA_Party, LA_Source, LA_RRR, RRRType, LegalSpaceType, UnitStatus
@@ -188,6 +189,18 @@ def extrude_and_partition_building(
     core_min_y = min_y + (l - core_l) / 2
     core_max_y = core_min_y + core_l
 
+    # Build Shapely polygon for real contour intersection
+    meters_per_deg_lat = 111320.0
+    meters_per_deg_lng = 111320.0 * math.cos(math.radians(centroid_lat))
+    building_s_poly = None
+    if local_footprint and len(local_footprint) >= 3:
+        try:
+            building_s_poly = SPolygon(local_footprint)
+            if not building_s_poly.is_valid:
+                building_s_poly = building_s_poly.buffer(0)
+        except Exception:
+            building_s_poly = None
+
     # 1. BASEMENTS (Parking & Utilities)
     for b in range(basements_count):
         floor_num = -(b + 1)
@@ -326,6 +339,32 @@ def extrude_and_partition_building(
                 LA_Source(f"SRC-{uuid.uuid4().hex[:8]}", "RERA Approved Building Sanction", f"RERA-PRM-KA-{random.randint(1000,9999)}", "Real Estate Regulatory Authority", "2022-11-04", f"SIG-0x{uuid.uuid4().hex[:12]}")
             ]
 
+            flat_poly_geo = None
+            if building_s_poly:
+                try:
+                    flat_box = SBox(fx0, fy0, fx1_mod, fy1_mod)
+                    isect = building_s_poly.intersection(flat_box)
+                    if not isect.is_empty and isect.area > 2.0:
+                        geom_to_use = isect
+                        if isect.geom_type == "MultiPolygon":
+                            geom_to_use = max(isect.geoms, key=lambda g: g.area)
+                        if geom_to_use.geom_type == "Polygon":
+                            flat_poly_geo = [
+                                [round(centroid_lat + float(py) / meters_per_deg_lat, 6),
+                                 round(centroid_lng + float(px) / meters_per_deg_lng, 6)]
+                                for px, py in list(geom_to_use.exterior.coords)
+                            ]
+                except Exception:
+                    flat_poly_geo = None
+
+            if not flat_poly_geo:
+                flat_poly_geo = [
+                    [round(centroid_lat + fy0 / meters_per_deg_lat, 6), round(centroid_lng + fx0 / meters_per_deg_lng, 6)],
+                    [round(centroid_lat + fy0 / meters_per_deg_lat, 6), round(centroid_lng + fx1_mod / meters_per_deg_lng, 6)],
+                    [round(centroid_lat + fy1_mod / meters_per_deg_lat, 6), round(centroid_lng + fx1_mod / meters_per_deg_lng, 6)],
+                    [round(centroid_lat + fy1_mod / meters_per_deg_lat, 6), round(centroid_lng + fx0 / meters_per_deg_lng, 6)]
+                ]
+
             dispute_meta = None
             if is_disputed:
                 dispute_meta = {
@@ -350,7 +389,8 @@ def extrude_and_partition_building(
                 rrrs=rrrs,
                 sources=sources,
                 mesh_geometry=generate_unit_mesh_geometry(bbox, color),
-                dispute_details=dispute_meta
+                dispute_details=dispute_meta,
+                polygon_coordinates=flat_poly_geo
             )
             legal_units.append(flat_unit)
 
@@ -372,7 +412,8 @@ def extrude_and_partition_building(
         parties=[LA_Party(f"PTY-{uuid.uuid4().hex[:8]}", f"{building_name} Residents Welfare Association", "RWA", "RWA-PAN-90218")],
         rrrs=[LA_RRR(f"RRR-{uuid.uuid4().hex[:8]}", RRRType.RIGHT_COMMON_SHARE, "Equitable Shared Rooftop & Green Energy Right", "1.0")],
         sources=[LA_Source(f"SRC-{uuid.uuid4().hex[:8]}", "RERA Sanctioned Common Area Plan", f"RERA-COMM-{pincode}-01", "RERA Authority", "2023-01-10", f"SIG-0x{uuid.uuid4().hex[:12]}")],
-        mesh_geometry=generate_unit_mesh_geometry(terrace_bbox, "#10b981")
+        mesh_geometry=generate_unit_mesh_geometry(terrace_bbox, "#10b981"),
+        polygon_coordinates=geo_polygon
     )
     legal_units.append(terrace_unit)
 
@@ -395,7 +436,8 @@ def extrude_and_partition_building(
             LA_RRR(f"RRR-{uuid.uuid4().hex[:8]}", RRRType.RESTRICTION_HERITAGE, "Maximum Airport Funnel Height Ceiling", "1.0")
         ],
         sources=[LA_Source(f"SRC-{uuid.uuid4().hex[:8]}", "AAI Height Clearance Certificate", f"AAI-NOC-{pincode}", "Airports Authority of India", "2023-03-01", f"SIG-0x{uuid.uuid4().hex[:12]}")],
-        mesh_geometry=generate_unit_mesh_geometry(air_bbox, "#38bdf8")
+        mesh_geometry=generate_unit_mesh_geometry(air_bbox, "#38bdf8"),
+        polygon_coordinates=geo_polygon
     )
     legal_units.append(air_unit)
 

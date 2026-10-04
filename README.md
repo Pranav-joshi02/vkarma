@@ -1,299 +1,298 @@
-# 🏛️ vkarma: 3D Cadastral Registry & 3D ULPIN System
+# 🏛️ vKarma: 3D Cadastral Digital Registry & 3D ULPIN Platform
 ### National 3D Land Record Digital Twin & Automated Geospatial Processing Pipeline
-#### Compliant with ISO 19152 Land Administration Domain Model (LADM)
+#### Compliant with ISO 19152 Land Administration Domain Model (LADM) & Government of India DILRMP / Bhu-Aadhaar
 
+[![Live Production](https://img.shields.io/badge/Live%20Demo-vkarma.onrender.com-00C7B7?style=for-the-badge&logo=render&logoColor=white)](https://vkarma.onrender.com)
 [![Standard](https://img.shields.io/badge/Standard-ISO%2019152%20LADM-0052CC.svg)](https://www.iso.org/standard/51206.html)
-[![FastAPI](https://img.shields.io/badge/Backend-FastAPI-009688.svg)](https://fastapi.tiangolo.com/)
-[![Three.js](https://img.shields.io/badge/3D%20Engine-Three.js%20%2F%20CesiumJS-black.svg)](https://threejs.org/)
+[![FastAPI](https://img.shields.io/badge/Backend-FastAPI%200.142-009688.svg)](https://fastapi.tiangolo.com/)
+[![CesiumJS](https://img.shields.io/badge/3D%20Engine-CesiumJS%20WebGL-blue.svg)](https://cesium.com/)
 [![Database](https://img.shields.io/badge/Database-PostgreSQL%20%2F%20PostGIS%20%2F%20Supabase-3ECF8E.svg)](https://supabase.com/)
-[![Pipeline](https://img.shields.io/badge/Async%20Worker-Celery%20%2B%20Redis-red.svg)](https://docs.celeryq.dev/)
-[![Security](https://img.shields.io/badge/ULPIN%20Checksum-Verhoeff%20Dihedral%20D5-blueviolet.svg)](#3d-ulpin-cryptographic-architecture)
+[![Google Wallet](https://img.shields.io/badge/Google%20Wallet-Generic%20Passes%20API-4285F4.svg)](https://developers.google.com/wallet)
+[![DigiLocker](https://img.shields.io/badge/DigiLocker-MeitY%20Document%20Gateway-FF9933.svg)](https://digitallocker.gov.in)
 [![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
 ---
 
-## 📖 Executive Summary & Vision
+## 🌐 Live Production Deployment
 
-Traditional land registries operate on **two-dimensional (2D) parcel boundaries**. In modern high-density urban environments, multi-storey residential complexes, commercial skyscrapers, underground utility tunnels, transit corridors, and elevated air rights coexist within the same horizontal footprint. A 2D cadastre cannot disambiguate:
-- Who owns apartment 1402 on the 14th floor versus apartment 202 on the 2nd floor directly beneath it.
-- Where private ownership ends and undivided common property (corridors, elevator shafts, fire escapes) begins.
-- Unauthorized structural encroachments into shared amenities or overlapping deed claims.
-- Subsurface infrastructure (metro tunnels, power conduits, sewage mains) and overhead air rights.
+vKarma is deployed and running live on Render:
 
-**vkarma** solves this fundamental limitation by delivering an **end-to-end 3D Cadastral Digital Twin & Land Administration System**. Aligned with the international **ISO 19152 Land Administration Domain Model (LADM)** and India's **Digital India Land Records Modernization Programme (DILRMP) / Bhu-Aadhaar** initiative, the platform converts raw survey data (aerial LiDAR point clouds, drone photogrammetry, satellite footprints, and RERA floor plans) into structured, legally unambiguous 3D digital records.
-
-Every space—whether a residential unit, parking bay, elevator shaft, or air-rights envelope—receives an immutable, non-sequential, tamper-checked **3D ULPIN** (`PPPPPP-T-RRRRRRRR-C`).
+| Portal | URL | Description |
+| :--- | :--- | :--- |
+| **Official Sovereign Portal** | [https://vkarma.onrender.com](https://vkarma.onrender.com) | Sovereign landing portal with pilot zone launcher |
+| **3D WebGIS Console** | [https://vkarma.onrender.com/console](https://vkarma.onrender.com/console) | Interactive 3D Cadastral Digital Twin, Dispute Scanner & Pipeline |
+| **3D ULPIN Passport Portal** | [https://vkarma.onrender.com/ulpin](https://vkarma.onrender.com/ulpin) | Citizen Bhu-Aadhaar verification, deed download & Google Wallet pass |
+| **System Architecture Guide** | [https://vkarma.onrender.com/about](https://vkarma.onrender.com/about) | In-depth ISO 19152, pipeline, and security specifications |
+| **Interactive OpenAPI Docs** | [https://vkarma.onrender.com/docs](https://vkarma.onrender.com/docs) | Swagger UI for exploring and testing all REST APIs |
+| **ReDoc Documentation** | [https://vkarma.onrender.com/redoc](https://vkarma.onrender.com/redoc) | Clean, responsive API documentation |
+| **Uptime Health Check** | [https://vkarma.onrender.com/health](https://vkarma.onrender.com/health) | Uptime and service status monitor (returns HTTP 200 OK) |
 
 ---
 
-## 🏛️ System Architecture
+## 📖 Executive Summary & Core Mission
+
+### The Critical Limitation of 2D Cadastres
+Traditional land registries operate on **two-dimensional (2D) parcel boundaries**. In modern high-density vertical cities, residential towers, commercial complexes, subterranean transit corridors, underground utility conduits, and elevated air rights all occupy the exact same horizontal footprint. A conventional 2D cadastre cannot disambiguate:
+- **Vertical Ownership**: Who owns apartment 1402 on the 14th floor versus apartment 202 on the 2nd floor directly beneath it.
+- **Common Property Boundaries**: Where private ownership ends and undivided common property (corridors, elevator shafts, structural columns, fire escapes) begins.
+- **Topological Disputes**: Encroachments into shared amenities, illegal balcony extensions, or overlapping deed claims between adjacent units.
+- **Subterranean & Air Rights**: Underground metro tunnels, high-voltage utility vaults, basements, and +15m overhead air-rights buffers.
+
+### The vKarma Solution
+**vKarma** delivers a sovereign **3D Cadastral Digital Twin & Land Administration System** aligned with the international **ISO 19152 Land Administration Domain Model (LADM)** and India's **Digital India Land Records Modernization Programme (DILRMP) / Bhu-Aadhaar** initiative.
+
+The system ingests raw spatial data (aerial LiDAR point clouds, satellite building footprints from Overture Maps / OSM, and architectural floor plans), runs them through an automated **10-stage AI/ML pipeline**, extrudes **real polygonal building contours**, mints cryptographically verified **3D ULPIN identifiers**, and issues official land titles via **DigiLocker XML** and **Google Wallet Mobile Passes**.
+
+---
+
+## 🏗️ System Architecture
 
 ```mermaid
 flowchart TD
-    subgraph DataSources["1. Multi-Sensor Data Sources"]
+    subgraph DataSources["1. Multi-Sensor Spatial Ingestion"]
         LIDAR["LiDAR Point Clouds (.las / .laz)"]
-        OSM["OpenStreetMap / Satellite Footprints"]
+        OVERTURE["Overture Maps & OpenStreetMap Polygons"]
         RERA["RERA Architectural Floor Plans"]
-        DEM["Digital Elevation Models (OpenTopography / CartoDEM)"]
+        DEM["Digital Elevation Models (OpenTopography / USGS 3DEP)"]
     end
 
     subgraph Pipeline["2. 10-Stage Geospatial Processing Pipeline"]
-        S1["Stage 1: Multi-Sensor Ingestion"]
+        S1["Stage 1: Multi-Sensor Ingestion & Streaming"]
         S2["Stage 2: Cloth Simulation Filter (CSF Ground Extraction)"]
-        S3["Stage 3: Multi-Scale Point Classifier (Ground, Walls, Roofs, Trees)"]
-        S4["Stage 4: DBSCAN Building Instance Clustering"]
-        S5["Stage 5: 2D Footprint Regularization (Alpha-Shape / Concave Hull)"]
+        S3["Stage 3: Multi-Scale Covariance Point Classifier"]
+        S4["Stage 4: DBSCAN Building Instance Segmentation"]
+        S5["Stage 5: Real Footprint Contour Extrusion (Shapely)"]
         S6["Stage 6: Floor Plan & Elevation Volumetric Fusion"]
-        S7["Stage 7: Watertight 3D Boundary Representation (B-Rep Mesh)"]
-        S8["Stage 8: ISO 19152 Legal Space Unit Subdivision"]
-        S9["Stage 9: Feistel FPE + Verhoeff 3D ULPIN Minting"]
-        S10["Stage 10: 3D Spatial Collision & Dispute Detection"]
+        S7["Stage 7: Watertight 3D B-Rep Mesh Generation"]
+        S8["Stage 8: ISO 19152 Legal Space Subdivision"]
+        S9["Stage 9: Feistel FPE + Verhoeff Dihedral 3D ULPIN Minting"]
+        S10["Stage 10: Topological Conflict & Encroachment Scanner"]
         
         S1 --> S2 --> S3 --> S4 --> S5 --> S6 --> S7 --> S8 --> S9 --> S10
     end
 
     subgraph Persistence["3. Storage & Distributed Tasks"]
         POSTGRES["PostgreSQL + PostGIS (Supabase Cloud)"]
-        REDIS["Redis Message Broker"]
-        CELERY["Celery Distributed Background Workers"]
+        REDIS["Redis Message Broker (Upstash / Local)"]
+        WORKER["Celery Worker / Resilient In-Memory ThreadPool"]
     end
 
-    subgraph ServiceLayer["4. API & Application Services"]
-        FASTAPI["FastAPI REST & WebSocket Server"]
-        DIGILOCKER["DigiLocker Issuer & Document Exchange Gateway (MeitY)"]
-        DELIVERY["Address-as-a-Service (UPI for 3D Delivery)"]
+    subgraph ServiceLayer["4. API & Application Gateways"]
+        FASTAPI["FastAPI REST & Static WebGIS Server"]
+        DIGILOCKER["DigiLocker Gateway (MeitY / DoLR XML Title Issuer)"]
+        GWALLET["Google Wallet Generic Passes API (RS256 JWT)"]
+        BREVO["Brevo Transactional Email Gateway"]
+        DELIVERY["Address-as-a-Service (3D Drone & Delivery Coordinates)"]
         DISPUTE["Topological Dispute & Encroachment Scanner"]
-        ULPIN_ENGINE["Cryptographic ULPIN Verifier"]
     end
 
     subgraph Presentation["5. 3D WebGIS Presentation Layer"]
-        WEBGIS["Three.js / CesiumJS 3D WebGL Viewer"]
-        LEAFLET["Leaflet 2D GIS Bounding Box Selector"]
-        EXPLODED["Exploded Floor-by-Floor Inspector"]
+        CESIUM["CesiumJS 3D WebGL Engine (Terrain Topo Model)"]
+        LEAFLET["Leaflet 2D GIS Interactive Bounding Box Selector"]
+        EXPLODED["Exploded Floor-by-Floor Volumetric Inspector"]
         CERT["Printable 3D Bhu-Aadhaar Certificate Generator"]
-        LOCKER_MODAL["DigiLocker Citizen Sovereign Cloud Vault"]
+        WALLET_MODAL["Google Wallet 3D Land Pass Dialog"]
     end
 
     DataSources --> S1
     S10 --> POSTGRES
     FASTAPI <--> POSTGRES
-    FASTAPI <--> CELERY
-    CELERY <--> REDIS
-    FASTAPI --> WEBGIS
+    FASTAPI <--> WORKER
+    WORKER <--> REDIS
+    FASTAPI --> CESIUM
     FASTAPI --> DIGILOCKER
+    FASTAPI --> GWALLET
+    FASTAPI --> BREVO
     FASTAPI --> DELIVERY
     FASTAPI --> DISPUTE
-    FASTAPI --> ULPIN_ENGINE
-    WEBGIS <--> LEAFLET
-    WEBGIS <--> EXPLODED
-    WEBGIS --> CERT
-    CERT --> LOCKER_MODAL
-    DIGILOCKER <--> LOCKER_MODAL
+    CESIUM <--> LEAFLET
+    CESIUM <--> EXPLODED
+    CESIUM --> CERT
+    CESIUM --> WALLET_MODAL
 ```
 
 ---
 
 ## 🔬 The 10-Stage Geospatial AI/ML & Cadastral Pipeline
 
-The platform processes raw geographic survey data through a sequential, deterministic 10-stage pipeline:
+Raw geospatial surveys are processed through a deterministic, high-throughput 10-stage pipeline:
 
-| Stage | Name | Technical Implementation | Purpose |
-|:---:|:---|:---|:---|
-| **01** | **Multi-Sensor Ingestion** | `lidar_fetcher.py`, `building_discovery.py` | Ingests `.las` / `.laz` point clouds, OpenStreetMap building vectors, OpenTopography elevation data, and architectural CAD/PDF plans. |
-| **02** | **Cloth Simulation Filter (CSF)** | `csf_filter.py` | Inverts point clouds upside down and drapes a virtual physical cloth to classify real bare-earth terrain from above-ground objects. |
-| **03** | **Multi-Scale Point Classifier** | `point_classifier.py` | Computes local 3D geometric eigenvalues ($\lambda_1, \lambda_2, \lambda_3$), planarity, sphericity, and verticality to classify points into Ground (Class 2), Vegetation (Class 4/5), and Building Shell (Class 6). |
-| **04** | **Building Instance Clustering** | `clustering.py` | Runs DBSCAN (Density-Based Spatial Clustering of Applications with Noise) on building shell points to separate distinct physical structures with road setbacks. |
-| **05** | **Footprint Regularization** | `footprint_extractor.py` | Computes 2D concave hulls (Alpha-Shapes) and performs orthogonalization / right-angle regularization of building ground profiles. |
-| **06** | **Floor Plan & Elevation Fusion** | `extrusion_engine.py` | Fuses vertical building heights with RERA floor plan layouts to allocate storey heights, parapets, and basement levels. |
-| **07** | **Physical Unit Mesh Generation** | `extrusion_engine.py` | Synthesizes watertight 3D polyhedral boundary representations (B-Rep) for each building envelope. |
-| **08** | **ISO 19152 Legal Space Subdivision** | `ladm/schema.py`, `pipeline_orchestrator.py` | Subdivides physical shells into legal space units: Residential Units (`A`), Corridors (`C`), Fire Staircases (`S`), Common Amenities (`M`), Parking Bays (`P`), Utilities (`U`), and Air Rights (`R`). |
-| **09** | **Cryptographic 3D ULPIN Minting** | `ulpin/ulpin_generator.py` | Mints an immutable 17-character identifier using an 8-round Balanced Feistel Cipher over base-34 with a Dihedral Group $D_5$ Verhoeff checksum. |
-| **10** | **Topological Dispute Validation** | `ladm/cadastral_db.py` | Performs 3D Axis-Aligned Bounding Box (AABB) and polyhedral intersection tests (Jaljolie et al.) to identify encroachments and overlapping titles. |
-
----
-
-## 🔒 3D ULPIN Cryptographic Architecture
-
-Each legal 3D spatial unit is minted with a 16-character identifier formatted as:
-
-$$\mathbf{PPPPPP}-\mathbf{T}-\mathbf{RRRRRRRR}-\mathbf{C}$$
-
-```
- 5 6 0 1 0 3 - A - 8 K 2 M 9 N 4 X - 7
-|___ ___ ___| | | |_______ _______| | |
-  Pincode     | |   Feistel FPE     | Verhoeff Check Digit
-  (6 digits)  | |   (8 chars, B34)  | (Dihedral D5 Group)
-              | |
-       Space Type Code
-       (A, C, S, M, P, U, B, R)
-```
-
-### 1. Structure Breakdown
-- **`PPPPPP` (6-Digit Geographic Key)**: Standard postal pincode anchoring the 3D unit to its geographic jurisdiction.
-- **`T` (1-Character Legal Space Type)**:
-  - `A` = Private Residential Apartment
-  - `C` = Common Access Corridor (Right of Way)
-  - `S` = Fire Staircase & Evacuation Shaft
-  - `M` = Shared Amenities / Skydeck / Terrace
-  - `P` = Dedicated Parking Bay (Surface or Basement)
-  - `U` = Utility Riser / Subsurface Infrastructure
-  - `B` = Whole Building Physical Shell
-  - `R` = Air-Rights Envelope (Prescribed vertical clearance)
-- **`RRRRRRRR` (8-Character Format-Preserving Encryption - FPE)**:
-  - Generated using an **8-round Balanced Feistel Network**.
-  - Operates over an alphabet of 34 unambiguous alphanumeric characters (omitting confusing glyphs `0`, `O`, `1`, `I`).
-  - Round function driven by `HMAC-SHA256` keyed with a national secret key.
-  - **Security Guarantee**: Unpredictable, non-sequential, and non-enumerable. Prevents unauthorized crawling or scrapers from enumerating property registries.
-- **`C` (1-Digit Verhoeff Dihedral $D_5$ Checksum)**:
-  - Permutation table based on the non-abelian Dihedral group of order 10 ($D_5$).
-  - Identical to the Indian UIDAI Aadhaar standard.
-  - Catches **100% of single-character entry errors** and **100% of adjacent character transposition errors**.
+| Stage | Name | Technical Implementation | Purpose & Output |
+|---|---|---|---|
+| **1** | **Multi-Sensor Ingestion** | `laspy` + `lazrs` streaming parser | Ingests dense point clouds (LAZ 1.4), geospatial metadata, and coordinate reference frames (WGS84 / EPSG:4326). |
+| **2** | **CSF Ground Filtering** | Cloth Simulation Filter (Zhang et al.) | Inverts point cloud and simulates a physical cloth draped under gravity to mathematically separate bare-earth terrain from above-ground objects. |
+| **3** | **Multi-Scale Point Classifier** | Normal estimation & geometric saliency | Computes eigenvalues ($\lambda_1, \lambda_2, \lambda_3$) of local covariance matrices to classify planar facades (walls), horizontal planes (roofs), and vegetation. |
+| **4** | **Building Clustering** | Density-Based Spatial Clustering (DBSCAN) | Groups structural points into discrete building instances based on euclidean distance ($\epsilon$) and minimum neighbor density. |
+| **5** | **Real Footprint Contour Extrusion** | Shapely Geometric Contour Polygonization | Preserves authentic multi-corner boundaries (L-shapes, angled wings, trapezoids) from Overture Maps / OSM instead of generic cuboids. |
+| **6** | **Floor Plan & Elevation Fusion** | Iterative Closest Point (ICP) + Height Slicing | Combines vertical LiDAR height bounds with RERA structural floor heights ($3.2\text{m}$ standard) to generate vertical floor boundaries. |
+| **7** | **Watertight 3D Mesh Generation** | Boundary Representation (B-Rep) | Constructs closed, watertight polyhedra for each legal volume ensuring Euler characteristic $\chi = V - E + F = 2$. |
+| **8** | **ISO 19152 Legal Space Subdivision** | LADM Part 2 Schema Mapping | Subdivides building physical space into legal space units: Apartments (`A`), Parking Bays (`P`), Staircases (`S`), Utility Shafts (`U`), Common Sky Terraces (`M`), and Air-Rights (`R`). |
+| **9** | **3D ULPIN Minting** | 32-bit Balanced Feistel Cipher + Verhoeff Dihedral $D_5$ | Mints unique, non-sequential, pseudorandom 16-character alphanumeric identifiers with guaranteed single-digit and transposition error detection. |
+| **10** | **Topological Conflict Scanner** | 3D Intersection & Volumetric Overlap Analysis | Scans cadastre using boundary collision detection (Jaljolie et al.) to identify encroachments, overlaps, and easement violations in real time. |
 
 ---
 
-## 📐 Alignment with ISO 19152 (LADM) Standard
+## 📐 Real Footprint Contour Extrusion
 
-The data schema directly maps to the formal ISO 19152 Land Administration Domain Model:
+Unlike conventional cadastral prototypes that force all buildings into identical rectangular boxes, **vKarma** implements **Real Footprint Contour Extrusion**:
 
-```mermaid
-classDiagram
-    class LA_SpatialUnit {
-        +UUID su_id
-        +String 3d_ulpin
-        +LegalSpaceType space_type
-        +Float carpet_area_sqm
-        +Float volume_cbm
-        +Geometry3D extents_3d
-    }
-
-    class LA_BAUnit {
-        +UUID ba_id
-        +String property_name
-        +String building_id
-    }
-
-    class LA_Party {
-        +UUID party_id
-        +String owner_name
-        +String aadhaar_pan_hash
-        +String party_role
-    }
-
-    class LA_RRR {
-        +UUID rrr_id
-        +RRRType type
-        +Float share_ratio
-        +String encumbrance_status
-        +String bank_lien
-    }
-
-    class LA_Source {
-        +UUID source_id
-        +String deed_registration_no
-        +String sro_stamp
-        +String rera_sanction_id
-    }
-
-    LA_BAUnit "1" *-- "many" LA_SpatialUnit : contains
-    LA_BAUnit "1" *-- "many" LA_RRR : governed by
-    LA_Party "1" *-- "many" LA_RRR : holds
-    LA_RRR "1" *-- "many" LA_Source : verified by
-```
-
-- **`LA_SpatialUnit`**: Represents the physical 3D volume with metric carpet area ($m^2$), 3D volume ($m^3$), vertical bounding extents ($z_{min}, z_{max}$), and 3D ULPIN.
-- **`LA_BAUnit` (Basic Administrative Unit)**: Associates multiple spatial units (e.g., Apartment 4B + Basement Parking Bay P-12 + 1/24th Undivided Share in Terrace).
-- **`LA_Party`**: Verified natural or legal entities holding rights, pseudonymized via one-way cryptographic SHA-256 hashes.
-- **`LA_RRR` (Rights, Restrictions, Responsibilities)**:
-  - **Rights**: Freehold ownership, leasehold, easement rights-of-way.
-  - **Restrictions**: Bank hypothecation / home loan mortgage liens (e.g., SBI, HDFC), municipal height covenants.
-  - **Responsibilities**: Maintenance fee obligations, emergency fire corridor access.
-- **`LA_Source`**: Primary legal references including Sub-Registrar Office (SRO) deed registration numbers, stamp certificates, and RERA building plan sanctions.
+1. **Authentic Boundary Geometry**: Ingests multi-vertex polygon contours from Overture Maps and OpenStreetMap (preserving L-shapes, T-wings, courtyards, angled towers, and custom polygons).
+2. **Polygon-Clipped Units**: Floor units are partitioned using Shapely 2D polygon intersection (`building_poly.intersection(quadrant_box)`). Every unit's exterior boundary precisely matches the building's authentic architectural outline.
+3. **Multi-Vertex Rooftop & Air-Rights**: Sky Terraces (`M`) and Air-Rights envelopes (`R`) conform to the full multi-vertex building perimeter.
+4. **Architectural Wireframe Shell**: In CesiumJS, every building is enveloped in an extruded cyan architectural wireframe (`#20D9E6`) spanning from ground elevation to total structural height.
 
 ---
 
-## 🌐 Real-World Data Integration
+## 🔐 3D ULPIN Cryptographic Architecture
 
-The platform is designed to operate with both local high-density survey data and open Indian public datasets:
+India's 2D Bhu-Aadhaar assigns a 14-digit centroid code. In vertical cities, dozens of property owners share the exact same 2D coordinate. **vKarma** establishes the **3D ULPIN Standard**:
 
-| Data Program / Registry | Authority | Role in vkarma Pipeline |
-|:---|:---|:---|
-| **DILRMP (Bhu-Aadhaar / ULPIN)** | Department of Land Resources (DoLR), MoRD | Base parcel geometry, 14-digit rural/urban 2D parcel boundaries, and state BhuNaksha cadastral vector polygons. |
-| **SVAMITVA Scheme** | Ministry of Panchayati Raj & Survey of India | High-resolution drone photogrammetry, point clouds (`.las`/`.laz`), Digital Surface Models (DSM), and property cards (Gharouni). |
-| **ISRO Bhuvan Geoportal** | National Remote Sensing Centre (NRSC) | High-resolution Indian satellite basemaps, CartoDEM / Cartosat 3D elevation rasters, and state WMS/WFS cadastral layers. |
-| **State RERA Portals** | MahaRERA, K-RERA, UP-RERA, etc. | Public architectural floor layouts, unit dimensions, common undivided area schedules, and builder sanction plans. |
-| **OpenStreetMap & Overpass API** | OpenStreetMap Foundation | Real-time extraction of building footprints, registered building names, storeys, and street corridors across any Indian metro. |
-| **OpenTopography API** | NSF / OpenTopography | Global 30m / high-res digital elevation models (Copernicus GLO-30, ALOS AW3D30) configured via `OPENTOPOGRAPHY_API_KEY`. |
+$$\mathbf{PPPPPP}\text{ - }\mathbf{T}\text{ - }\mathbf{RRRRRRRR}\text{ - }\mathbf{C}$$
+
+```text
+ 560103  -  A  -  G011E73B  -  8
+└──┬───┘   └┬┘   └───┬────┘   └┬┘
+   │        │        │         └── Verhoeff Dihedral (D5) Checksum Digit
+   │        │        └──────────── 32-Bit Balanced Feistel Obfuscated Token (Base32)
+   │        └───────────────────── ISO 19152 Space Type Code
+   └────────────────────────────── 6-Digit Postal Index Number (Pincode)
+```
+
+### ISO 19152 Space Type Codes:
+- `A` — Private Apartment / Residential Flat
+- `C` — Shared Corridor (Right of Way)
+- `S` — Fire Staircase & Elevator Core
+- `M` — Sky Terrace / Rooftop Common Deck
+- `P` — Subsurface Parking Bay
+- `U` — Subsurface Utility Vault / Energy Transformer
+- `B` — Physical Building Outer Shell
+- `R` — Air-Rights Envelope (+15m Vertical Sky Buffer)
+
+### Cryptographic Properties:
+1. **Feistel Cipher Obfuscation**: The serial integer is transformed via a 3-round balanced Feistel cipher with SHA-256 round keys, preventing enumeration attacks or sequential deed tampering.
+2. **Verhoeff Dihedral $D_5$ Check Digit**: Evaluated over the non-abelian Dihedral group $D_5$, detecting 100% of single-digit substitution errors and 100% of adjacent transposition errors.
 
 ---
 
-## ⚡ Address-as-a-Service (UPI for 3D Addresses)
+## 🇮🇳 Government & Digital Identity Integrations
 
-Traditional addresses fail in multi-storey environments: delivery couriers and emergency responders frequently struggle to pinpoint the exact floor or wing in complex complexes.
+### 1. DigiLocker Document Exchange (MeitY / DILRMP)
+- **DoLR DILRMP Standard Schema**: Issues official XML certificates (`BHUCR`) conforming to MeitY circulars with digital signatures and IPFS hashes.
+- **Sovereign Cloud Vault**: Citizens can view, verify, and pull authentic digital title deeds into their DigiLocker account.
+- **Sandbox Simulation**: Operates out-of-the-box in sandbox mode with zero external dependencies.
 
-`vkarma` exposes a high-precision **3D Address Resolution API**:
-```http
-GET /api/delivery/resolve/560103-A-8K2M9N4X-7
-```
+### 2. Google Wallet Generic Passes API
+- **Digital Land Passport**: Issues native Google Wallet Passes for Android and WearOS.
+- **RS256 JWT Signing**: Signed using Google Cloud Service Account credentials (`vkarma-service@vkarma-wallet.iam.gserviceaccount.com`).
+- **Complete Self-Contained JWT**: Includes both `genericClasses` and `genericObjects` with QR code deep links back to the 3D digital twin.
+- **Direct Save Link**: Generates a standard `https://pay.google.com/gp/v/save/{JWT}` button directly in the browser.
 
-**Response Payload:**
-```json
-{
-  "status": "success",
-  "3d_ulpin": "560103-A-8K2M9N4X-7",
-  "address_label": "Unit 402, Horizon Tower B, Bellandur, Bengaluru",
-  "coordinates": {
-    "latitude": 12.927923,
-    "longitude": 77.683415,
-    "altitude_msl_m": 948.5,
-    "altitude_agl_m": 24.5
-  },
-  "vertical_profile": {
-    "floor_level": 4,
-    "wing_quadrant": "North-East",
-    "access_entry_point": "Elevator Core B",
-    "drone_drop_window": {
-      "capable": true,
-      "balcony_latitude": 12.927941,
-      "balcony_longitude": 77.683438,
-      "drop_altitude_agl_m": 26.0
-    }
-  }
-}
+### 3. Brevo Transactional Email Gateway
+- **Official Delivery**: Dispatches 3D Bhu-Aadhaar Land Title Certificates and Executive Passports directly to citizen email addresses.
+- **Free Tier Integration**: 300 free emails per day with zero setup cost.
+
+### 4. Address-as-a-Service (AaaS) & 3D Drone Navigation
+- **Floor-Accurate Coordinates**: Provides exact 3D dispatch coordinates (`latitude, longitude, altitude_agl, floor_level`).
+- **Autonomous Drone Delivery**: Enables rooftop and balcony landing coordinates for automated aerial logistics.
+
+---
+
+## ☁️ 100% Free Cloud Deployment Architecture
+
+The entire platform runs on **100% free cloud services**:
+
+| Service | Provider | Free Plan Quota | Configured Role |
+| :--- | :--- | :--- | :--- |
+| **Web Service & APIs** | [Render](https://render.com) | 512MB RAM, Free SSL, Auto-Deploy on `git push` | Serves FastAPI REST APIs & 3D WebGIS frontend |
+| **Spatial Database** | [Supabase](https://supabase.com) | 500MB PostgreSQL, PostGIS, Connection Pooler | Stores spatial units, legal deeds, and parties |
+| **Async Task Worker** | Built-in ThreadPool / [Upstash](https://upstash.com) | Zero-cost in-process / 10,000 req/day Redis | Executes 10-stage AI pipeline asynchronously |
+| **3D Topo Terrain** | [Cesium Ion](https://ion.cesium.com) | 5GB 3D asset storage, 75GB/month streaming | Renders WebGL global 3D viewer |
+| **LiDAR Aerial Survey** | [OpenTopography](https://portal.opentopography.org) | Free registered developer key | Ingests real point cloud survey data |
+| **Transactional Email** | [Brevo](https://www.brevo.com) | 300 free emails/day forever | Sends digital land certificates |
+| **Mobile Land Pass** | [Google Cloud Platform](https://pay.google.com/business/console) | Free Generic Passes API (0 cost) | Issues Google Wallet cards |
+
+---
+
+## 📂 Repository Structure
+
+```text
+vkarma/
+├── backend/
+│   ├── app.py                         # FastAPI web application, API routes, and static mounts
+│   ├── celery_worker.py               # Celery async worker configuration
+│   ├── email_service.py               # Brevo transactional email dispatcher
+│   ├── run_server.py                  # Local development launcher with dynamic PORT binding
+│   ├── tasks.py                       # Celery / ThreadPool async pipeline tasks
+│   ├── database/
+│   │   ├── repository.py              # Supabase PostGIS spatial data access layer
+│   │   ├── migration_runner.py        # Automated SQL schema migrator
+│   │   └── supabase_client.py         # Resilient Supabase client with in-memory fallback
+│   ├── digilocker/
+│   │   ├── issuer_service.py          # MeitY / DoLR DILRMP XML certificate generator
+│   │   └── models.py                  # DigiLocker document data schemas
+│   ├── ladm/
+│   │   ├── cadastral_db.py            # ISO 19152 cadastral database manager
+│   │   ├── schema.py                  # LADM Part 2 core classes (LA_SpatialUnit, LA_RRR, etc.)
+│   │   ├── seed_cadastre.py           # Pilot city cadastre seeder (Bengaluru, Mumbai, Delhi)
+│   │   └── topological_validator.py   # 3D spatial overlap and collision engine
+│   ├── pipeline/
+│   │   ├── building_discovery.py      # Overture Maps & OpenStreetMap polygon discovery
+│   │   ├── building_images.py         # Realistic architectural facade imagery
+│   │   ├── clustering.py              # DBSCAN building instance clustering
+│   │   ├── csf_filter.py              # Cloth Simulation Filter bare-earth ground separation
+│   │   ├── extrusion_engine.py        # Real footprint contour extrusion & unit partitioning
+│   │   ├── footprint_extractor.py     # Alpha-shape & concave hull polygon extraction
+│   │   ├── lidar_fetcher.py           # OpenTopography LAZ point cloud stream fetcher
+│   │   ├── pipeline_orchestrator.py   # 10-stage sequential pipeline coordinator
+│   │   └── point_classifier.py        # Covariance eigenvalue geometric point classifier
+│   ├── ulpin/
+│   │   ├── feistel_fpe.py             # 32-bit balanced Feistel cipher implementation
+│   │   ├── ulpin_generator.py         # Complete 3D ULPIN parser and generator
+│   │   └── verhoeff.py                # Dihedral group D5 checksum algorithm
+│   └── wallet/
+│       └── google_wallet_service.py   # Google Wallet Generic Passes API & RS256 JWT signer
+├── frontend/
+│   ├── index.html                     # 3D WebGIS Console (redirect target)
+│   ├── landing.html                   # Sovereign national landing page
+│   ├── console.html                   # Interactive 3D Digital Twin & Dispute Scanner
+│   ├── ulpin.html                     # Citizen Bhu-Aadhaar Verification & Wallet Portal
+│   ├── about.html                     # Technical architecture & compliance specifications
+│   ├── css/
+│   │   └── styles.css                 # Premium dark-mode glassmorphic design system
+│   └── js/
+│       ├── viewer3d.js                # CesiumJS 3D WebGL renderer & polygon visualizer
+│       ├── console_ui.js              # 3D GIS interactive dashboard and dispute tools
+│       ├── bounding_box_selector.js   # Leaflet 2D geospatial bounding box picker
+│       └── ulpin_portal.js            # Bhu-Aadhaar lookup, deed download & wallet pass logic
+├── tests/                             # 59 automated unit and integration tests
+├── Dockerfile                         # Production Docker container definition
+├── docker-compose.yml                 # Local container orchestration
+├── render.yaml                        # Infrastructure-as-code for Render cloud deployment
+├── requirements.txt                   # Production Python dependencies
+└── .env.example                       # Documented environment variable template
 ```
 
 ---
 
-## 💻 Tech Stack
-
-- **Backend**: Python 3.10+, [FastAPI](https://fastapi.tiangolo.com/), Pydantic v2, NumPy, SciPy, Laspy.
-- **Asynchronous Processing**: Celery, Redis.
-- **Database & Spatial Engine**: PostgreSQL with PostGIS extension, [Supabase](https://supabase.com/).
-- **3D Visualization**: [Three.js](https://threejs.org/), [CesiumJS](https://cesium.com/platform/cesiumjs/), Leaflet GIS.
-- **Testing & Quality Assurance**: Pytest, automated Verhoeff and Feistel cryptographic test suites.
-- **Containerization**: Docker, Docker Compose, Render.com blueprint.
-
----
-
-## 🚀 Getting Started
+## 🚀 Quickstart & Local Setup
 
 ### 1. Prerequisites
-- **Python 3.10+**
-- **Git**
-- **Redis** (optional for async pipeline runs; system falls back to thread pools when Redis is absent)
+- Python 3.11 or higher
+- Git
 
-### 2. Clone the Repository
+### 2. Clone Repository
 ```bash
 git clone https://github.com/Pranav-joshi02/vkarma.git
 cd vkarma
 ```
 
-### 3. Setup Virtual Environment
+### 3. Create Virtual Environment
 ```bash
-python -m venv .venv
-# On Windows (PowerShell):
-.venv\Scripts\Activate.ps1
-# On macOS / Linux:
-source .venv/bin/activate
+python -m venv venv
+# Windows:
+.\venv\Scripts\activate
+# Linux/macOS:
+source venv/bin/activate
 ```
 
 ### 4. Install Dependencies
@@ -301,84 +300,163 @@ source .venv/bin/activate
 pip install -r requirements.txt
 ```
 
-### 5. Environment Configuration
-Copy the sample environment file:
+### 5. Configure Environment Variables
+Copy `.env.example` to `.env`:
 ```bash
 cp .env.example .env
 ```
-Fill in the optional API keys in `.env`:
+
+Configure your environment settings (all external APIs have built-in resilient in-memory fallbacks):
 ```ini
-# Optional: Redis connection for Celery distributed queue
-REDIS_URL=redis://localhost:6379/0
+# Server Configuration
+PORT=8000
+PUBLIC_URL=http://localhost:8000
 
-# Optional: OpenTopography API key for real DEM fetching
-OPENTOPOGRAPHY_API_KEY=your_key_here
+# 3D Geospatial Providers (Optional)
+CESIUM_ION_TOKEN=your_cesium_ion_token
+OPENTOPOGRAPHY_API_KEY=your_opentopo_key
 
-# Optional: Cesium Ion token for 3D global photogrammetry tiles
-CESIUM_ION_TOKEN=your_token_here
-
-# Optional: Supabase cloud database
+# Supabase PostGIS Database (Optional - in-memory fallback included)
 SUPABASE_URL=https://your-project.supabase.co
 SUPABASE_KEY=your_supabase_anon_key
+DATABASE_URL=postgresql://postgres.xxx:password@aws-0-ap-south-1.pooler.supabase.com:5432/postgres
+
+# DigiLocker Gateway
+DIGILOCKER_SANDBOX_MODE=true
+
+# Brevo Transactional Email (Optional)
+BREVO_API_KEY=your_brevo_api_key
+BREVO_SENDER_EMAIL=your_email@domain.com
+
+# Google Wallet Generic Passes API
+GOOGLE_WALLET_ISSUER_ID=3388000000023198169
+GOOGLE_WALLET_SA_EMAIL=vkarma-service@vkarma-wallet.iam.gserviceaccount.com
+GOOGLE_WALLET_SERVICE_ACCOUNT_JSON={"type":"service_account",...}
 ```
 
-### 6. Run the Application
+### 6. Launch Application
 ```bash
 python run_server.py
 ```
-Open your browser and navigate to:
-```
-http://localhost:8000
-```
+
+Access the application locally:
+- Landing Page: `http://localhost:8000`
+- 3D WebGIS Console: `http://localhost:8000/console`
+- Bhu-Aadhaar Portal: `http://localhost:8000/ulpin`
+- OpenAPI Swagger: `http://localhost:8000/docs`
 
 ---
 
 ## 🐳 Docker Deployment
 
-To launch the full stack (FastAPI server, Celery worker, and Redis) with a single command:
+Build and run the containerized application locally:
 
+```bash
+# Build Docker image
+docker build -t vkarma:latest .
+
+# Run container mapping port 8000 to internal container port 10000
+docker run -p 8000:10000 -e PORT=10000 --env-file .env vkarma:latest
+```
+
+Or using Docker Compose:
 ```bash
 docker-compose up --build
 ```
 
-The application will be live at `http://localhost:8000`.
+---
+
+## ☁️ Deploying to Render (Free Tier)
+
+vKarma is pre-configured for zero-configuration deployment on Render using `render.yaml`:
+
+1. Fork or push this repository to GitHub.
+2. Log in to [Render Dashboard](https://dashboard.render.com).
+3. Click **New +** → **Blueprint** and connect your repository (or create a **Web Service** with Environment `Docker`).
+4. Set the following required environment variables in the Render Dashboard:
+   - `PORT` = `10000`
+   - `PUBLIC_URL` = `https://vkarma.onrender.com`
+   - `GOOGLE_WALLET_ISSUER_ID` = `3388000000023198169`
+   - `GOOGLE_WALLET_SA_EMAIL` = `vkarma-service@vkarma-wallet.iam.gserviceaccount.com`
+   - `GOOGLE_WALLET_SERVICE_ACCOUNT_JSON` = Single-line minified JSON string of your Google Cloud service account key
+5. Ensure your Health Check Path is set to `/health`.
+6. Click **Deploy**. Render will build the Docker container and start the service with full dynamic port binding.
+
+### Google Wallet Demo Mode Note
+When using the Google Wallet Generic Passes API in **Demo Mode**:
+- Any Google Account attempting to save passes must be registered in the **Google Pay & Wallet Console** under **Test Accounts**.
+- Alternatively, request production publishing access directly from the Google Wallet Console.
 
 ---
 
-## 📡 API Reference Summary
+## 📡 REST API Reference
 
+### Geospatial Pipeline & Cadastre
 | Method | Endpoint | Description |
-|---|---|---|
-| `GET` | `/api/regions` | Returns preset Indian urban survey pilot areas. |
-| `POST` | `/api/pipeline/run` | Triggers the 10-stage geospatial processing pipeline on a bounding box. |
-| `GET` | `/api/pipeline/task/{task_id}` | Polls async pipeline progress and completion state. |
-| `POST` | `/api/area/buildings` | Discovers real buildings in selected bounding box via Overture Maps + OSM with hierarchical naming. |
+| :--- | :--- | :--- |
+| `GET` | `/api/regions` | Returns pre-configured urban pilot survey regions (Bengaluru, Mumbai, Delhi). |
+| `POST` | `/api/area/buildings` | Discovers real buildings in bounding box via Overture Maps + OSM. |
+| `POST` | `/api/pipeline/run` | Submits the 10-stage AI pipeline for asynchronous processing. |
+| `GET` | `/api/pipeline/status/{task_id}` | Polls pipeline execution stage, percentage, and results. |
 | `GET` | `/api/buildings` | Lists all registered 3D spatial building models. |
-| `GET` | `/api/buildings/{id}` | Returns watertight 3D meshes and legal units for a specific building. |
+| `GET` | `/api/buildings/{id}` | Returns watertight 3D meshes, footprint polygon, and legal units. |
+
+### 3D ULPIN, Disputes & Navigation
+| Method | Endpoint | Description |
+| :--- | :--- | :--- |
 | `GET` | `/api/ulpin/lookup/{ulpin}` | Returns complete ISO 19152 legal profile, RRR records, and deed links. |
 | `POST` | `/api/ulpin/verify` | Validates Verhoeff Dihedral $D_5$ checksum and Feistel structure. |
 | `POST` | `/api/disputes/scan` | Scans cadastral space for topological overlaps and encroachments. |
-| `GET` | `/api/delivery/resolve/{ulpin}`| Address-as-a-Service 3D coordinate and floor resolver. |
+| `GET` | `/api/delivery/resolve/{ulpin}` | Address-as-a-Service floor and drone coordinates resolver. |
 | `GET` | `/api/pointcloud/sample` | Streams classified LiDAR points for WebGL rendering. |
-| `POST` | `/api/digilocker/push-certificate` | Issues & signs 3D Bhu-Aadhaar certificate into DigiLocker vault. |
-| `GET` | `/api/digilocker/certificate/{ulpin}/xml` | Official MeitY XML certificate conforming to DoLR DILRMP schema. |
-| `POST` | `/api/email/send-certificate` | Sends official 3D land title certificate via Brevo Transactional SMTP. |
-| `POST` | `/api/email/send-passport` | Sends executive Digital Land Passport via Brevo Transactional SMTP. |
+
+### DigiLocker, Google Wallet & Communication Gateways
+| Method | Endpoint | Description |
+| :--- | :--- | :--- |
+| `POST` | `/api/digilocker/push-certificate` | Issues official 3D land title certificate into citizen DigiLocker vault. |
+| `GET` | `/api/digilocker/certificate/{ulpin}/xml` | Returns MeitY-compliant XML certificate conforming to DoLR DILRMP. |
 | `POST` | `/api/wallet/google-pass` | Generates official Google Wallet Generic Pass (RS256 JWT & Save URL). |
-| `GET` | `/api/wallet/config` | Returns Google Wallet issuer and configuration metadata. |
+| `GET` | `/api/wallet/config` | Returns Google Wallet issuer status and public configuration. |
+| `POST` | `/api/email/send-certificate` | Dispatches official 3D land deed via Brevo Transactional SMTP. |
+| `POST` | `/api/email/send-passport` | Dispatches executive Digital Land Passport via Brevo Transactional SMTP. |
+| `GET` | `/health` / `/healthz` | System liveness probe returning HTTP 200 OK. |
 
 ---
 
-## 🧪 Testing Suite
+## 🧪 Automated Testing Suite
 
-Execute the automated test suite covering cryptographic check digits, Feistel encryption, and LADM database models:
+The repository contains 59 automated unit and integration tests covering the cryptographic engine, pipeline stages, schema validation, and external gateways:
 
 ```bash
-pytest tests/ -v
+python -m pytest tests/ -v
+```
+
+```text
+======================= 59 passed, 2 warnings in 27.65s =======================
+tests/test_building_discovery_selection.py ...................  [ 32%]
+tests/test_building_realistic_images.py    .....                [ 40%]
+tests/test_custom_bbox.py                  ..                   [ 44%]
+tests/test_database.py                     ....                 [ 50%]
+tests/test_digilocker.py                   ......               [ 61%]
+tests/test_email_service.py                .....                [ 69%]
+tests/test_feistel.py                      ..                   [ 72%]
+tests/test_google_wallet.py                ......               [ 83%]
+tests/test_ladm.py                         ...                  [ 88%]
+tests/test_pipeline.py                     ...                  [ 93%]
+tests/test_verhoeff.py                     ....                 [100%]
 ```
 
 ---
 
-## 📄 License & Attribution
+## 📜 Compliance & Standards
 
-This project is licensed under the **MIT License** - see the [LICENSE](LICENSE) file for details. Built in accordance with **ISO 19152 (Geographic information — Land Administration Domain Model)** and India's **National Geospatial Policy**.
+- **ISO 19152:2012 / 2024**: Geographic information — Land Administration Domain Model (LADM) Part 2 (Land Registration & 3D Spatial Units).
+- **OGC 3D Portrayal Service**: Open Geospatial Consortium standards for WebGL volumetric GIS rendering.
+- **MeitY / DILRMP Guidelines**: Digital India Land Records Modernization Programme, Department of Land Resources (DoLR), Ministry of Rural Development, Government of India.
+- **National Geospatial Policy 2022**: Department of Science and Technology, Government of India.
+
+---
+
+## 📄 License
+
+This project is licensed under the **MIT License** — see the [LICENSE](LICENSE) file for details.

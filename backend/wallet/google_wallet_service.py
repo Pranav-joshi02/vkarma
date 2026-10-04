@@ -402,7 +402,8 @@ class GoogleWalletService:
             "typ": "savetowallet",
             "iat": now,
             "payload": {
-                "genericObjects": [compact_obj]
+                "genericClasses": [generic_class],
+                "genericObjects": [generic_object]
             }
         }
 
@@ -410,9 +411,6 @@ class GoogleWalletService:
             signed_jwt = jwt.encode(claims, self.private_key_raw, algorithm="RS256")
             return signed_jwt
         else:
-            # Include genericClasses and full object in fallback mock mode for standalone self-contained tests
-            claims["payload"]["genericClasses"] = [generic_class]
-            claims["payload"]["genericObjects"] = [generic_object]
             key = rsa.generate_private_key(public_exponent=65537, key_size=2048)
             pem_key = key.private_bytes(
                 encoding=serialization.Encoding.PEM,
