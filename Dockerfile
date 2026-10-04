@@ -28,8 +28,10 @@ RUN pip install --upgrade pip && \
 # Copy the entire project
 COPY . .
 
-# Expose FastAPI port
-EXPOSE 8000
+# Set default cloud port
+ENV PORT=10000
+EXPOSE 10000 8000
 
-# Default command (can be overridden in docker-compose.yml)
-CMD ["uvicorn", "backend.app:app", "--host", "0.0.0.0", "--port", "8000"]
+# Default command (uses shell expansion to respect $PORT from Render, Railway, Cloud Run, etc.)
+CMD ["sh", "-c", "uvicorn backend.app:app --host 0.0.0.0 --port ${PORT:-10000}"]
+

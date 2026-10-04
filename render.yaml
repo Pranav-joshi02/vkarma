@@ -1,34 +1,64 @@
 services:
-  # FastAPI Web Service
+  # ====================================================================
+  # vKarma 3D Cadastre - 100% Free Tier Render Web Service Blueprint
+  # Serves both the FastAPI REST APIs and the 3D Cesium WebGIS frontend.
+  # ====================================================================
   - type: web
-    name: cadastre-web
+    name: vkarma-3d-cadastre
     env: docker
     dockerfilePath: ./Dockerfile
-    dockerCommand: uvicorn backend.app:app --host 0.0.0.0 --port $PORT
-    plan: starter
-    envVars:
-      - key: REDIS_URL
-        fromService:
-          type: redis
-          name: cadastre-redis
-          property: connectionString
-
-  # Celery Worker Service
-  - type: worker
-    name: cadastre-worker
-    env: docker
-    dockerfilePath: ./Dockerfile
-    dockerCommand: celery -A backend.celery_worker worker --loglevel=info
-    plan: starter
-    envVars:
-      - key: REDIS_URL
-        fromService:
-          type: redis
-          name: cadastre-redis
-          property: connectionString
-
-# Managed Redis instance
-databases:
-  - type: redis
-    name: cadastre-redis
+    dockerCommand: sh -c "uvicorn backend.app:app --host 0.0.0.0 --port ${PORT:-10000}"
+    healthCheckPath: /health
     plan: free
+    region: singapore # Options: singapore, oregon, ohio, frankfurt
+    autoDeploy: true
+    envVars:
+      - key: PORT
+        value: 10000
+
+      # Optional Cloud Redis (e.g. Free Upstash Redis: rediss://default:...@...upstash.io:6379)
+      # If left empty, vKarma automatically uses its resilient built-in ThreadPool worker!
+      - key: REDIS_URL
+        sync: false
+
+      # Supabase PostgreSQL Cloud Database (Free 500MB + PostGIS)
+      - key: SUPABASE_URL
+        sync: false
+      - key: SUPABASE_KEY
+        sync: false
+      - key: DATABASE_URL
+        sync: false
+
+      # Cesium Ion 3D Engine Token (Free Community Account)
+      - key: CESIUM_ION_TOKEN
+        sync: false
+
+      # OpenTopography LiDAR API Key (Free)
+      - key: OPENTOPOGRAPHY_API_KEY
+        sync: false
+
+      # Brevo Transactional Email Gateway (Free 300 emails/day)
+      - key: BREVO_API_KEY
+        sync: false
+      - key: BREVO_SENDER_EMAIL
+        sync: false
+      - key: BREVO_SENDER_NAME
+        value: "vKarma 3D Cadastre"
+
+      # Google Wallet Generic Passes API
+      - key: GOOGLE_WALLET_ISSUER_ID
+        sync: false
+      - key: GOOGLE_WALLET_SA_EMAIL
+        sync: false
+      - key: GOOGLE_WALLET_PRIVATE_KEY
+        sync: false
+      - key: GOOGLE_WALLET_SERVICE_ACCOUNT_JSON
+        sync: false
+
+      # DigiLocker MeitY Gateway
+      - key: DIGILOCKER_SANDBOX_MODE
+        value: "true"
+      - key: DIGILOCKER_CLIENT_ID
+        sync: false
+      - key: DIGILOCKER_CLIENT_SECRET
+        sync: false

@@ -13,6 +13,7 @@ from backend.ladm.schema import (
     LA_Party, LA_Source, LA_RRR, RRRType, LegalSpaceType, UnitStatus
 )
 from backend.ulpin.ulpin_generator import generate_3d_ulpin
+from backend.pipeline.building_images import get_building_realistic_image
 
 SAMPLE_BANKS = ["State Bank of India (SBI)", "HDFC Bank Ltd.", "ICICI Bank", "Punjab National Bank", "Axis Bank"]
 SAMPLE_OWNERS = [
@@ -398,6 +399,16 @@ def extrude_and_partition_building(
     )
     legal_units.append(air_unit)
 
+    # Assign photorealistic architectural image tailored to building identity & height
+    bld_image_url = get_building_realistic_image(
+        building_name=building_name,
+        total_floors=floors_count,
+        building_id=building_id,
+        index=instance_id
+    )
+    for u in legal_units:
+        u.image_url = bld_image_url
+
     # Construct LA_SpatialUnit Physical Shell
     spatial_unit = LA_SpatialUnit(
         building_id=building_id,
@@ -412,7 +423,8 @@ def extrude_and_partition_building(
         footprint_polygon=geo_polygon,
         legal_units=legal_units,
         point_count=floors_count * 1250,
-        raw_las_filename=f"{building_id}_survey_tile.laz"
+        raw_las_filename=f"{building_id}_survey_tile.laz",
+        image_url=bld_image_url
     )
 
     return spatial_unit

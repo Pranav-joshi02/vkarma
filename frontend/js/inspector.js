@@ -7,6 +7,7 @@ class CadastralInspector {
   constructor(panelContainerId) {
     this.panel = document.getElementById(panelContainerId);
     this.deedModal = document.getElementById('deed-modal');
+    this.digilockerModal = document.getElementById('digilocker-modal');
     this.currentUnit = null;
     this.currentBuilding = null;
   }
@@ -96,6 +97,13 @@ class CadastralInspector {
             <span class="detail-value highlight">${unitCount} Units</span>
           </div>
         </div>
+        ${units.length > 0 ? `
+          <div style="margin-top: 10px;">
+            <a href="/ulpin/${encodeURIComponent(units[0].ulpin)}" target="_blank" style="width: 100%; box-sizing: border-box; text-decoration: none; padding: 8px 12px; background: linear-gradient(135deg, #0B1F33, #163654); color: #20D9E6; border-radius: 6px; font-size: 11px; font-weight: 700; display: inline-flex; align-items: center; justify-content: center; gap: 6px; box-shadow: 0 2px 6px rgba(11,31,51,0.2);">
+              <i class="fa-solid fa-passport"></i> View Digital Land Passport
+            </a>
+          </div>
+        ` : ''}
       </div>
     `;
 
@@ -213,6 +221,20 @@ class CadastralInspector {
             </svg>
             <span>View Digital Title Deed Certificate</span>
           </button>
+          <a href="/ulpin/${encodeURIComponent(u.ulpin)}" target="_blank" class="primary-process-btn" style="padding: 10px 14px; font-size: 12px; margin-top: 6px; background: linear-gradient(135deg, #0B1F33, #163654); color: #20D9E6; text-decoration: none; display: flex; align-items: center; justify-content: center; gap: 8px;">
+            <i class="fa-solid fa-passport"></i>
+            <span>View Digital Land Passport</span>
+          </a>
+          <!-- Save to DigiLocker Button -->
+          <button class="primary-process-btn" style="padding: 10px 14px; font-size: 12px; margin-top: 6px; background: linear-gradient(135deg, #002B49 0%, #004d80 100%); color: #ffffff; border: 1px solid #00a0e3; display: flex; align-items: center; justify-content: center; gap: 8px;" onclick="window.app && window.app.inspector.saveCertificateToDigiLocker('${u.ulpin}')">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none"><rect width="24" height="24" rx="4" fill="#003366"/><path d="M12 4C9.2 4 7 6.2 7 9c-1.7 0.3-3 1.8-3 3.5 0 2 1.6 3.5 3.5 3.5h9c1.9 0 3.5-1.6 3.5-3.5 0-1.8-1.4-3.3-3.1-3.5C16.5 6.3 14.5 4 12 4z" fill="#00a0e3"/><path d="M10.5 13.5l-2-2 1.2-1.2 1.3 1.3 3.8-3.8 1.2 1.2-5.5 5.5z" fill="#78be20"/></svg>
+            <span id="sidebar-digilocker-badge-${u.ulpin.replace(/[^a-zA-Z0-9]/g, '')}">Store in DigiLocker</span>
+          </button>
+          <!-- Email Certificate Button (Brevo) -->
+          <button class="primary-process-btn" style="padding: 10px 14px; font-size: 12px; margin-top: 6px; background: linear-gradient(135deg, #0B1F33 0%, #163654 100%); color: #20D9E6; border: 1px solid rgba(32, 217, 230, 0.4); display: flex; align-items: center; justify-content: center; gap: 8px;" onclick="window.app && window.app.inspector.openEmailModal('certificate', '${u.ulpin}')">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+            <span>Email Certificate (Brevo)</span>
+          </button>
         </div>
       `;
     }
@@ -282,9 +304,14 @@ class CadastralInspector {
 
                         <div class="legal-unit-footer">
                           <span class="legal-unit-ulpin">${u.ulpin}</span>
-                          <button class="btn-inspect-unit-mini" type="button" title="Focus 3D View">
-                            <i class="fa-solid fa-crosshairs"></i> Inspect
-                          </button>
+                          <div style="display: flex; gap: 6px; align-items: center;">
+                            <button class="btn-inspect-unit-mini" type="button" title="Focus 3D View">
+                              <i class="fa-solid fa-crosshairs"></i> Inspect
+                            </button>
+                            <a href="/ulpin/${encodeURIComponent(u.ulpin)}" target="_blank" class="btn-inspect-unit-mini" title="Open Land Passport" style="text-decoration: none; color: #0B1F33; background: #e0f7fa;">
+                              <i class="fa-solid fa-passport" style="color: #18A7A8;"></i> Passport
+                            </a>
+                          </div>
                         </div>
                       </div>
                     `;
@@ -501,12 +528,289 @@ class CadastralInspector {
               </div>
             </div>
           </div>
+
+          <!-- DigiLocker Sovereign Vault Integration Bar -->
+          <div class="deed-digilocker-bar">
+            <div style="display: flex; align-items: center; gap: 10px;">
+              <div style="background: #002B49; border-radius: 6px; padding: 4px; display: flex; align-items: center; justify-content: center; box-shadow: 0 2px 6px rgba(0,43,73,0.3);">
+                <svg width="22" height="22" viewBox="0 0 24 24" fill="none">
+                  <path d="M12 4C9.2 4 7 6.2 7 9c-1.7 0.3-3 1.8-3 3.5 0 2 1.6 3.5 3.5 3.5h9c1.9 0 3.5-1.6 3.5-3.5 0-1.8-1.4-3.3-3.1-3.5C16.5 6.3 14.5 4 12 4z" fill="#00a0e3"/>
+                  <path d="M10.5 13.5l-2-2 1.2-1.2 1.3 1.3 3.8-3.8 1.2 1.2-5.5 5.5z" fill="#78be20"/>
+                </svg>
+              </div>
+              <div>
+                <div style="font-size: 11px; font-weight: 800; color: #002B49; font-family: var(--font-sans); display: flex; align-items: center; gap: 6px;">
+                  DigiLocker Sovereign Vault
+                  <span id="deed-digilocker-badge" class="badge-digilocker-pending">Checking...</span>
+                </div>
+                <div style="font-size: 10px; color: #555; font-family: var(--font-sans);">
+                  Issued by Department of Land Resources (DoLR), Ministry of Rural Development &bull; Govt of India
+                </div>
+              </div>
+            </div>
+            <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+              <button type="button" id="btn-save-digilocker" class="btn-save-digilocker" onclick="window.app && window.app.inspector.saveCertificateToDigiLocker('${unit.ulpin}')">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M19.35 10.04C18.67 6.59 15.64 4 12 4 9.11 4 6.6 5.64 5.35 8.04 2.34 8.36 0 10.91 0 14c0 3.31 2.69 6 6 6h13c2.76 0 5-2.24 5-5 0-2.64-2.05-4.78-4.65-4.96zM14 13v4h-4v-4H7l5-5 5 5h-3z"/>
+                </svg>
+                <span id="btn-save-digilocker-text">Save to DigiLocker</span>
+              </button>
+              <button type="button" class="btn-email-action" style="background: linear-gradient(135deg, #0B1F33 0%, #163654 100%); color: #20D9E6; border: 1px solid rgba(32, 217, 230, 0.4); padding: 7px 12px; border-radius: 6px; font-size: 12px; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 6px;" onclick="window.app && window.app.inspector.openEmailModal('certificate', '${unit.ulpin}')">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="currentColor"><path d="M20 4H4c-1.1 0-1.99.9-1.99 2L2 18c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+                <span>Email Certificate</span>
+              </button>
+              <button type="button" class="btn-wallet-action" style="background: #1f1f1f; color: #ffffff; border: 1.5px solid #4285F4; padding: 7px 12px; border-radius: 6px; font-size: 12px; font-weight: 700; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; box-shadow: 0 2px 8px rgba(66, 133, 244, 0.25);" onclick="window.app && window.app.inspector.openGoogleWalletPass('${unit.ulpin}')">
+                <svg width="13" height="13" viewBox="0 0 24 24" fill="none">
+                  <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"/>
+                  <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"/>
+                  <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z" fill="#FBBC05"/>
+                  <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z" fill="#EA4335"/>
+                </svg>
+                <span id="btn-inspector-wallet-text">Save to Google Wallet</span>
+              </button>
+              <a href="/api/digilocker/certificate/${encodeURIComponent(unit.ulpin)}/xml" target="_blank" class="btn-view-digilocker-xml" title="Inspect official MeitY DigiLocker XML Schema">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <polyline points="16 18 22 12 16 6"></polyline>
+                  <polyline points="8 6 2 12 8 18"></polyline>
+                </svg>
+                XML Schema
+              </a>
+            </div>
+          </div>
+
         </div>
       `;
     }
 
     if (this.deedModal) {
       this.deedModal.classList.add('active');
+    }
+
+    // Check current DigiLocker storage status
+    this.checkDigiLockerStatus(unit.ulpin);
+  }
+
+  async checkDigiLockerStatus(ulpin) {
+    if (!ulpin || !window.digiLockerService) return;
+    try {
+      const status = await window.digiLockerService.getStatus(ulpin);
+      const badge = document.getElementById('deed-digilocker-badge');
+      const btn = document.getElementById('btn-save-digilocker-text');
+      const sidebarBadge = document.getElementById(`sidebar-digilocker-badge-${ulpin.replace(/[^a-zA-Z0-9]/g, '')}`);
+
+      if (status && status.is_stored) {
+        if (badge) {
+          badge.className = 'badge-digilocker-synced';
+          badge.innerHTML = `<i class="fa-solid fa-circle-check"></i> Stored in DigiLocker`;
+        }
+        if (btn) {
+          btn.textContent = 'Re-Sync DigiLocker';
+        }
+        if (sidebarBadge) {
+          sidebarBadge.innerHTML = `DigiLocker Stored ✓`;
+        }
+      } else {
+        if (badge) {
+          badge.className = 'badge-digilocker-pending';
+          badge.textContent = 'Available to Store';
+        }
+        if (btn) {
+          btn.textContent = 'Save to DigiLocker';
+        }
+      }
+    } catch (e) {
+      console.warn('[DigiLocker] Status check notice:', e);
+    }
+  }
+
+  async saveCertificateToDigiLocker(ulpinToSave = null) {
+    let unit = null;
+    if (ulpinToSave && this.currentBuilding && Array.isArray(this.currentBuilding.legal_units)) {
+      unit = this.currentBuilding.legal_units.find(u => u.ulpin === ulpinToSave);
+    }
+    if (!unit) unit = this.currentUnit;
+    if (!unit && this.currentBuilding && this.currentBuilding.legal_units && this.currentBuilding.legal_units.length > 0) {
+      unit = this.currentBuilding.legal_units[0];
+    }
+    if (!unit) {
+      alert("Please select a 3D legal unit first to store its certificate in DigiLocker.");
+      return;
+    }
+
+    const modal = document.getElementById('digilocker-modal');
+    const body = document.getElementById('digilocker-modal-body');
+    if (!modal || !body) return;
+
+    modal.classList.add('active');
+
+    const party = (unit.parties && unit.parties.length > 0) ? unit.parties[0] : { name: "Citizen Property Owner", id_hash: "AADHAAR-8902-1123" };
+    const bldName = this.currentBuilding ? (this.currentBuilding.building_name || this.currentBuilding.name) : 'Urban Complex';
+
+    // Step 1: Initial Animation State
+    body.innerHTML = `
+      <div style="font-family: var(--font-sans);">
+        <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 14px 16px; margin-bottom: 18px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 10px;">
+          <div>
+            <div style="font-size: 11px; text-transform: uppercase; color: #64748b; font-weight: 700;">Target Property &amp; Title Holder</div>
+            <div style="font-size: 15px; font-weight: 800; color: #0B1F33;">${unit.unit_name} &bull; ${bldName}</div>
+            <div style="font-size: 12px; color: #475569; margin-top: 2px;">
+              Owner: <strong>${party.name}</strong> &bull; KYC Hash: <span style="font-family: monospace;">${party.id_hash}</span>
+            </div>
+          </div>
+          <div style="text-align: right;">
+            <div style="font-size: 11px; text-transform: uppercase; color: #64748b; font-weight: 700;">3D ULPIN</div>
+            <div style="font-size: 13px; font-family: monospace; font-weight: 800; color: #00a0e3;">${unit.ulpin}</div>
+          </div>
+        </div>
+
+        <div style="margin-bottom: 18px;">
+          <div class="digilocker-step-item active" id="step-1">
+            <div class="digilocker-step-icon">1</div>
+            <div style="flex: 1;">
+              <strong>Validating Verhoeff Checksum &amp; 3D LADM Extents</strong>
+              <div style="font-size: 11px; color: #64748b;">Verifying Dihedral D5 check digit and ISO 19152 volumetric space boundaries</div>
+            </div>
+            <span style="font-size: 12px; color: #3b82f6;">Processing...</span>
+          </div>
+
+          <div class="digilocker-step-item" id="step-2">
+            <div class="digilocker-step-icon">2</div>
+            <div style="flex: 1;">
+              <strong>Generating Digital India DigiLocker XML Certificate</strong>
+              <div style="font-size: 11px; color: #64748b;">Conforming to MeitY Certificate Schema with Department of Land Resources (DoLR)</div>
+            </div>
+            <span style="font-size: 12px; color: #94a3b8;">Pending</span>
+          </div>
+
+          <div class="digilocker-step-item" id="step-3">
+            <div class="digilocker-step-icon">3</div>
+            <div style="flex: 1;">
+              <strong>National Registry SHA-256 Digital Signing &amp; Vault Sync</strong>
+              <div style="font-size: 11px; color: #64748b;">Minting canonical URI: in.gov.dilrmp-BHUCR-... and depositing to Citizen Vault</div>
+            </div>
+            <span style="font-size: 12px; color: #94a3b8;">Pending</span>
+          </div>
+        </div>
+      </div>
+    `;
+
+    try {
+      await new Promise(r => setTimeout(r, 450));
+      const s1 = document.getElementById('step-1');
+      if (s1) {
+        s1.className = 'digilocker-step-item done';
+        s1.querySelector('.digilocker-step-icon').innerHTML = '✓';
+        s1.lastElementChild.textContent = 'Verified';
+        s1.lastElementChild.style.color = '#16a34a';
+      }
+
+      const s2 = document.getElementById('step-2');
+      if (s2) {
+        s2.className = 'digilocker-step-item active';
+        s2.lastElementChild.textContent = 'Generating...';
+        s2.lastElementChild.style.color = '#3b82f6';
+      }
+      await new Promise(r => setTimeout(r, 450));
+      if (s2) {
+        s2.className = 'digilocker-step-item done';
+        s2.querySelector('.digilocker-step-icon').innerHTML = '✓';
+        s2.lastElementChild.textContent = 'Assembled';
+        s2.lastElementChild.style.color = '#16a34a';
+      }
+
+      const s3 = document.getElementById('step-3');
+      if (s3) {
+        s3.className = 'digilocker-step-item active';
+        s3.lastElementChild.textContent = 'Transmitting...';
+        s3.lastElementChild.style.color = '#3b82f6';
+      }
+
+      const pushRes = await window.digiLockerService.pushCertificate(
+        unit.ulpin,
+        party.name,
+        party.id_hash
+      );
+
+      if (s3) {
+        s3.className = 'digilocker-step-item done';
+        s3.querySelector('.digilocker-step-icon').innerHTML = '✓';
+        s3.lastElementChild.textContent = 'Issued';
+        s3.lastElementChild.style.color = '#16a34a';
+      }
+
+      await new Promise(r => setTimeout(r, 300));
+
+      body.innerHTML = `
+        <div style="font-family: var(--font-sans);">
+          <div style="background: linear-gradient(135deg, #f0fdf4 0%, #ecfdf5 100%); border: 1.5px solid #86efac; border-radius: 12px; padding: 20px; text-align: center; margin-bottom: 20px;">
+            <div style="width: 50px; height: 50px; background: #22c55e; color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 24px; margin: 0 auto 12px; box-shadow: 0 4px 12px rgba(34, 197, 94, 0.3);">
+              ✓
+            </div>
+            <h3 style="margin: 0 0 6px; font-size: 18px; font-weight: 800; color: #14532d;">
+              Certificate Successfully Deposited into Citizen DigiLocker Vault
+            </h3>
+            <p style="margin: 0; font-size: 13px; color: #166534;">
+              ${pushRes.message || 'Authentic 3D Bhu-Aadhaar Digital Land Title Certificate is now verified and stored in DigiLocker.'}
+            </p>
+          </div>
+
+          <div class="digilocker-receipt-card" style="margin-top: 0; margin-bottom: 18px;">
+            <div style="font-size: 11px; text-transform: uppercase; color: #64748b; font-weight: 700; margin-bottom: 6px;">
+              Canonical DigiLocker Document URI
+            </div>
+            <div class="digilocker-uri-pill">
+              <span id="digilocker-uri-val">${pushRes.digilocker_uri}</span>
+              <button type="button" class="btn-copy" style="padding: 4px 8px; font-size: 11px;" onclick="navigator.clipboard.writeText('${pushRes.digilocker_uri}').then(() => { this.textContent = '✓ Copied!'; setTimeout(() => this.textContent = 'Copy URI', 1500); })">
+                Copy URI
+              </button>
+            </div>
+
+            <div style="display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; margin-top: 14px; font-size: 12px;">
+              <div style="background: #f8fafc; padding: 10px; border-radius: 6px; border: 1px solid #e2e8f0;">
+                <span style="color: #64748b; font-size: 11px; font-weight: 700;">ISSUING AUTHORITY:</span>
+                <div style="font-weight: 700; color: #0B1F33; margin-top: 2px;">${pushRes.issuer_name}</div>
+              </div>
+              <div style="background: #f8fafc; padding: 10px; border-radius: 6px; border: 1px solid #e2e8f0;">
+                <span style="color: #64748b; font-size: 11px; font-weight: 700;">DOCUMENT TITLE:</span>
+                <div style="font-weight: 700; color: #0B1F33; margin-top: 2px;">${pushRes.document_title}</div>
+              </div>
+              <div style="background: #f8fafc; padding: 10px; border-radius: 6px; border: 1px solid #e2e8f0;">
+                <span style="color: #64748b; font-size: 11px; font-weight: 700;">TITLE HOLDER (LA_PARTY):</span>
+                <div style="font-weight: 700; color: #0B1F33; margin-top: 2px;">${pushRes.owner_name} (${pushRes.aadhaar_hash})</div>
+              </div>
+              <div style="background: #f8fafc; padding: 10px; border-radius: 6px; border: 1px solid #e2e8f0;">
+                <span style="color: #64748b; font-size: 11px; font-weight: 700;">INTEGRITY SIGNATURE:</span>
+                <div style="font-family: monospace; font-size: 11px; color: #00a0e3; word-break: break-all; margin-top: 2px;">${pushRes.sha256_hash}</div>
+              </div>
+            </div>
+          </div>
+
+          <div style="display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap;">
+            <div style="display: flex; gap: 10px;">
+              <a href="${pushRes.verification_url || '/api/digilocker/certificate/' + encodeURIComponent(unit.ulpin) + '/xml'}" target="_blank" class="btn-secondary" style="padding: 8px 14px; font-size: 12px; display: inline-flex; align-items: center; gap: 6px; text-decoration: none;">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"></polyline><polyline points="8 6 2 12 8 18"></polyline></svg>
+                View Official DigiLocker XML Schema
+              </a>
+            </div>
+            <button type="button" class="primary-process-btn" style="padding: 8px 20px; font-size: 13px;" onclick="document.getElementById('digilocker-modal').classList.remove('active')">
+              Done &bull; Return to Cadastre
+            </button>
+          </div>
+        </div>
+      `;
+
+      this.checkDigiLockerStatus(unit.ulpin);
+    } catch (pushErr) {
+      body.innerHTML = `
+        <div style="text-align: center; padding: 20px;">
+          <div style="font-size: 32px; color: #ef4444; margin-bottom: 8px;">⚠️</div>
+          <h3 style="color: #991b1b; margin-bottom: 8px;">DigiLocker Issuance Failed</h3>
+          <p style="color: #64748b; font-size: 13px; margin-bottom: 18px;">${pushErr.message || 'Unable to communicate with DigiLocker gateway.'}</p>
+          <button type="button" class="btn-secondary" onclick="document.getElementById('digilocker-modal').classList.remove('active')">
+            Close
+          </button>
+        </div>
+      `;
     }
   }
 
@@ -515,4 +819,257 @@ class CadastralInspector {
       this.deedModal.classList.remove('active');
     }
   }
+
+  async openGoogleWalletPass(ulpinToPass = null) {
+    let unit = null;
+    if (ulpinToPass && this.currentBuilding && Array.isArray(this.currentBuilding.legal_units)) {
+      unit = this.currentBuilding.legal_units.find(u => u.ulpin === ulpinToPass);
+    }
+    if (!unit) unit = this.currentUnit;
+    if (!unit && this.currentBuilding && this.currentBuilding.legal_units && this.currentBuilding.legal_units.length > 0) {
+      unit = this.currentBuilding.legal_units[0];
+    }
+    const ulpin = (unit && unit.ulpin) || ulpinToPass;
+    if (!ulpin) {
+      alert("Please select a 3D unit first to generate its Google Wallet pass.");
+      return;
+    }
+
+    const party = (unit && unit.parties && unit.parties.length > 0) ? unit.parties[0] : { name: "Citizen Owner" };
+    
+    // Find button to show feedback
+    const btn = document.querySelector(".btn-wallet-action");
+    const textEl = document.getElementById("btn-inspector-wallet-text");
+    const origHtml = textEl ? textEl.innerHTML : (btn ? btn.innerHTML : "Save to Google Wallet");
+
+    if (btn) {
+      btn.style.opacity = "0.75";
+    }
+    if (textEl) {
+      textEl.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Creating Pass...`;
+    } else if (btn) {
+      btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> <span>Creating Pass...</span>`;
+    }
+
+    // Pre-open new tab to avoid browser popup blockers
+    const saveTab = window.open("about:blank", "_blank");
+    if (saveTab) {
+      try {
+        saveTab.document.write(`
+          <!DOCTYPE html>
+          <html>
+          <head><title>Opening Google Wallet...</title></head>
+          <body style="margin: 0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; display: flex; flex-direction: column; align-items: center; justify-content: center; height: 90vh; background: #0B1F33; color: #ffffff;">
+            <div style="width: 48px; height: 48px; border: 4px solid rgba(255,255,255,0.2); border-top-color: #4285F4; border-radius: 50%; animation: spin 0.8s linear infinite; margin-bottom: 20px;"></div>
+            <h2 style="margin: 0 0 10px; font-size: 20px; font-weight: 700;">Creating Google Wallet Pass...</h2>
+            <p style="color: #94a3b8; font-size: 14px; margin: 0;">Digitally signing 3D Bhu-Aadhaar Land Passport for Google Wallet...</p>
+            <style>@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }</style>
+          </body>
+          </html>
+        `);
+      } catch (e) {}
+    }
+
+    try {
+      if (!window.googleWalletService) {
+        throw new Error("Google Wallet Service is not yet initialized. Please reload the page.");
+      }
+      const res = await window.googleWalletService.generatePass(ulpin, party.name);
+      
+      // Directly navigate to Google Wallet Save URL
+      if (res && res.save_url) {
+        if (saveTab && !saveTab.closed) {
+          saveTab.location.href = res.save_url;
+        } else {
+          window.open(res.save_url, "_blank");
+        }
+
+        if (textEl) {
+          textEl.innerHTML = `<i class="fa-solid fa-check" style="color: #4ade80;"></i> Pass Created & Opened!`;
+        } else if (btn) {
+          btn.innerHTML = `<i class="fa-solid fa-check" style="color: #4ade80;"></i> <span>Pass Created & Opened!</span>`;
+        }
+
+        // Show direct floating notification toast
+        if (window.googleWalletService && window.googleWalletService.showDirectNotification) {
+          window.googleWalletService.showDirectNotification(res);
+        }
+      }
+    } catch (err) {
+      if (saveTab && !saveTab.closed) saveTab.close();
+      console.error("[Google Wallet Error]:", err);
+      alert("Google Wallet Pass Notice: " + (err.message || "Failed to generate pass."));
+      if (textEl) textEl.innerHTML = origHtml;
+    } finally {
+      if (btn) {
+        btn.style.opacity = "1";
+      }
+      setTimeout(() => {
+        if (textEl && textEl.innerHTML.includes("Pass Created")) {
+          textEl.innerHTML = origHtml;
+        } else if (btn && btn.innerHTML.includes("Pass Created")) {
+          btn.innerHTML = origHtml;
+        }
+      }, 6000);
+    }
+  }
+
+  async saveToGoogleWallet(ulpinToPass = null) {
+    return this.openGoogleWalletPass(ulpinToPass);
+  }
+
+  openEmailModal(docType, ulpinToEmail = null) {
+    let unit = null;
+    if (ulpinToEmail && this.currentBuilding && Array.isArray(this.currentBuilding.legal_units)) {
+      unit = this.currentBuilding.legal_units.find(u => u.ulpin === ulpinToEmail);
+    }
+    if (!unit) unit = this.currentUnit;
+    if (!unit && this.currentBuilding && this.currentBuilding.legal_units && this.currentBuilding.legal_units.length > 0) {
+      unit = this.currentBuilding.legal_units[0];
+    }
+    const ulpin = (unit && unit.ulpin) || ulpinToEmail;
+    if (!ulpin) {
+      alert("Please select a 3D unit first to dispatch its certificate via email.");
+      return;
+    }
+
+    const modal = document.getElementById('email-modal');
+    const body = document.getElementById('email-modal-body');
+    const title = document.getElementById('email-modal-title');
+    if (!modal || !body) return;
+
+    if (title) {
+      title.textContent = docType === 'passport' ? 'Email Digital Land Passport' : 'Email 3D Bhu-Aadhaar Certificate';
+    }
+
+    const party = (unit && unit.parties && unit.parties.length > 0) ? unit.parties[0] : { name: "Citizen Owner", id_hash: "" };
+    const propName = (unit && unit.unit_name) || "Volumetric Space Unit";
+
+    body.innerHTML = `
+      <form id="email-dispatch-form" onsubmit="window.app && window.app.inspector.submitEmailDispatch(event, '${docType}', '${ulpin}')" style="font-family: var(--font-sans);">
+        <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 12px 14px; margin-bottom: 16px;">
+          <div style="font-size: 11px; text-transform: uppercase; color: #64748b; font-weight: 700;">Target Document</div>
+          <div style="font-size: 14px; font-weight: 800; color: #0B1F33; margin-top: 2px;">${propName} &bull; ${ulpin}</div>
+          <div style="font-size: 11px; color: #475569; margin-top: 2px;">Title Holder: ${party.name}</div>
+        </div>
+
+        <div style="margin-bottom: 14px;">
+          <label style="display: block; font-size: 12px; font-weight: 700; color: #334155; margin-bottom: 6px;">
+            Recipient Email Address <span style="color: #ef4444;">*</span>
+          </label>
+          <input 
+            type="email" 
+            id="email-input-recipient" 
+            required 
+            value="${window.DEFAULT_SENDER_EMAIL || '24070579@ycce.in'}" 
+            placeholder="citizen@example.com" 
+            style="width: 100%; box-sizing: border-box; padding: 10px 12px; font-size: 13px; border: 1.5px solid #cbd5e1; border-radius: 6px; font-family: var(--font-sans); outline: none;"
+          />
+        </div>
+
+        <div style="margin-bottom: 18px;">
+          <label style="display: block; font-size: 12px; font-weight: 700; color: #334155; margin-bottom: 6px;">
+            Recipient Name (Optional)
+          </label>
+          <input 
+            type="text" 
+            id="email-input-name" 
+            value="${party.name || ''}" 
+            placeholder="Property Owner Name" 
+            style="width: 100%; box-sizing: border-box; padding: 10px 12px; font-size: 13px; border: 1.5px solid #cbd5e1; border-radius: 6px; font-family: var(--font-sans); outline: none;"
+          />
+        </div>
+
+        <div style="background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 6px; padding: 10px 12px; margin-bottom: 18px; font-size: 11px; color: #1e40af; display: flex; align-items: center; gap: 8px;">
+          <i class="fa-solid fa-bolt" style="color: #3b82f6;"></i>
+          <span>Dispatched via official <strong>Brevo Transactional SMTP Gateway</strong> with ISO 19152 volumetric records.</span>
+        </div>
+
+        <div style="display: flex; justify-content: flex-end; gap: 10px;">
+          <button type="button" class="btn-secondary" style="padding: 8px 16px; font-size: 12px;" onclick="document.getElementById('email-modal').classList.remove('active')">
+            Cancel
+          </button>
+          <button type="submit" id="btn-submit-email" class="primary-process-btn" style="padding: 8px 20px; font-size: 12px; background: linear-gradient(135deg, #0B1F33 0%, #18A7A8 100%);">
+            Send Official Email &rarr;
+          </button>
+        </div>
+      </form>
+    `;
+
+    modal.classList.add('active');
+    setTimeout(() => {
+      const emailInput = document.getElementById('email-input-recipient');
+      if (emailInput) emailInput.focus();
+    }, 100);
+  }
+
+  async submitEmailDispatch(event, docType, ulpin) {
+    if (event) event.preventDefault();
+    const emailInput = document.getElementById('email-input-recipient');
+    const nameInput = document.getElementById('email-input-name');
+    const submitBtn = document.getElementById('btn-submit-email');
+    const body = document.getElementById('email-modal-body');
+
+    if (!emailInput || !emailInput.value.trim()) return;
+    const recipientEmail = emailInput.value.trim();
+    const recipientName = (nameInput && nameInput.value.trim()) || '';
+
+    if (submitBtn) {
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Sending via Brevo...`;
+    }
+
+    try {
+      let res;
+      if (docType === 'passport') {
+        res = await window.emailService.sendPassport(recipientEmail, ulpin, recipientName);
+      } else {
+        res = await window.emailService.sendCertificate(recipientEmail, ulpin, recipientName);
+      }
+
+      body.innerHTML = `
+        <div style="text-align: center; padding: 20px 10px; font-family: var(--font-sans);">
+          <div style="width: 52px; height: 52px; background: #22c55e; color: #fff; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 26px; margin: 0 auto 14px; box-shadow: 0 4px 14px rgba(34, 197, 94, 0.3);">
+            ✓
+          </div>
+          <h3 style="margin: 0 0 8px; font-size: 17px; font-weight: 800; color: #14532d;">
+            Document Successfully Sent!
+          </h3>
+          <p style="margin: 0 0 16px; font-size: 13px; color: #166534; line-height: 1.5;">
+            ${res.message || 'The official document has been transmitted to ' + recipientEmail + ' via Brevo.'}
+          </p>
+          <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 12px; margin-bottom: 20px; font-size: 12px; text-align: left;">
+            <div><strong>Recipient:</strong> ${recipientEmail}</div>
+            <div style="margin-top: 4px;"><strong>ULPIN:</strong> <span style="font-family: monospace;">${ulpin}</span></div>
+            <div style="margin-top: 4px; font-size: 11px; color: #64748b;"><strong>Gateway:</strong> Brevo Transactional API (Status: ${res.status})</div>
+          </div>
+          <button type="button" class="primary-process-btn" style="padding: 9px 24px; font-size: 13px;" onclick="document.getElementById('email-modal').classList.remove('active')">
+            Done &bull; Close
+          </button>
+        </div>
+      `;
+    } catch (err) {
+      body.innerHTML = `
+        <div style="text-align: center; padding: 20px 10px; font-family: var(--font-sans);">
+          <div style="font-size: 32px; color: #ef4444; margin-bottom: 10px;">⚠️</div>
+          <h3 style="margin: 0 0 8px; font-size: 17px; font-weight: 800; color: #991b1b;">
+            Failed to Send Email
+          </h3>
+          <p style="margin: 0 0 18px; font-size: 13px; color: #64748b;">
+            ${err.message || 'Unable to communicate with Brevo Email Gateway.'}
+          </p>
+          <div style="display: flex; justify-content: center; gap: 10px;">
+            <button type="button" class="btn-secondary" onclick="document.getElementById('email-modal').classList.remove('active')">
+              Cancel
+            </button>
+            <button type="button" class="primary-process-btn" onclick="window.app && window.app.inspector.openEmailModal('${docType}', '${ulpin}')">
+              Try Again
+            </button>
+          </div>
+        </div>
+      `;
+    }
+  }
 }
+
+

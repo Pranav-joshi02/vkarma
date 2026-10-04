@@ -15,7 +15,10 @@
 *.crt
 certs/
 secrets/
+backend/data/
+*wallet*.json
 !.env.example
+
 
 # ------------------------------------------------------------------------------
 # 2. Python Build & Runtime Artifacts

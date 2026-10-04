@@ -211,6 +211,10 @@ def generate_seed_buildings() -> List[LA_SpatialUnit]:
         sources=[]
     ))
 
+    b1_img = "/assets/buildings/tech_park_tower.jpg"
+    for u in b1_units:
+        u.image_url = b1_img
+
     bld1 = LA_SpatialUnit(
         building_id=b1_id,
         building_name="Vanguard Orion Tech Tower",
@@ -225,7 +229,8 @@ def generate_seed_buildings() -> List[LA_SpatialUnit]:
             [-15.0, -10.0], [15.0, -10.0], [15.0, 10.0], [-15.0, 10.0]
         ],
         legal_units=b1_units,
-        point_count=28450
+        point_count=28450,
+        image_url=b1_img
     )
     buildings.append(bld1)
 
@@ -268,6 +273,10 @@ def generate_seed_buildings() -> List[LA_SpatialUnit]:
         sources=[]
     ))
 
+    b2_img = "/assets/buildings/commercial_financial_plaza.jpg"
+    for u in b2_units:
+        u.image_url = b2_img
+
     bld2 = LA_SpatialUnit(
         building_id=b2_id,
         building_name="Aura Financial Plaza (Bandra-Kurla Complex)",
@@ -282,7 +291,8 @@ def generate_seed_buildings() -> List[LA_SpatialUnit]:
             [-22.0, -16.0], [22.0, -16.0], [22.0, 16.0], [-22.0, 16.0]
         ],
         legal_units=b2_units,
-        point_count=42100
+        point_count=42100,
+        image_url=b2_img
     )
     buildings.append(bld2)
 

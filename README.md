@@ -60,6 +60,7 @@ flowchart TD
 
     subgraph ServiceLayer["4. API & Application Services"]
         FASTAPI["FastAPI REST & WebSocket Server"]
+        DIGILOCKER["DigiLocker Issuer & Document Exchange Gateway (MeitY)"]
         DELIVERY["Address-as-a-Service (UPI for 3D Delivery)"]
         DISPUTE["Topological Dispute & Encroachment Scanner"]
         ULPIN_ENGINE["Cryptographic ULPIN Verifier"]
@@ -70,6 +71,7 @@ flowchart TD
         LEAFLET["Leaflet 2D GIS Bounding Box Selector"]
         EXPLODED["Exploded Floor-by-Floor Inspector"]
         CERT["Printable 3D Bhu-Aadhaar Certificate Generator"]
+        LOCKER_MODAL["DigiLocker Citizen Sovereign Cloud Vault"]
     end
 
     DataSources --> S1
@@ -78,12 +80,15 @@ flowchart TD
     FASTAPI <--> CELERY
     CELERY <--> REDIS
     FASTAPI --> WEBGIS
+    FASTAPI --> DIGILOCKER
     FASTAPI --> DELIVERY
     FASTAPI --> DISPUTE
     FASTAPI --> ULPIN_ENGINE
     WEBGIS <--> LEAFLET
     WEBGIS <--> EXPLODED
     WEBGIS --> CERT
+    CERT --> LOCKER_MODAL
+    DIGILOCKER <--> LOCKER_MODAL
 ```
 
 ---
@@ -355,6 +360,12 @@ The application will be live at `http://localhost:8000`.
 | `POST` | `/api/disputes/scan` | Scans cadastral space for topological overlaps and encroachments. |
 | `GET` | `/api/delivery/resolve/{ulpin}`| Address-as-a-Service 3D coordinate and floor resolver. |
 | `GET` | `/api/pointcloud/sample` | Streams classified LiDAR points for WebGL rendering. |
+| `POST` | `/api/digilocker/push-certificate` | Issues & signs 3D Bhu-Aadhaar certificate into DigiLocker vault. |
+| `GET` | `/api/digilocker/certificate/{ulpin}/xml` | Official MeitY XML certificate conforming to DoLR DILRMP schema. |
+| `POST` | `/api/email/send-certificate` | Sends official 3D land title certificate via Brevo Transactional SMTP. |
+| `POST` | `/api/email/send-passport` | Sends executive Digital Land Passport via Brevo Transactional SMTP. |
+| `POST` | `/api/wallet/google-pass` | Generates official Google Wallet Generic Pass (RS256 JWT & Save URL). |
+| `GET` | `/api/wallet/config` | Returns Google Wallet issuer and configuration metadata. |
 
 ---
 

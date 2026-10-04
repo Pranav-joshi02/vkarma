@@ -123,6 +123,7 @@ class LA_LegalSpaceBuildingUnit:
     sources: List[LA_Source] = field(default_factory=list)
     mesh_geometry: Optional[Dict[str, Any]] = None  # 3D vertices/faces for WebGL visualization
     dispute_details: Optional[Dict[str, Any]] = None
+    image_url: Optional[str] = None  # Realistic architectural/drone photographic scan
 
     def to_dict(self) -> Dict[str, Any]:
         return {
@@ -140,7 +141,8 @@ class LA_LegalSpaceBuildingUnit:
             "rrrs": [asdict(r) for r in self.rrrs],
             "sources": [asdict(s) for s in self.sources],
             "mesh_geometry": self.mesh_geometry,
-            "dispute_details": self.dispute_details
+            "dispute_details": self.dispute_details,
+            "image_url": self.image_url
         }
 
     @classmethod
@@ -216,7 +218,8 @@ class LA_LegalSpaceBuildingUnit:
             rrrs=rrrs,
             sources=sources,
             mesh_geometry=d.get("mesh_geometry"),
-            dispute_details=d.get("dispute_details")
+            dispute_details=d.get("dispute_details"),
+            image_url=d.get("image_url")
         )
 
 
@@ -236,6 +239,7 @@ class LA_SpatialUnit:
     legal_units: List[LA_LegalSpaceBuildingUnit] = field(default_factory=list)
     point_count: int = 0
     raw_las_filename: Optional[str] = None
+    image_url: Optional[str] = None  # Realistic photographic scan of the building
 
     def to_dict(self) -> Dict[str, Any]:
         return {
@@ -252,7 +256,8 @@ class LA_SpatialUnit:
             "legal_unit_count": len(self.legal_units),
             "legal_units": [u.to_dict() for u in self.legal_units],
             "point_count": self.point_count,
-            "raw_las_filename": self.raw_las_filename
+            "raw_las_filename": self.raw_las_filename,
+            "image_url": self.image_url
         }
 
     @classmethod
@@ -271,5 +276,6 @@ class LA_SpatialUnit:
             footprint_polygon=d.get("footprint_polygon", []),
             legal_units=units,
             point_count=int(d.get("point_count", 0)),
-            raw_las_filename=d.get("raw_las_filename")
+            raw_las_filename=d.get("raw_las_filename"),
+            image_url=d.get("image_url")
         )

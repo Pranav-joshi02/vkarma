@@ -20,8 +20,16 @@ load_dotenv(find_dotenv())
 from fastapi import FastAPI, HTTPException, Query, UploadFile, File, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
-from fastapi.responses import FileResponse, JSONResponse
+from fastapi.responses import FileResponse, JSONResponse, Response
 from pydantic import BaseModel
+from backend.digilocker import (
+    digilocker_service,
+    DigiLockerPushRequest,
+    DigiLockerPullUriRequest,
+    DigiLockerPullDocRequest
+)
+from backend.email_service import brevo_email_service
+from backend.wallet.google_wallet_service import google_wallet_service
 
 from backend.mock_data.pilot_tiles import (
     PILOT_REGIONS, get_pilot_region_by_id, generate_synthetic_lidar_point_cloud
@@ -173,14 +181,12 @@ def get_area_buildings(req: AreaBuildingsRequest):
 
 
 def is_celery_broker_ready() -> bool:
-    """Fast non-blocking check to verify if Redis broker is actively listening on port 6379."""
+    """Fast check to verify if the configured Redis broker (local or cloud) is actively reachable."""
     try:
-        import socket
-        s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        s.settimeout(0.25)
-        res = s.connect_ex(('127.0.0.1', 6379))
-        s.close()
-        return res == 0
+        redis_url = os.getenv("REDIS_URL", "redis://localhost:6379/0").strip()
+        import redis
+        client = redis.from_url(redis_url, socket_timeout=0.6, socket_connect_timeout=0.6)
+        return bool(client.ping())
     except Exception:
         return False
 
@@ -432,31 +438,73 @@ def get_building_detail(building_id: str):
     bld = cadastre_db.get_building(building_id)
     if not bld:
         raise HTTPException(status_code=404, detail=f"Building '{building_id}' not found in active cadastre.")
-    return bld.to_dict()
+    bld_dict = bld.to_dict()
+    if not bld_dict.get("image_url"):
+        from backend.pipeline.building_images import get_building_realistic_image
+        bld_dict["image_url"] = get_building_realistic_image(
+            building_name=bld.building_name,
+            total_floors=bld.total_floors,
+            building_id=bld.building_id
+        )
+    return bld_dict
 
 
 @app.get("/api/ulpin/lookup/{ulpin}")
 def lookup_ulpin(ulpin: str):
     """
-    Resolves a 3D ULPIN to its full ISO 19152 ownership record, geometry, and legal documents.
+    Resolves a 3D ULPIN or Building ID to its full ISO 19152 ownership record, geometry, and legal documents.
     """
-    unit = cadastre_db.get_unit_by_ulpin(ulpin)
+    from backend.pipeline.building_images import get_building_realistic_image
+
+    # Check if query is actually a building_id
+    bld_match = cadastre_db.get_building(ulpin)
+    if bld_match and bld_match.legal_units:
+        unit = bld_match.legal_units[0]
+        building = bld_match
+    else:
+        unit = cadastre_db.get_unit_by_ulpin(ulpin)
+        building = cadastre_db.get_building(unit.building_id) if (unit and unit.building_id) else None
+
     if not unit:
         # Validate format even if not in current memory DB
         val = parse_and_validate_ulpin(ulpin)
         if not val["is_valid"]:
             raise HTTPException(status_code=400, detail=val.get("error", "Invalid ULPIN format"))
+        synth_img = get_building_realistic_image(
+            space_type=val.get("space_type"),
+            building_id=ulpin
+        )
         return {
             "found_in_active_db": False,
             "ulpin_validation": val,
+            "image_url": synth_img,
             "message": "ULPIN structure and check digit are valid, but unit is not registered in current session's active pilot tile."
         }
 
-    val = parse_and_validate_ulpin(ulpin)
+    val = parse_and_validate_ulpin(unit.ulpin)
+    unit_dict = unit.to_dict()
+    bld_dict = building.to_dict() if building else None
+
+    # Guarantee realistic building image is present
+    bld_name = building.building_name if building else unit.unit_name
+    floors = building.total_floors if building else 5
+    space_t = unit.space_type.value if hasattr(unit.space_type, "value") else str(unit.space_type)
+    realistic_img = unit_dict.get("image_url") or (bld_dict and bld_dict.get("image_url")) or get_building_realistic_image(
+        building_name=bld_name,
+        total_floors=floors,
+        space_type=space_t,
+        building_id=unit.building_id
+    )
+    unit_dict["image_url"] = realistic_img
+    if bld_dict:
+        bld_dict["image_url"] = realistic_img
+
     return {
         "found_in_active_db": True,
         "ulpin_validation": val,
-        "unit": unit.to_dict()
+        "unit": unit_dict,
+        "building": bld_dict,
+        "image_url": realistic_img
     }
 
 
@@ -524,6 +572,176 @@ def resolve_delivery_address(ulpin: str):
             }
         }
     }
+
+
+# --- DIGILOCKER ISSUER & CITIZEN PUSH API ROUTES ---
+
+@app.get("/api/digilocker/config")
+def get_digilocker_config():
+    """Returns public DigiLocker Issuer configuration and sandbox status."""
+    return {
+        "issuer_id": digilocker_service.issuer_id,
+        "issuer_name": digilocker_service.issuer_name,
+        "doc_type": digilocker_service.doc_type,
+        "doc_title": digilocker_service.doc_title,
+        "is_sandbox": digilocker_service.is_sandbox,
+        "gateway_connected": not digilocker_service.is_sandbox
+    }
+
+
+@app.post("/api/digilocker/push-certificate")
+def push_digilocker_certificate(req: DigiLockerPushRequest):
+    """
+    Citizen 'Save to DigiLocker' flow:
+    Issues, digitally signs, and stores the 3D Bhu-Aadhaar Certificate into citizen's DigiLocker vault.
+    """
+    try:
+        res = digilocker_service.push_certificate_to_digilocker(req)
+        return res
+    except ValueError as val_err:
+        raise HTTPException(status_code=400, detail=str(val_err))
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Failed to issue DigiLocker certificate: {str(e)}")
+
+
+@app.get("/api/digilocker/status/{ulpin}")
+def get_digilocker_status(ulpin: str):
+    """Checks whether a 3D ULPIN certificate has already been issued to DigiLocker."""
+    return digilocker_service.get_status(ulpin)
+
+
+@app.get("/api/digilocker/certificate/{ulpin}/xml")
+def get_digilocker_xml(ulpin: str):
+    """Fetches the official DigiLocker XML document conforming to MeitY Certificate schema."""
+    val = parse_and_validate_ulpin(ulpin)
+    if not val.get("is_valid", False):
+        raise HTTPException(status_code=400, detail="Invalid ULPIN format")
+    xml_content = digilocker_service.generate_digilocker_xml(ulpin)
+    return Response(content=xml_content, media_type="application/xml")
+
+
+@app.post("/api/digilocker/pull-uri")
+def digilocker_pull_uri(req: DigiLockerPullUriRequest):
+    """
+    Government DigiLocker Issuer Gateway: Pull URI Endpoint
+    Called by national DigiLocker gateway to discover 3D Bhu-Aadhaar certificate URI.
+    """
+    return digilocker_service.pull_uri_gateway(req)
+
+
+@app.post("/api/digilocker/pull-doc")
+def digilocker_pull_doc(req: DigiLockerPullDocRequest):
+    """
+    Government DigiLocker Issuer Gateway: Pull Doc Endpoint
+    Called by national DigiLocker gateway to retrieve signed document content (XML/PDF).
+    """
+    res = digilocker_service.pull_doc_gateway(req)
+    if res.response_status == 0:
+        raise HTTPException(status_code=404, detail=res.error_message or "Document not found")
+    return res
+
+
+@app.get("/api/digilocker/docs")
+def list_digilocker_docs():
+    """Lists all certificates issued into DigiLocker."""
+    docs = digilocker_service.list_all_issued()
+    return {
+        "count": len(docs),
+        "documents": docs
+    }
+
+
+# --- BREVO TRANSACTIONAL EMAIL API ROUTES ---
+
+class EmailDispatchRequest(BaseModel):
+    recipient_email: str
+    recipient_name: Optional[str] = None
+    ulpin: str
+
+
+@app.get("/api/email/config")
+def get_email_config():
+    """Returns Brevo email gateway configuration status."""
+    return {
+        "is_configured": brevo_email_service.is_configured,
+        "sender_email": brevo_email_service.sender_email,
+        "sender_name": brevo_email_service.sender_name
+    }
+
+
+@app.post("/api/email/send-certificate")
+def send_certificate_email(req: EmailDispatchRequest):
+    """
+    Sends the official 3D Bhu-Aadhaar Digital Land Title Certificate
+    directly to citizen email using Brevo.
+    """
+    try:
+        res = brevo_email_service.send_certificate_email(
+            to_email=req.recipient_email,
+            to_name=req.recipient_name,
+            ulpin=req.ulpin
+        )
+        return res
+    except ValueError as val_err:
+        raise HTTPException(status_code=400, detail=str(val_err))
+    except Exception as exc:
+        raise HTTPException(status_code=500, detail=f"Email dispatch error: {str(exc)}")
+
+
+@app.post("/api/email/send-passport")
+def send_passport_email(req: EmailDispatchRequest):
+    """
+    Sends the executive Digital Land Passport directly to citizen email using Brevo.
+    """
+    try:
+        res = brevo_email_service.send_passport_email(
+            to_email=req.recipient_email,
+            to_name=req.recipient_name,
+            ulpin=req.ulpin
+        )
+        return res
+    except ValueError as val_err:
+        raise HTTPException(status_code=400, detail=str(val_err))
+    except Exception as exc:
+        raise HTTPException(status_code=500, detail=f"Email dispatch error: {str(exc)}")
+
+
+# --- GOOGLE WALLET PASS API ROUTES ---
+
+class GoogleWalletPassRequest(BaseModel):
+    ulpin: str
+    recipient_name: Optional[str] = None
+    origin: Optional[str] = None
+
+
+@app.get("/api/wallet/config")
+def get_wallet_config():
+    """Returns Google Wallet gateway status and issuer information."""
+    return {
+        "is_configured": google_wallet_service.is_live_configured,
+        "issuer_id": google_wallet_service.issuer_id,
+        "class_id": google_wallet_service.get_class_id(),
+        "service_account": google_wallet_service.service_account_email
+    }
+
+
+@app.post("/api/wallet/google-pass")
+def generate_google_wallet_pass(req: GoogleWalletPassRequest):
+    """
+    Generates an official Google Wallet Generic Pass for a 3D Bhu-Aadhaar Land Passport.
+    Returns signed JWT and direct Google Pay Save URL (https://pay.google.com/gp/v/save/{jwt}).
+    """
+    try:
+        res = google_wallet_service.create_google_wallet_pass(
+            ulpin=req.ulpin,
+            recipient_name=req.recipient_name,
+            origin=req.origin
+        )
+        return res
+    except ValueError as val_err:
+        raise HTTPException(status_code=400, detail=str(val_err))
+    except Exception as exc:
+        raise HTTPException(status_code=500, detail=f"Google Wallet pass generation error: {str(exc)}")
 
 
 @app.get("/api/pointcloud/sample")
@@ -608,27 +826,39 @@ if os.path.exists(frontend_dir):
     if os.path.exists(assets_dir):
         app.mount("/assets", StaticFiles(directory=assets_dir), name="assets")
 
-    @app.get("/")
+    @app.api_route("/health", methods=["GET", "HEAD"])
+    @app.api_route("/healthz", methods=["GET", "HEAD"])
+    def health_check():
+        return {"status": "ok", "service": "vkarma-3d-cadastre"}
+
+    @app.api_route("/", methods=["GET", "HEAD"])
     def serve_landing_page():
         landing_file = os.path.join(frontend_dir, "landing.html")
         if os.path.exists(landing_file):
             return FileResponse(landing_file)
         return FileResponse(os.path.join(frontend_dir, "console.html"))
 
-    @app.get("/console")
-    @app.get("/app")
+    @app.api_route("/console", methods=["GET", "HEAD"])
+    @app.api_route("/app", methods=["GET", "HEAD"])
     def serve_console_service():
         console_file = os.path.join(frontend_dir, "console.html")
         if os.path.exists(console_file):
             return FileResponse(console_file)
         return FileResponse(os.path.join(frontend_dir, "index.html"))
 
-    @app.get("/ulpin")
-    @app.get("/ulpin/{ulpin_code}")
+    @app.api_route("/ulpin", methods=["GET", "HEAD"])
+    @app.api_route("/ulpin/{ulpin_code}", methods=["GET", "HEAD"])
     def serve_ulpin_passport_page(ulpin_code: Optional[str] = None):
         return FileResponse(os.path.join(frontend_dir, "ulpin.html"))
 
-    @app.get("/about")
+    @app.api_route("/about", methods=["GET", "HEAD"])
     def serve_about_page():
         return FileResponse(os.path.join(frontend_dir, "about.html"))
+
+
+if __name__ == "__main__":
+    import uvicorn
+    run_port = int(os.getenv("PORT", 8000))
+    uvicorn.run("backend.app:app", host="0.0.0.0", port=run_port)
+
 

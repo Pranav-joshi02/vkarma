@@ -21,13 +21,12 @@ if __name__ == "__main__":
     print("==================================================================")
     print(" [3D Cadastral Registry & 3D ULPIN System - Government of India] ")
     print(" ISO 19152 (LADM) Compliant Land Administration Digital Twin     ")
-    print("==================================================================")
-    print(" Starting WebGIS and REST API server on:")
-    print("   -> http://localhost:8000")
-    print("   -> http://127.0.0.1:8000")
+    port = int(os.getenv("PORT", 8000))
+    print(" Starting WebGIS and REST API server on port:")
+    print(f"   -> http://localhost:{port}")
+    print(f"   -> http://127.0.0.1:{port}")
     print("==================================================================")
 
-    port = 8000
     try:
         sock = socket.socket(socket.AF_INET6, socket.SOCK_STREAM)
         sock.setsockopt(socket.IPPROTO_IPV6, socket.IPV6_V6ONLY, 0)
